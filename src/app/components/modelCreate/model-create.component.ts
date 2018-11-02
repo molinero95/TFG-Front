@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModelService } from 'src/app/services/model.service';
+import { ModelService } from 'src/app/services/model/model.service';
+import { Model } from 'src/app/entities/model';
 
 @Component({
   selector: 'app-model-create',
@@ -7,17 +8,30 @@ import { ModelService } from 'src/app/services/model.service';
   styleUrls: ['./model-create.component.css']
 })
 export class ModelCreateComponent implements OnInit {
-
-  constructor(private _modelService: ModelService) { 
-
+  enableButton: boolean;
+  constructor(private _modelService: ModelService) {
   }
 
-  createModel(modelName: string, alfa: string, inputs: string, layers: number, numClasses: number){
-    console.log(modelName);
-    console.log(alfa);
+  createModel(modelName: string, alfa: number, inputs: number, layers: number, numClasses: number) {
+    this.enableButton = false;
+    let model: Model = {
+      modelName: modelName,
+      alfa: alfa,
+      inputs: inputs,
+      layers: layers,
+      nClass: numClasses
+    }
+    this._modelService.createModel(model).then(response => { 
+      alert("Modelo creado correctamente");
+      this.enableButton = true;
+    }).catch(error => {
+      alert("Ha ocurrido un error");
+      this.enableButton = true;
+    })
   }
 
   ngOnInit() {
+    this.enableButton = true;
   }
 
 }

@@ -1,7 +1,10 @@
-<div id="trainModel">
-  <div class="row marginLeft">
-    <div class="list-group" id="networksModels">
-
-    </div>
+<div>
+  <div *ngIf="part === 0">
+    <h1></h1>
+  </div>
+  <div class="row">
+    <button *ngIf="part === 0" class="offset-md-5 btn btn-success col-md-3" (click)="nextPart()">Continuar </button>
+    <button *ngIf="part !== 0" class="offset-md-3 btn btn-primary col-md-3" (click)="beforePart()">Atrás</button>
+    <button *ngIf="part !== 3 && part !== 0" class="btn btn-success col-md-3" (click)="nextPart()">Continuar</button>
   </div>
 </div>

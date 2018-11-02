@@ -6,10 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./train-model.component.css']
 })
 export class TrainModelComponent implements OnInit {
-
+  part: number;
   constructor() { }
 
+  beforePart(): void {
+    this.part--;
+  }
+
+  nextPart(): void {
+    this.part++;
+  }
+
   ngOnInit() {
+    this.part = 0;
   }
 
 }

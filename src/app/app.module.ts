@@ -9,13 +9,14 @@ import { ModelCreateComponent } from './components/modelCreate/model-create.comp
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { TrainModelComponent } from './components/trainModel/train-model.component';
 
-import { Constants } from './constants';
+import { MenuLinks } from './constants';
+import { QuickSearchDirective } from './directives/quick-search.directive';
 
 export const routes: Routes = [
-  { path: Constants.MODEL_CREATE_LINK, component: ModelCreateComponent },
-  { path: Constants.PREDICTIONS_LINK, component: PredictionsComponent },
-  { path: Constants.TEST_MODEL_LINK, component: TestModelComponent },
-  { path: Constants.TRAIN_MODEL_LINK, component: TrainModelComponent },
+  { path: MenuLinks.MODEL_CREATE_LINK, component: ModelCreateComponent },
+  { path: MenuLinks.PREDICTIONS_LINK, component: PredictionsComponent },
+  { path: MenuLinks.TEST_MODEL_LINK, component: TestModelComponent },
+  { path: MenuLinks.TRAIN_MODEL_LINK, component: TrainModelComponent },
   { path: '', component: ModelCreateComponent },
 
 ]
@@ -26,7 +27,7 @@ export const routes: Routes = [
     ModelCreateComponent,
     TestModelComponent,
     PredictionsComponent,
-    TrainModelComponent
+    TrainModelComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, {
