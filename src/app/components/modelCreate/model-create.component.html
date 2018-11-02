@@ -1,0 +1,24 @@
+<div id="createModel" class="row">
+  <div class="col-md-8 offset-md-2 form-group">
+    <label for="modelName">Nombre:</label>
+    <input type="text" class="form-control" #modelName/>
+  </div>
+  <div class="col-md-8 offset-md-2 form-group">
+    <label for="alfa">Alfa:</label>
+    <input type="text" class="form-control" #alfa />
+  </div>
+  <div class="col-md-8 offset-md-2 form-group">
+    <label for="inputs">Número de entradas:</label>
+    <input type="text" class="form-control" #inputs>
+  </div>
+  <div class="col-md-8 offset-md-2 form-group">
+    <label for="layers">Número de capas:</label>
+    <input type="text" class="form-control" #layers>
+  </div>
+  <div class="col-md-8 offset-md-2 form-group">
+    <label for="class">Número de clases:</label>
+    <input type="text" class="form-control" #numClasses>
+  </div>
+  <div class="col-md-2 offset-md-5">
+    <button class="btn btn-success" (click)="createModel(modelName.value, alfa.value, inputs.value, layers.value, numClasses.value)">Crear modelo</button>
+  </div>
