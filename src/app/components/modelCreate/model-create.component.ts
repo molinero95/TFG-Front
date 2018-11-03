@@ -15,11 +15,11 @@ export class ModelCreateComponent implements OnInit {
   createModel(modelName: string, alfa: number, inputs: number, layers: number, numClasses: number) {
     this.enableButton = false;
     let model: Model = {
-      modelName: modelName,
+      name: modelName,
       alfa: alfa,
       inputs: inputs,
       layers: layers,
-      nClass: numClasses
+      numClasses: numClasses
     }
     this._modelService.createModel(model).then(response => { 
       alert("Modelo creado correctamente");

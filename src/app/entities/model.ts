@@ -1,7 +1,7 @@
 export interface Model {
-    modelName: string,
+    name: string,
     alfa: number,
     inputs: number,
     layers: number,
-    nClass: number,
+    numClasses: number,
 }

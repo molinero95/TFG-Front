@@ -1,0 +1,19 @@
+.selectableItem{
+    cursor: pointer
+}
+
+.bottom {
+    position: absolute;
+    bottom: 2rem;
+}
+
+img{
+    height: 14rem;
+    width: 14rem;
+}
+
+.selected{
+    border-style: dashed;
+    border-color: blue;
+    border-width: 0.5rem;
+}
