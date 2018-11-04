@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModelService } from 'src/app/services/model/model.service';
-import { Model } from 'src/app/entities/model';
+import { Network } from 'src/app/entities/network';
+import { NetworkService } from 'src/app/services/network/network.service';
 
 @Component({
   selector: 'app-model-create',
@@ -9,19 +9,19 @@ import { Model } from 'src/app/entities/model';
 })
 export class ModelCreateComponent implements OnInit {
   enableButton: boolean;
-  constructor(private _modelService: ModelService) {
+  constructor(private _networkService: NetworkService) {
   }
 
   createModel(modelName: string, alfa: number, inputs: number, layers: number, numClasses: number) {
     this.enableButton = false;
-    let model: Model = {
+    let model: Network = {
       name: modelName,
       alfa: alfa,
       inputs: inputs,
       layers: layers,
       numClasses: numClasses
     }
-    this._modelService.createModel(model).then(response => { 
+    this._networkService.createNetwork(model).then(response => { 
       alert("Modelo creado correctamente");
       this.enableButton = true;
     }).catch(error => {

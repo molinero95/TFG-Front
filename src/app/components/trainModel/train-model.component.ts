@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Model } from 'src/app/entities/model';
+import { Network } from 'src/app/entities/network';
+import { NetworkService } from 'src/app/services/network/network.service';
 
 interface ImageControl {
   src: string;
@@ -16,10 +17,12 @@ interface ImageControl {
 
 export class TrainModelComponent implements OnInit {
   part: number;
-  models: Array<Model>;
+  models: Array<Network>;
   ready: boolean;
   images: Array<ImageControl>;
-  constructor() { }
+  selectedModel: Network;
+  classInput: string;
+  constructor(private _networkService: NetworkService) { }
 
   beforePart(): void {
     this.part--;
@@ -28,58 +31,87 @@ export class TrainModelComponent implements OnInit {
 
   nextPart(): void {
     this.part++;
-    if(this.part == 1)
+    if (this.part == 1)
       this.images = new Array<ImageControl>();
     this.ready = false;
   }
 
-  onModelClicked(): void {
+  onModelClicked(model: Network): void {
     this.ready = true;
+    if (this.selectedModel === model)
+      this.selectedModel = null;
+    else
+      this.selectedModel = model;
   }
 
   onFilesSelected(event): void {
     let files: Array<File> = event.target.files;
-    let fr: FileReader = new FileReader();
-    fr.onloadend = () => {
-      this.images.push({
-        src: <string>fr.result,
-        selected: false,
-        class: ""
-      });
-    }
-    
-    for(let i = 0; i < files.length; i++){
+
+    for (let i = 0; i < files.length; i++) {
+      let fr: FileReader = new FileReader();
+      fr.onloadend = () => {
+        this.images.push({
+          src: <string>fr.result,
+          selected: false,
+          class: ""
+        });
+      }
       fr.readAsDataURL(files[i]);
-      //problema aqui al leer multiples
-      
+
     }
   }
 
   onImageSelected(image: ImageControl): void {
     image.selected = !image.selected;
+    this.getCommonImageClass();
   }
 
-  getSelectedImages(): Array<ImageControl>{
+
+  getCommonImageClass(): void{
+    let images = this.getSelectedImages();
+    if(images[0]){
+      this.classInput = images[0].class;
+      let i = 1;
+      while(i < this.images.length){
+        if(this.images[i].class != this.classInput){
+          this.classInput = "";
+          i = this.images.length;
+        }
+        i++;
+      }
+    }
+  }
+
+  getSelectedImages(): Array<ImageControl> {
     return this.images.filter(image => image.selected);;
   }
 
-  allImagesClassifield():boolean {
+  allImagesClassifield(): boolean {
     return this.images.every(image => image.class !== "");
+  }
+
+  onClassInputChanged(): void{
+    let images:Array<ImageControl> = this.getSelectedImages();
+    images.map(image => image.class = this.classInput);
   }
 
   ngOnInit() {
     this.part = 0;
     this.ready = false;
     this.images = []
-    this.models = [
-      {
-        name: "hey",
-        alfa: 0.1,
-        inputs: 2,
-        layers: 2,
-        numClasses: 2
-      }
-    ];
+    this.models = [];
+    this._networkService.getNetworks().then(data => {
+      let modelNames = data as Array<string>;
+      modelNames.forEach(modelName => {
+        this.models.push({
+          alfa: 1,
+          inputs: 1,
+          layers: 1,
+          name: modelName,
+          numClasses: 1
+        })
+      });
+    });
   }
 
 }

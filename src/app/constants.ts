@@ -8,8 +8,8 @@ export class MenuLinks {
 
 export class ServiceURLs {
     public static SERVICE: string = "http://localhost:49937/api/";
-    public static CREATE_MODEL: string = "models/CreateModel";
-    public static GET_MODEL: string = "models/GetModel";
-    public static LOAD_ALL_NETWORKS: string = "networks/GetNetworks";
+    public static LOAD_ALL_NETWORKS: string = "network/GetNetworks";
+    public static CREATE_NETWORK: string = "net";
+    public static GET_NETWORK: string = "";
     public static TEST: string = "test/Test"
 }

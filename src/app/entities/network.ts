@@ -1,4 +1,4 @@
-export interface Model {
+export interface Network {
     name: string,
     alfa: number,
     inputs: number,

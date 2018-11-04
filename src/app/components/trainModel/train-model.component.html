@@ -1,35 +1,41 @@
 <div>
-  <div *ngIf="part === 0">
-    <h1>Entrenar un modelo</h1>
-  </div>
-  <div *ngIf="part === 0">
-    <h3>Seleccione un modelo:</h3>
-    <div class="container">
-      <div *ngFor="let model of models">
-        <span class="selectableItem" (click)="onModelClicked(model)">{{model.name}}</span>
-      </div>
+    <div>
+      <h1>Entrenar un modelo</h1>
     </div>
-  </div>
-  <div *ngIf="part === 1">
-    <h3>Añada imágenes:</h3>
-    <div class="row">
-      <div class="col-md-4">
-
-      </div>
-      <div class="col-md-8">
-        <input type="file" (change)="onFilesSelected($event)" multiple>
-        <div *ngFor="let image of images">
-          <img [ngClass]="{'selected': image.selected}" class="selectableItem" src="{{image.src}}" (click)="onImageSelected(image)" />
+    <div *ngIf="part === 0">
+      <h3>Seleccione un modelo:</h3>
+      <div class="container">
+        <div *ngFor="let model of models">
+          <div class="selectableItem littlePaddingLeft" (click)="onModelClicked(model)" [ngClass]="{'lightBlueBg': selectedModel === model}">{{model.name}}</div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container bottom">
-    <div class="row">
-      <button *ngIf="part === 0" [disabled]="!ready" class="offset-md-5 btn btn-success col-md-3" (click)="nextPart()">Continuar
-      </button>
-      <button *ngIf="part !== 0" class="offset-md-5 btn btn-primary col-md-3" (click)="beforePart()">Atrás</button>
-      <button *ngIf="part !== 1 && part !== 0" [disabled]="!ready" class="btn btn-success col-md-3" (click)="nextPart()">Continuar</button>
+    <div *ngIf="part === 1">
+      <h3>Añada imágenes:</h3>
+      <input type="file" (change)="onFilesSelected($event)" multiple>
+      <div class="flexHorizontal">
+        <img *ngFor="let image of images;" [ngClass]="{'selected': image.selected, 'marked': image.class !== ''}" class="selectableItem littleMargin"
+          src="{{image.src}}" (click)="onImageSelected(image)" />
+      </div>
+      <div *ngIf="getSelectedImages().length > 0">
+        <h4>Indique la clase a la que pertenecen los elementos seleccionados:</h4>
+        <input class="form-control" type="text" [(ngModel)]="classInput" (change)="onClassInputChanged()">
+      </div>
+      <!--
+      <div>
+        <h4>Indique la clase de los elementos seleccionados:</h4>
+        <div class="flexHorizontal">
+          <button *ngFor="let class of selectedModel.classes;" class="btn littleMargin">{{class.name}}</button>
+        </div>
+      </div>
+      -->
+    </div>
+    <div class="container bottom">
+      <div class="row">
+        <button *ngIf="part === 0" [disabled]="!ready" class="offset-md-5 btn btn-success col-md-3" (click)="nextPart()">Continuar
+        </button>
+        <button *ngIf="part !== 0" class="offset-md-5 btn btn-primary col-md-3" (click)="beforePart()">Atrás</button>
+        <button *ngIf="part !== 1 && part !== 0" [disabled]="!ready" class="btn btn-success col-md-3" (click)="nextPart()">Continuar</button>
+      </div>
     </div>
   </div>
-</div>

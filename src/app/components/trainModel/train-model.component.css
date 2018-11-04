@@ -1,3 +1,7 @@
+.littlePaddingLeft {
+    padding-left: 1rem;
+}
+
 .selectableItem{
     cursor: pointer
 }
@@ -7,13 +11,30 @@
     bottom: 2rem;
 }
 
+.lightBlueBg{
+    background: lightblue;
+}
+
 img{
-    height: 14rem;
-    width: 14rem;
+    height: 12rem;
+    width: 12rem;
 }
 
 .selected{
     border-style: dashed;
     border-color: blue;
     border-width: 0.5rem;
+}
+
+.flexHorizontal{
+    display: flex;
+    flex-direction: row;
+}
+
+.littleMargin{
+    margin: 2rem;
+}
+
+.marked {
+    
 }

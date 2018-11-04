@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'
@@ -10,7 +11,6 @@ import { PredictionsComponent } from './components/predictions/predictions.compo
 import { TrainModelComponent } from './components/trainModel/train-model.component';
 
 import { MenuLinks } from './constants';
-import { QuickSearchDirective } from './directives/quick-search.directive';
 
 export const routes: Routes = [
   { path: MenuLinks.MODEL_CREATE_LINK, component: ModelCreateComponent },
@@ -33,6 +33,7 @@ export const routes: Routes = [
     RouterModule.forRoot(routes, {
       enableTracing: true
     }),
+    FormsModule,
     BrowserModule,
     HttpClientModule   
   ],
