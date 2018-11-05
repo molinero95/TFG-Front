@@ -1,27 +1,34 @@
-# AngularElectron
+# Requisitos de instalacion
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
+Las librerias necesarias se listan a continuación: 
 
-## Development server
+## NodeJs
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+    [NodeJs](https://nodejs.org/en/) 
 
-## Code scaffolding
+## Angular 7
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    npm install -g @angular/cli
 
-## Build
+## Typescript
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+    npm install -g typescript
 
-## Running unit tests
+## Electron
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    npm install electron -g
+# Inicializacion
 
-## Running end-to-end tests
+A continuación el listado de comandos para compilar/ejecutar el programa:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Sólo compilar
 
-## Further help
+    `npm run electron-build` ó `ng build`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Sólo ejecutar (requiere una compilación previa)
+
+    `npm run electron` ó `electron .`
+
+## Compilar y ejecutar
+
+    `npm run buildRun`
