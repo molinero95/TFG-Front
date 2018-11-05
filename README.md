@@ -4,7 +4,7 @@ Las librerias necesarias se listan a continuación:
 
 ## NodeJs
 
-    [NodeJs](https://nodejs.org/en/) 
+    https://nodejs.org/en/
 
 ## Angular 7
 
@@ -17,6 +17,7 @@ Las librerias necesarias se listan a continuación:
 ## Electron
 
     npm install electron -g
+
 # Inicializacion
 
 A continuación el listado de comandos para compilar/ejecutar el programa:
