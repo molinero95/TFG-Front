@@ -108,7 +108,7 @@ export class TrainModelComponent implements OnInit {
           inputs: 1,
           layers: 1,
           name: modelName,
-          numClasses: 1
+          classes: []
         })
       });
     });

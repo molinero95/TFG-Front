@@ -3,5 +3,5 @@ export interface Network {
     alfa: number,
     inputs: number,
     layers: number,
-    numClasses: number,
+    classes: Array<string>,
 }

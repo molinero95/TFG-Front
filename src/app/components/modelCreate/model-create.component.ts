@@ -9,29 +9,39 @@ import { NetworkService } from 'src/app/services/network/network.service';
 })
 export class ModelCreateComponent implements OnInit {
   enableButton: boolean;
+  network: Network;
+  numClassInputs: number;
   constructor(private _networkService: NetworkService) {
   }
 
-  createModel(modelName: string, alfa: number, inputs: number, layers: number, numClasses: number) {
+  createModel() {
+    console.log(this.network);
     this.enableButton = false;
-    let model: Network = {
-      name: modelName,
-      alfa: alfa,
-      inputs: inputs,
-      layers: layers,
-      numClasses: numClasses
-    }
-    this._networkService.createNetwork(model).then(response => { 
+    this._networkService.createNetwork(this.network).then(response => { 
       alert("Modelo creado correctamente");
       this.enableButton = true;
     }).catch(error => {
       alert("Ha ocurrido un error");
       this.enableButton = true;
-    })
+    });
   }
+
+  
+  toNumberArray(){
+    return Array(this.numClassInputs);
+  }
+  
 
   ngOnInit() {
     this.enableButton = true;
+    this.numClassInputs = 2;
+    this.network = {
+      alfa: 0.1,
+      classes: [],
+      inputs: 2,
+      layers: 2,
+      name: ""
+    }
   }
 
 }
