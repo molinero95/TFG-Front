@@ -22,7 +22,7 @@
   <hr class="col-md-10 offset-md-1" >
   <div class="col-md-4 form-group" *ngFor="let item of toNumberArray(); let i = index;" [ngClass]="{'offset-md-2': i % 2 == 0}">
     <label>Clase {{i + 1}}:</label>
-    <input type="text" class="form-control">
+    <input type="text" class="form-control" [(ngModel)]="network.classes[i]" #classValue>
   </div>
 </div>
 

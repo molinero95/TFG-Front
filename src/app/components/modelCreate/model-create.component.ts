@@ -14,25 +14,50 @@ export class ModelCreateComponent implements OnInit {
   constructor(private _networkService: NetworkService) {
   }
 
-  createModel() {
+  public createModel() {
     console.log(this.network);
-    this.enableButton = false;
-    this._networkService.createNetwork(this.network).then(response => { 
-      alert("Modelo creado correctamente");
-      this.enableButton = true;
-    }).catch(error => {
-      alert("Ha ocurrido un error");
-      this.enableButton = true;
-    });
+    if (this.checkIfDataIsCorrect()) {
+      this.enableButton = false;
+      this._networkService.createNetwork(this.network).then(response => {
+        alert("Modelo creado correctamente");
+        this.enableButton = true;
+      }).catch(error => {
+        alert("Ha ocurrido un error");
+        this.enableButton = true;
+      });
+    }
   }
 
-  
-  toNumberArray(){
+  public toNumberArray() {
     return Array(this.numClassInputs);
   }
-  
 
-  ngOnInit() {
+  private checkIfDataIsCorrect(): boolean {
+    if (this.network.alfa < 0.1 || this.network.alfa > 1)
+      return false;
+    if (this.network.classes.length == 0)
+      return false;
+    if (this.network.inputs == 0)
+      return false;
+    if (this.network.layers == 0)
+      return false;
+    if (this.network.name.length < 2)
+      return false;
+    return this.checkAllClasesFilled();
+  }
+
+  private checkAllClasesFilled(): boolean {
+    let correct: boolean = true;
+    let i = 0;
+    while (i < this.network.classes.length && correct) {
+      if (this.network.classes[i] === null || this.network.classes[i].length === 0)
+        correct = false;
+      i++;
+    }
+    return correct;
+  }
+
+  public ngOnInit() {
     this.enableButton = true;
     this.numClassInputs = 2;
     this.network = {
