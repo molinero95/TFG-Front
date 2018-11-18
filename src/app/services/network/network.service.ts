@@ -23,7 +23,7 @@ export class NetworkService {
     return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_NETWORK + "/name=" + name).toPromise();
   }
 
-  getNetworks(): Promise<any>{
-    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.LOAD_ALL_NETWORKS).toPromise();
+  getNetworksNames(): Promise<any>{
+    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_ALL_NETWORKS).toPromise();
   }
 }

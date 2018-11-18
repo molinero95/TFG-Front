@@ -100,7 +100,7 @@ export class TrainModelComponent implements OnInit {
     this.ready = false;
     this.images = []
     this.models = [];
-    this._networkService.getNetworks().then(data => {
+    this._networkService.getNetworksNames().then(data => {
       let modelNames = data as Array<string>;
       modelNames.forEach(modelName => {
         this.models.push({

@@ -8,7 +8,7 @@ export class MenuLinks {
 
 export class ServiceURLs {
     public static SERVICE: string = "http://localhost:49937/api/";
-    public static LOAD_ALL_NETWORKS: string = "network/GetNetworks";
+    public static GET_ALL_NETWORKS: string = "network/GetNetworksNames";
     public static CREATE_NETWORK: string = "network/AddNetwork";
     public static GET_NETWORK: string = "";
     public static TEST: string = "test/Test"
