@@ -11,8 +11,14 @@
     bottom: 2rem;
 }
 
-.lightBlueBg{
-    background: lightblue;
+.flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.marginTop{
+    margin-top: 1rem;
 }
 
 img{

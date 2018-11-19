@@ -20,10 +20,10 @@ export class NetworkService {
   }
 
   getNetwork(name: string): Promise<any>{
-    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_NETWORK + "/name=" + name).toPromise();
+    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_NETWORK + "/networkName=" + name).toPromise();
   }
 
-  getNetworksNames(): Promise<any>{
-    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_ALL_NETWORKS).toPromise();
+  getNetworkNames(page:number, pageSize: number): Promise<any>{
+    return this.http.get(ServiceURLs.SERVICE + ServiceURLs.GET_ALL_NETWORKS + `/pageSize=${pageSize}/page=${page}`).toPromise();
   }
 }

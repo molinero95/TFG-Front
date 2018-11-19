@@ -20,31 +20,66 @@ export class TrainModelComponent implements OnInit {
   models: Array<Network>;
   ready: boolean;
   images: Array<ImageControl>;
-  selectedModel: Network;
+  selectedNetwork: Network;
   classInput: string;
   constructor(private _networkService: NetworkService) { }
 
-  beforePart(): void {
+
+  //global
+  private beforePart(): void {
     this.part--;
     this.ready = true;
   }
 
-  nextPart(): void {
+  private nextPart(): void {
     this.part++;
-    if (this.part == 1)
+    if (this.part == 1){
       this.images = new Array<ImageControl>();
+      if(this.selectedNetwork){
+        this._networkService.getNetwork(this.selectedNetwork.name).then(data => {
+          this.selectedNetwork = data; 
+        });
+      }
+      else
+        this.part = 0;
+    }
     this.ready = false;
   }
 
-  onModelClicked(model: Network): void {
-    this.ready = true;
-    if (this.selectedModel === model)
-      this.selectedModel = null;
-    else
-      this.selectedModel = model;
+  public ngOnInit() {
+    this.part = 0;
+    this.ready = false;
+    this.images = []
+    this.models = [];
+    this._networkService.getNetworkNames(0, 20).then(data => {
+      let modelNames = data as Array<string>;
+      modelNames.forEach(modelName => {
+        this.models.push({
+          alfa: 1,
+          inputs: 1,
+          layers: 1,
+          name: modelName,
+          classes: []
+        })
+      });
+    });
   }
 
-  onFilesSelected(event): void {
+  //END GLOBAL
+
+  //PART 0
+  private onModelClicked(model: Network): void {
+    this.ready = true;
+    if (this.selectedNetwork === model)
+      this.selectedNetwork = null;
+    else
+      this.selectedNetwork = model;
+  }
+
+  //END PART 0
+
+  //PART 1
+  private onFilesSelected(event): void {
     let files: Array<File> = event.target.files;
 
     for (let i = 0; i < files.length; i++) {
@@ -61,13 +96,13 @@ export class TrainModelComponent implements OnInit {
     }
   }
 
-  onImageSelected(image: ImageControl): void {
+  private onImageSelected(image: ImageControl): void {
     image.selected = !image.selected;
     this.getCommonImageClass();
   }
 
 
-  getCommonImageClass(): void{
+  private getCommonImageClass(): void{
     let images = this.getSelectedImages();
     if(images[0]){
       this.classInput = images[0].class;
@@ -82,36 +117,21 @@ export class TrainModelComponent implements OnInit {
     }
   }
 
-  getSelectedImages(): Array<ImageControl> {
+  private getSelectedImages(): Array<ImageControl> {
     return this.images.filter(image => image.selected);;
   }
 
-  allImagesClassifield(): boolean {
+  private allImagesClassifield(): boolean {
     return this.images.every(image => image.class !== "");
   }
 
-  onClassInputChanged(): void{
+  private onClassInputChanged(): void{
     let images:Array<ImageControl> = this.getSelectedImages();
     images.map(image => image.class = this.classInput);
   }
 
-  ngOnInit() {
-    this.part = 0;
-    this.ready = false;
-    this.images = []
-    this.models = [];
-    this._networkService.getNetworksNames().then(data => {
-      let modelNames = data as Array<string>;
-      modelNames.forEach(modelName => {
-        this.models.push({
-          alfa: 1,
-          inputs: 1,
-          layers: 1,
-          name: modelName,
-          classes: []
-        })
-      });
-    });
-  }
+  //FIN PART 1
+
+  
 
 }
