@@ -1,0 +1,13 @@
+.white{
+    color: white !important;
+}
+
+.active{
+    color: black !important;
+}
+
+#pageButtons{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
