@@ -1,5 +1,5 @@
 import React = require("react");
-import { number } from "prop-types";
+//import { number } from "prop-types";
 
 interface IPaginatorProps {
     actualPage: number;

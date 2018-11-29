@@ -1,17 +1,17 @@
 {
-    "compilerOptions": {
-      "strictNullChecks": false,
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "target": "es2018",
-      "jsx": "react",
-      "sourceMap": true,
-      "skipDefaultLibCheck": true,
-      "strict": true,
-      "emitBOM": true,
-      "charset": "utf8",
-    },
-    "exclude": [
-        "node_modules"
-    ],
-  }
+	"compilerOptions": {
+		"strictNullChecks": false,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"target": "es2018",
+		"jsx": "react",
+		"sourceMap": true,
+		"skipDefaultLibCheck": true,
+		"strict": true,
+		"emitBOM": true,
+		"charset": "utf8",
+	},
+	"exclude": [
+		"node_modules"
+	],
+}

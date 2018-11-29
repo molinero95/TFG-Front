@@ -15,7 +15,7 @@ export class NetworkService{
     public static getNerworkPages(pageSize: number): Promise<Response>{
         return fetch(ServiceURLs.SERVICE + ServiceURLs.NETWORK_PAGES + "/pageSize=" + pageSize, {
             method: "GET",
-        })
+        });
     }
 
     public static getNetwork(name: string): Promise<Response> {
