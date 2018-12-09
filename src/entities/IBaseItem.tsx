@@ -1,3 +1,3 @@
-export interface IBaseItem{
-    name: string
+export interface IBaseItem {
+	name: string
 }

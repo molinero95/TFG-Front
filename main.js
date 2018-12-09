@@ -1,7 +1,7 @@
 "use strict";
 //import {app, BrowserWindow} from 'electron';
-
-const {app, BrowserWindow} = require('electron');
+const { globalShortcut } = require('electron');
+const { app, BrowserWindow } = require('electron');
 
 let win;
 
@@ -9,6 +9,7 @@ function createWindow() {
 	win = new BrowserWindow({
 		backgroundColor: "#ffffff",
 		show: false,
+		darkTheme: true
 	});
 
 	win.maximize();
@@ -23,6 +24,12 @@ function createWindow() {
 	win.on("close", () => {
 		win = null;
 	});
+
+	var reload = () => {
+		win.reload()
+	}
+
+	globalShortcut.register('F5', reload);
 }
 
 app.on("ready", createWindow);

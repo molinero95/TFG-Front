@@ -14,6 +14,10 @@ Las librerias necesarias se listan a continuación:
 
     npm install electron -g
 
+## Webpack
+
+	npm install webpack-cli -g -dev --save
+
 ## Los typings para VS Code:
     
     npm install @types/react
@@ -39,9 +43,11 @@ Las librerias necesarias se listan a continuación:
 
 A continuación el listado de comandos para compilar/ejecutar el programa:
 
-## Sólo compilar
+## Construir y ejecutar
 
-    webkit
+    1º Consola: npm run build
+    2º Consola: npm start
+    3ª En la ventana abierta por electron: f5 y se aplican cambios
 
 ## Ejecutar
 

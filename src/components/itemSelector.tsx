@@ -36,14 +36,15 @@ export class ItemSelector extends React.Component<IItemSelectorProps, IItemSelec
 		this.props.getItemsService(this.state.page, this.props.pageSize).then(res => {
 			return res.json();
 		}).then((itemsRes: Array<string>) => {
+			console.log("ressssss", itemsRes);
 			let aux: Array<INetwork> = new Array<INetwork>();
 			itemsRes.forEach(item => {
 				aux.push({
+					name: item,
 					alfa: 0.1,
 					classes: [],
 					inputs: 2,
-					layers: 2,
-					name: item
+					layers: 2
 				});
 			})
 			this.setState({
@@ -99,14 +100,13 @@ export class ItemSelector extends React.Component<IItemSelectorProps, IItemSelec
 		}
 	}*/
 
-	private onModelChange(ev: React.FormEvent<HTMLDivElement>, item: IBaseItem): void {
+	private onModelChange(ev: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void {
 		this.setState({
-			selectedItem: item
-		});
-		//console.log(item);
-		if (this.state.selectedItem) {
+			selectedItem: { name: item.text }
+		}, function (this: any): void {
 			this.props.onItemSelected(this.state.selectedItem);
-		}
+		}.bind(this));
+
 	}
 
 	public render(): JSX.Element {
@@ -118,9 +118,9 @@ export class ItemSelector extends React.Component<IItemSelectorProps, IItemSelec
 				displayItems.push({ 'key': item.name, 'text': item.name });
 		});
 		return (
-			<div className="container">
-				<div className="flex">
-					<Dropdown placeHolder="Selecciona un modelo" label="Modelos" id="dropdown" ariaLabel="Basic dropdown example" options={displayItems}
+			<div>
+				<div>
+					<Dropdown placeHolder="Selecciona un modelo" id="dropdown" ariaLabel="Basic dropdown example" options={displayItems}
 						onChange={this.onModelChange.bind(this)}
 						componentRef={this._basicDropdown} style={{ width: '200px' }} />
 				</div>
