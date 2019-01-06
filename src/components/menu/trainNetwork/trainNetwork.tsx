@@ -17,240 +17,32 @@ interface ITrainNetworkProps {
 
 }
 interface ITrainNetworkState {
-	selectedNetwork: INetwork;
-	images: any,
-	imagesForTrain: Float32Array,
-	labels: Uint8Array
+	images: Array<ImageData>
 }
 
 export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetworkState>{
-	private model = tf.sequential();
-	private resizeWidth = 300;
-	private resizeHeight = 300;
-	private IMAGE_SIZE = this.resizeHeight * this.resizeWidth;
-	private NUM_CLASSES = 2;
-	private NUM_TRAIN_ELEMENTS = 2;
-	private trainIndices = new Uint32Array();
-	private shuffledTrainIndex = 0;
+	private readonly imageWidht: number = 224;
+	private readonly imageHeight: number = 224;
+	//private readonly numImages: number = 200;
+	private readonly numClasses: number = 2;
+	private readonly denseUnits: number = 100; // 100 | 200
+	private readonly learningRate: number = 0.0001; // 0.00001 | 0.001 | 0.003
+	private readonly batchSizeFraction: number = 0.4; // 0.1 | 1
+	private readonly epochs: number = 10; // 10, 40
+
+	private model: any;
+	private truncatedMobileNetModel: any;
+	private xs: any = null;
+	private ys: any = null;
 
 	public constructor(props: ITrainNetworkProps) {
 		super(props);
 		this.state = {
-			selectedNetwork: {
-				name: "",
-				alfa: 0,
-				inputs: 0,
-				layers: 0,
-				classes: []
-			},
-			images: [],
-			imagesForTrain: new Float32Array(),
-			labels: new Uint8Array()
+			images: new Array<ImageData>()
 		}
-		// Create a buffer and set values at particular indices.
-		/*const buffer = tf.buffer([4, 4]);
-		buffer.set(1, 0, 0);
-		buffer.set(2, 0, 1);
-		buffer.set(3, 1, 0);
-		buffer.set(4, 1, 1);
-
-		// Convert the buffer back to a tensor.
-		buffer.toTensor().print();*/
-
-
-	}
-
-	private onSelectedNetwork(selectedItem: IBaseItem): void {
-		NetworkService.getNetwork(selectedItem.name).then(resp => {
-			return resp.json();
-		}).then((network: INetwork) => {
-			this.setState({ selectedNetwork: network });
-		}).catch(error => { console.error(error) });
-	}
-
-	/*private async prueba() {
-		let imagesForTrain = new Array();
-		for (let i = 0; i < this.state.images.length; i++) {
-			let pixels = await this.readFileAsync(this.state.images[i]);
-
-			//imagesForTrain.push(new Uint32Array(pixels.data.buffer));
-		}
-		this.setState({ imagesForTrain: imagesForTrain });
-		console.log(imagesForTrain);
-	}*/
-
-	readFileAsync(file: File) {
-		return new Promise((resolve, reject) => {
-			let reader = new FileReader();
-
-			reader.onload = async (event: any) => {
-				resolve(reader.result);
-			};
-
-			reader.onerror = reject;
-
-			reader.readAsArrayBuffer(file);
-		})
-	}
-
-	public async entrenar(imageData: ImageData) {
-		const pred = await tf.tidy(() => {
-			//convert canvas pixels to
-			let img = tf.fromPixels(imageData, 1);
-			img = img.reshape([1, 438, 173]);
-			img = tf.cast(img, 'float32');
-			//await this.model.fit();
-			//console.log('La imagen es', img);
-		});
-		console.log('pred es ', pred);
-	}
-
-	/*public test = async () => {
-		this.model.add(tf.layers.conv2d({
-			inputShape: [this.resizeWidth, this.resizeHeight, 3],
-			kernelSize: 5,
-			filters: 8,
-			strides: 1,
-			activation: 'relu',
-			kernelInitializer: 'VarianceScaling'
-		}));
-
-		this.model.add(tf.layers.conv2d({
-			kernelSize: 5,
-			filters: 16,
-			strides: 1,
-			activation: 'relu',
-			kernelInitializer: 'VarianceScaling'
-		}));
-
-		this.model.add(tf.layers.maxPooling2d({
-			poolSize: [2, 2],
-			strides: [2, 2]
-		}));
-
-		this.model.add(tf.layers.flatten());
-
-		this.model.add(tf.layers.dense({
-			units: 2,
-			kernelInitializer: 'VarianceScaling',
-			activation: 'softmax'
-		}));
-
-		const LEARNING_RATE = 0.15;
-		const optimizer = tf.train.sgd(LEARNING_RATE);
-
-		this.model.compile({
-			optimizer: optimizer,
-			loss: 'categoricalCrossentropy',
-			metrics: ['accuracy'],
-		});
-
-		console.log('hola', this.state.imagesForTrain);
-		for (let i = 0; i < this.state.imagesForTrain.length; i++) {
-			let ts = tf.tensor1d(this.state.imagesForTrain[i], 'int32');
-			let input = tf.reshape(ts, [-1, this.resizeHeight, this.resizeWidth, 1]);
-			//const input = tf.tensor([ts], [this.state.imagesForTrain.length, this.resizeHeight, this.resizeWidth, 1], 'int32');
-			//input.print();
-			//const labels = tf.tensor2d(this.trainLabels, [this.trainLabels.length / NUM_CLASSES, NUM_CLASSES]);
-			//const input = await tf.tensor2d(, [1, 1]);
-			const labels = tf.tensor2d([[0], [1]], [2, 1]);
-			labels.print();
-			//console.log('el input', input);
-			//console.log('e. label', label);
-
-			await this.model.fit(input, labels, {
-				batchSize: 1,
-				epochs: 1
-			});
-		}
-	}*/
-
-	/*public llama = () => {
-		//console.log('Images es ', this.state.images);
-		const canvas = document.querySelector("canvas");
-		const ctx = canvas.getContext("2d");
-
-		for (let j = 0; j < this.state.images.length; j++) {
-			const image = new Image();
-			image.src = this.state.images[j].path;
-			image.onload = () => {
-				canvas.width = this.resizeWidth;
-				canvas.height = this.resizeHeight;
-				ctx.drawImage(image, 0, 0, this.resizeWidth, this.resizeHeight);
-				const width = this.resizeWidth;
-				const height = this.resizeHeight;
-				const nImg = new Image();
-				let imageData = ctx.getImageData(0, 0, width, height);
-				let numChannels = 3;
-				const pixels = this.grayscale(imageData);
-				ctx.putImageData(pixels, 0, 0);
-				const values = new Int32Array(width * height * numChannels);
-				for (let i = 0; i < pixels.data.length; i++) {
-					for (let channel = 0; channel < numChannels; ++channel) {
-						values[i * numChannels + channel] = pixels.data[i * 4 + channel];
-					}
-				}
-				let data = this.state.imagesForTrain;
-				data.push(values);
-				this.setState({ imagesForTrain: data }, this.test.bind(this));
-			}
-		}
-	}*/
-
-	public load = () => {
-		let NUM_DATASET_ELEMENTS = 2;
-		const IMAGE_H = 300;
-		const IMAGE_W = 300;
-		const IMAGE_SIZE = IMAGE_H * IMAGE_W;
-		// Make a request for the MNIST sprited image.
-		const img = new Image();
-		const canvas = document.createElement('canvas');
-		const ctx = canvas.getContext('2d');
-		/*	const imgRequest = new Promise((resolve, reject) => {
-				img.crossOrigin = '';
-				img.onload = () => {
-					img.width = img.naturalWidth;
-					img.height = img.naturalHeight;
-	
-					const datasetBytesBuffer = new ArrayBuffer(NUM_DATASET_ELEMENTS * IMAGE_SIZE * 4);
-	
-					const chunkSize = 5000;
-					canvas.width = img.width;
-					canvas.height = chunkSize;
-	
-					for (let i = 0; i < NUM_DATASET_ELEMENTS / chunkSize; i++) {
-						const datasetBytesView = new Float32Array(datasetBytesBuffer, i * IMAGE_SIZE * chunkSize * 4, IMAGE_SIZE * chunkSize);
-						ctx.drawImage(img, 0, i * chunkSize, img.width, chunkSize, 0, 0, img.width, chunkSize);
-	
-						const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-	
-						for (let j = 0; j < imageData.data.length / 4; j++) {
-							// All channels hold an equal value since the image is grayscale, so
-							// just read the red channel.
-							datasetBytesView[j] = imageData.data[j * 4] / 255;
-						}
-					}
-					let datasetImages = new Float32Array(datasetBytesBuffer);
-	
-					resolve();
-				};
-				img.src = this.state.images[i].path;
-			});
-	
-			const labelsRequest = fetch(MNIST_LABELS_PATH);
-			const [imgResponse, labelsResponse] =
-				await Promise.all([imgRequest, labelsRequest]);
-	
-			this.datasetLabels = new Uint8Array(await labelsResponse.arrayBuffer());
-	
-			// Slice the the images and labels into train and test sets.
-			this.trainImages =
-				this.datasetImages.slice(0, IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
-			this.testImages = this.datasetImages.slice(IMAGE_SIZE * NUM_TRAIN_ELEMENTS);
-			this.trainLabels =
-				this.datasetLabels.slice(0, NUM_CLASSES * NUM_TRAIN_ELEMENTS);
-			this.testLabels =
-				this.datasetLabels.slice(NUM_CLASSES * NUM_TRAIN_ELEMENTS);*/
+		console.log('Image Width:', this.imageWidht, 'Image Height:', this.imageHeight);
+		console.log('Num classes:', this.numClasses, 'Learning Rate:', this.learningRate);
+		console.log('BatchSizeFraction:', this.batchSizeFraction, 'Epochs:', this.epochs);
 	}
 
 	private grayscale = (imageData: ImageData) => {
@@ -262,40 +54,6 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		}
 		return imageData;
 	};
-
-	nextTrainBatch(batchSize: Number) {
-		this.trainIndices = tf.util.createShuffledIndices(this.NUM_TRAIN_ELEMENTS);
-		return this.nextBatch(
-			batchSize, [this.state.imagesForTrain, this.state.labels], () => {
-				this.shuffledTrainIndex = (this.shuffledTrainIndex + 1) % this.trainIndices.length;
-				return this.trainIndices[this.shuffledTrainIndex];
-			});
-	}
-
-	nextBatch(batchSize: any, data: any, index: any) {
-		const batchImagesArray = new Float32Array(batchSize * this.IMAGE_SIZE);
-		const batchLabelsArray = new Uint8Array(batchSize * this.NUM_CLASSES);
-
-		for (let i = 0; i < batchSize; i++) {
-			const idx = index();
-
-			const image =
-				data[0].slice(idx * this.IMAGE_SIZE, idx * this.IMAGE_SIZE + this.IMAGE_SIZE);
-			batchImagesArray.set(image, i * this.IMAGE_SIZE);
-
-			const label =
-				data[1].slice(idx * this.NUM_CLASSES, idx * this.NUM_CLASSES + this.NUM_CLASSES);
-			batchLabelsArray.set(label, i * this.NUM_CLASSES);
-		}
-
-		//const xs = tf.tensor4d(batchImagesArray, [batchSize / this.IMAGE_SIZE, this.re, IMAGE_W, 1]);
-		//const labels = tf.tensor2d(batchLabelsArray, [this.trainLabels.length / NUM_CLASSES, NUM_CLASSES]);
-
-		const xs = tf.tensor2d(batchImagesArray, [batchSize, this.IMAGE_SIZE]);
-		const labels = tf.tensor2d(batchLabelsArray, [batchSize, this.NUM_CLASSES]);
-
-		return { xs, labels };
-	}
 
 	private concat = (first: Float32Array, second: Float32Array) => {
 		let firstLength = first.length;
@@ -310,185 +68,234 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		const canvas = document.createElement("canvas");
 		const ctx = canvas.getContext("2d");
 		let imgRequests = new Array<Promise<any>>();
-
+		if (this.truncatedMobileNetModel === undefined) {
+			this.truncatedMobileNetModel = await this.loadTruncatedMobileNet();
+			console.log('Model loaded!', this.truncatedMobileNetModel);
+		}
 		for (let j = 0; j < acceptedFiles.length; j++) {
 			imgRequests.push(new Promise((resolve, reject) => {
 				const image = new Image();
 				image.crossOrigin = '';
 				image.onload = () => {
-					canvas.width = this.resizeWidth;
-					canvas.height = this.resizeHeight;
-					ctx.drawImage(image, 0, 0, this.resizeWidth, this.resizeHeight);
-					const datasetBytesView = new Float32Array(this.resizeWidth * this.resizeHeight);
+					canvas.width = this.imageWidht;
+					canvas.height = this.imageHeight;
+					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+					//const datasetBytesView = new Float32Array(canvas.width * canvas.height);
 					const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-					for (let j = 0; j < imageData.data.length / 4; j++) {
-						// All channels hold an equal value since the image is grayscale, so
-						// just read the red channel.
-						datasetBytesView[j] = imageData.data[j * 4] / 255;
-					}
-					this.setState({ imagesForTrain: this.concat(this.state.imagesForTrain, datasetBytesView) });
+					const isDog = document.getElementById('dog') as HTMLInputElement;
+					const isShark = document.getElementById('shark') as HTMLInputElement;
+					let label;
+					if (isDog.checked)
+						label = 0;
+					else if (isShark.checked)
+						label = 1;
+					else
+						console.log('Input error!');
+					this.setExampleHandler(imageData, label);
+					let images = this.state.images;
+					images.push(imageData);
+					this.setState({
+						images
+					});
 					resolve();
 				}
 				image.src = acceptedFiles[j].path;
 			}));
 		}
-
 		await Promise.all(imgRequests);
-		this.setState({ labels: new Uint8Array([0, 1]) });
-		this.trainIndices = tf.util.createShuffledIndices(this.NUM_TRAIN_ELEMENTS);
-		await this.create();
-
-
-
-
-		/*console.log(this.state.imagesForTrain);
-		let labelArr = new Uint8Array([0, 1]);
-		let nClasses = 2;
-		*/
-
+		console.log('Images loaded!')
 	}
 
-	create = async () => {
-		const model = tf.sequential();
 
-		model.add(tf.layers.conv2d({
-			inputShape: [this.resizeHeight, this.resizeWidth, 1],
-			kernelSize: 5,
-			filters: 8,
-			strides: 1,
-			activation: 'relu',
-			kernelInitializer: 'VarianceScaling'
-		}));
+	private loadTruncatedMobileNet = async () => {
+		const mobilenet = await tf.loadModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
+		// Return a model that outputs an internal activation.
+		const layer = mobilenet.getLayer('conv_pw_13_relu');
+		return tf.model({ inputs: mobilenet.inputs, outputs: layer.output });
+	};
 
-		model.add(tf.layers.maxPooling2d({
-			poolSize: [2, 2],
-			strides: [2, 2]
-		}));
+	/**
+   * Adds an example to the controller dataset.
+   * @param {Tensor} example A tensor representing the example. It can be an image,
+   *     an activation, or any other type of Tensor.
+   * @param {number} label The label of the example. Should be a number.
+   */
+	private addExample = async (example: any, label: any) => {
+		// One-hot encode the label.
+		const y = tf.tidy(() => tf.oneHot(tf.tensor1d([label]).toInt(), this.numClasses));
 
-		model.add(tf.layers.conv2d({
-			kernelSize: 5,
-			filters: 16,
-			strides: 1,
-			activation: 'relu',
-			kernelInitializer: 'VarianceScaling'
-		}));
+		if (this.xs == null) {
+			// For the first example that gets added, keep example and y so that the
+			// ControllerDataset owns the memory of the inputs. This makes sure that
+			// if addExample() is called in a tf.tidy(), these Tensors will not get
+			// disposed.
+			this.xs = tf.keep(example);
+			this.ys = tf.keep(y);
+		} else {
+			const oldX = this.xs;
+			this.xs = tf.keep(oldX.concat(example, 0));
 
-		model.add(tf.layers.maxPooling2d({
-			poolSize: [2, 2],
-			strides: [2, 2]
-		}));
+			const oldY = this.ys;
+			this.ys = tf.keep(oldY.concat(y, 0));
 
-		model.add(tf.layers.flatten({}));
+			oldX.dispose();
+			oldY.dispose();
+			y.dispose();
+		}
+	}
 
-		model.add(tf.layers.dense({
-			units: this.NUM_CLASSES,
-			kernelInitializer: 'VarianceScaling',
-			activation: 'softmax'
-		}));
+	/**
+ * Crops an image tensor so we get a square image with no white space.
+ * @param {Tensor4D} img An input image Tensor to crop.
+ */
+	private cropImage(img: tf.Tensor<tf.Rank.R3>) {
+		const size = Math.min(img.shape[0], img.shape[1]);
+		const centerHeight = img.shape[0] / 2;
+		const beginHeight = centerHeight - (size / 2);
+		const centerWidth = img.shape[1] / 2;
+		const beginWidth = centerWidth - (size / 2);
+		return img.slice([beginHeight, beginWidth, 0], [size, size, 3]);
+	}
 
-		const LEARNING_RATE = 0.15;
-		const optimizer = tf.train.sgd(LEARNING_RATE);
+	private createTensor = (image: ImageData) => {
+		return tf.tidy(() => {
+			const webcamImage = tf.fromPixels(image);
+			const croppedImage = this.cropImage(webcamImage);
+			const batchedImage = croppedImage.expandDims(0);
 
-		model.compile({
-			optimizer: optimizer,
-			loss: 'categoricalCrossentropy',
-			metrics: ['accuracy'],
+			return batchedImage.toFloat().div(127).sub(1);
 		});
+	}
 
-		const xs = tf.tensor4d(this.state.imagesForTrain, [this.state.imagesForTrain.length / (this.resizeHeight * this.resizeWidth), this.resizeHeight, this.resizeWidth, 1]);
-		xs.print();
-		const labels = tf.tensor2d([0, 0], [this.state.labels.length / this.NUM_CLASSES, this.NUM_CLASSES]);
-		labels.print();
-		const batchSize = 320;
-		const validationSplit = 0.15;
-		const h = await model.fit(xs, labels, { batchSize, validationSplit, epochs: 1 });
-		console.log(h);
-		/*const loss = h.history.loss[0];
-		const accuracy = h.history.acc[0];
+	private setExampleHandler = (img: ImageData, label: number) => {
+		tf.tidy(() => {
+			//const img = webcam.capture();
+			const resp = this.truncatedMobileNetModel.predict(this.createTensor(img));
+			this.addExample(resp, label);
+			console.log('Deberia ser: ', label);
+			// Draw the preview thumbnail.
+			//ui.drawThumb(img, label);
+		});
+	};
 
-		console.log(loss);
-		console.log(accuracy);*/
-		/*
-				// How many examples the model should "see" before making a parameter update.
-				const BATCH_SIZE = 2;//64
-				// How many batches to train the model for.
-				const TRAIN_BATCHES = 2;//100
-				for (let i = 0; i < TRAIN_BATCHES; i++) {
-					const batch = this.nextTrainBatch(BATCH_SIZE);
-					// The entire dataset doesn't fit into memory so we call fit repeatedly
-					// with batches.
-					const history = await model.fit(
-						batch.xs.reshape([BATCH_SIZE, this.resizeHeight, this.resizeWidth, 1]),
-						batch.labels,
-						{
-							batchSize: BATCH_SIZE,
-							epochs: 1
-						});
-		
-					const loss = history.history.loss[0];
-					const accuracy = history.history.acc[0];
-		
-					console.log(loss);
-					console.log(accuracy);
-				}*/
+	private train = async () => {
+		if (this.xs == null) {
+			throw new Error('Add some examples before training!');
+		}
+
+		// Creates a 2-layer fully connected model. By creating a separate model,
+		// rather than adding layers to the mobilenet model, we "freeze" the weights
+		// of the mobilenet model, and only train weights from the new model.
+		this.model = tf.sequential({
+			layers: [
+				// Flattens the input to a vector so we can use it in a dense layer. While
+				// technically a layer, this only performs a reshape (and has no training
+				// parameters).
+				tf.layers.flatten({
+					inputShape: this.truncatedMobileNetModel.outputs[0].shape.slice(1)
+				}),
+				// Layer 1.
+				tf.layers.dense({
+					units: this.denseUnits,
+					activation: 'relu',
+					kernelInitializer: 'varianceScaling',
+					useBias: true
+				}),
+				// Layer 2. The number of units of the last layer should correspond
+				// to the number of classes we want to predict.
+				tf.layers.dense({
+					units: this.numClasses,
+					kernelInitializer: 'varianceScaling',
+					useBias: false,
+					activation: 'softmax'
+				})
+			]
+		});
+		// Creates the optimizers which drives training of the model.
+		const optimizer = tf.train.adam(this.learningRate);
+		// We use categoricalCrossentropy which is the loss function we use for
+		// categorical classification which measures the error between our predicted
+		// probability distribution over classes (probability that an input is of each
+		// class), versus the label (100% probability in the true class)>
+		this.model.compile({ optimizer: optimizer, loss: 'categoricalCrossentropy' });
+
+		// We parameterize batch size as a fraction of the entire dataset because the
+		// number of examples that are collected depends on how many examples the user
+		// collects. This allows us to have a flexible batch size.
+		const batchSize =
+			Math.floor(this.xs.shape[0] * this.batchSizeFraction);
+		if (!(batchSize > 0)) {
+			throw new Error(
+				`Batch size is 0 or NaN. Please choose a non-zero fraction.`);
+		}
+
+		// Train the model! Model.fit() will shuffle xs & ys so we don't have to.
+		this.model.fit(this.xs, this.ys, {
+			batchSize,
+			epochs: this.epochs,
+			callbacks: {
+				onBatchEnd: async (batch: any, logs: any) => {
+					console.log('Loss: ' + logs.loss.toFixed(5));
+				}
+			}
+		});
+	}
+
+	private handleTrain = async () =>{
+		await this.train();
+		//this.xs.dispose();
+		//this.ys.dispose();
+	}
+
+	private predict = async (img: ImageData) => {
+		const prediction = tf.tidy(() => {
+			// Capture the frame from the webcam.
+			//const img = webcam.capture();
+
+			// Make a prediction through mobilenet, getting the internal activation of
+			// the mobilenet model, i.e., "embeddings" of the input images.
+			const embeddings = this.truncatedMobileNetModel.predict(this.createTensor(img));
+
+			// Make a prediction through our newly-trained model using the embeddings
+			// from mobilenet as input.
+			const predictions = this.model.predict(embeddings);
+
+			// Returns the index with the maximum probability. This number corresponds
+			// to the class the model thinks is the most probable given the input.
+			const predict = predictions.as1D().argMax();
+			predict.print();
+			//console.log('Predicted', predict);
+			return predict;
+		});
+		const res = (await prediction.data())[0];
+		console.log('Predicted', res);
+	}
+
+	private predictHandle = (acceptedFiles: any, rejectedFiles: any) => {
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		const image = new Image();
+		image.crossOrigin = '';
+		image.onload = async () => {
+			canvas.width = this.imageWidht;
+			canvas.height = this.imageHeight;
+			ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+			//const datasetBytesView = new Float32Array(canvas.width * canvas.height);
+			const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			await this.predict(imageData);
+		}
+		image.src = acceptedFiles[0].path;
 	}
 
 	public render(): JSX.Element {
-		//Item selector es para seleccionar el network que vamos a entrenar
-		/*return (
-			<div style={{ textAlign: "center" }}>
-				<h1 style={{ textAlign: "center" }}>Este es el entrenador</h1>
-				<div style={{ display: "flex", justifyContent: "center" }}>
-					<ItemSelector getItemsService={NetworkService.getNetworkNames.bind(this)} pageSize={20} getNumberOfPagesService={NetworkService.getNerworkPages.bind(this)} onItemSelected={this.onSelectedNetwork.bind(this)} />
-
-					<Label style={{ marginLeft: "15px" }}>Alfa: {this.state.selectedNetwork.alfa}</Label>
-					<Label style={{ marginLeft: "15px" }}>Lotes de imagenes: {this.state.selectedNetwork.inputs}</Label>
-					<Label style={{ marginLeft: "15px" }}>Capas: {this.state.selectedNetwork.layers}</Label>
-					<Label style={{ marginLeft: "15px" }}>Clases:
-							{this.state.selectedNetwork.classes.map(function (elem: String, i: number) {
-							return (
-								<span style={{ marginLeft: "5px" }}>
-									{elem}
-								</span>
-							);
-						}.bind(this))}
-					</Label>
-				</div>
-				<Dropzone style={{
-					display: "flex", justifyContent: "center", position: "relative", height: "75%", width: "100%",
-					marginTop: "10px", borderWidth: "2px", borderColor: "rgb(102,102,102)", borderStyle: "dashed",
-					borderRadius: "5px"
-				}}
-					accept="image/jpeg, image/png"
-					onDrop={(accepted, rejected) => {
-						this.setState({ images: accepted }, this.prueba.bind(this));
-					}} >
-					{this.state.images.length > 0 &&
-						<div style={{ display: "flex", flexWrap: "wrap", }}>
-							{this.state.images.map((image: any) => (
-								<img
-									alt="Preview"
-									key={image.name}
-									src={image.path}
-									style={{
-										display: 'flex',
-										width: 100,
-										height: 100,
-										margin: "5px"
-									}}
-								/>
-							))}
-						</div>
-					}
-				</Dropzone>
-			</div>
-		);*/
 		return (
 			<div>
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.onDrop} />
 				<canvas id="canvas" ></canvas>
-				<Dropzone accept="image/jpeg, image/png"
-					onDrop={this.onDrop} />
+				<input type="checkbox" name="dog" value="dog" id="dog" /> Dog
+				<input type="checkbox" name="shark" value="shark" id="shark" /> Shark
+				<button onClick={this.handleTrain}>Train</button>
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.predictHandle} />
 			</div>
 		);
 	}
