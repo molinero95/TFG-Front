@@ -4,18 +4,17 @@ import { INetwork } from "../../../entities/inetwork";
 import { NetworkService } from "../../../requestServices/networkService";
 import { IBaseItem } from '../../../entities/IBaseItem';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Button } from 'office-ui-fabric-react/lib/Button';
 import Dropzone from 'react-dropzone';
 import * as tf from '@tensorflow/tfjs';
-import { tensor3d } from "@tensorflow/tfjs";
-import * as mobilenet from '@tensorflow-models/mobilenet';
-import * as fs from 'fs';
-import * as jpg from 'jpeg-js';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { initializeIcons } from '@uifabric/icons';
+initializeIcons();
 
 interface ITrainNetworkProps {
 
 }
+
 interface ITrainNetworkState {
 	images: Array<ImageData>
 }
@@ -25,7 +24,7 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 	private readonly imageHeight: number = 224;
 	//private readonly numImages: number = 200;
 	private readonly numClasses: number = 2;
-	private readonly denseUnits: number = 100; // 100 | 200
+	private readonly denseUnits: number = 100; //10 | 100 | 200
 	private readonly learningRate: number = 0.0001; // 0.00001 | 0.001 | 0.003
 	private readonly batchSizeFraction: number = 0.4; // 0.1 | 1
 	private readonly epochs: number = 10; // 10, 40
@@ -44,25 +43,6 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		console.log('Num classes:', this.numClasses, 'Learning Rate:', this.learningRate);
 		console.log('BatchSizeFraction:', this.batchSizeFraction, 'Epochs:', this.epochs);
 	}
-
-	private grayscale = (imageData: ImageData) => {
-		for (var i = 0; i < imageData.data.length; i += 4) {
-			var avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
-			imageData.data[i] = avg; // red
-			imageData.data[i + 1] = avg; // green
-			imageData.data[i + 2] = avg; // blue
-		}
-		return imageData;
-	};
-
-	private concat = (first: Float32Array, second: Float32Array) => {
-		let firstLength = first.length;
-		let result = new Float32Array(firstLength + second.length);
-		result.set(first);
-		result.set(second, firstLength);
-		return result;
-	}
-
 
 	private onDrop = async (acceptedFiles: any, rejectedFiles: any) => {
 		const canvas = document.createElement("canvas");
@@ -120,7 +100,7 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
    *     an activation, or any other type of Tensor.
    * @param {number} label The label of the example. Should be a number.
    */
-	private addExample = async (example: any, label: any) => {
+	private addExample = async (example: tf.Tensor, label: number) => {
 		// One-hot encode the label.
 		const y = tf.tidy(() => tf.oneHot(tf.tensor1d([label]).toInt(), this.numClasses));
 
@@ -201,6 +181,12 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 					kernelInitializer: 'varianceScaling',
 					useBias: true
 				}),
+				tf.layers.dense({
+					units: this.denseUnits * 2,
+					activation: 'relu',
+					kernelInitializer: 'varianceScaling',
+					useBias: true
+				}),
 				// Layer 2. The number of units of the last layer should correspond
 				// to the number of classes we want to predict.
 				tf.layers.dense({
@@ -241,7 +227,7 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		});
 	}
 
-	private handleTrain = async () =>{
+	private handleTrain = async () => {
 		await this.train();
 		//this.xs.dispose();
 		//this.ys.dispose();
@@ -255,7 +241,7 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 			// Make a prediction through mobilenet, getting the internal activation of
 			// the mobilenet model, i.e., "embeddings" of the input images.
 			const embeddings = this.truncatedMobileNetModel.predict(this.createTensor(img));
-
+			embeddings.print();
 			// Make a prediction through our newly-trained model using the embeddings
 			// from mobilenet as input.
 			const predictions = this.model.predict(embeddings);
@@ -287,15 +273,39 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		image.src = acceptedFiles[0].path;
 	}
 
-	public render(): JSX.Element {
+	/*public render(): JSX.Element {
 		return (
 			<div>
-				<Dropzone accept="image/jpeg, image/png" onDrop={this.onDrop} />
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.onDrop} >
+					<p>Selecciona las imágenes para la clase </p>
+				</Dropzone>
 				<canvas id="canvas" ></canvas>
 				<input type="checkbox" name="dog" value="dog" id="dog" /> Dog
 				<input type="checkbox" name="shark" value="shark" id="shark" /> Shark
 				<button onClick={this.handleTrain}>Train</button>
-				<Dropzone accept="image/jpeg, image/png" onDrop={this.predictHandle} />
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.predictHandle} >
+					<p style={{ textAlign: "center" }}> Drop images for make predictions!</p>
+				</Dropzone>
+			</div>
+		);
+	}*/
+
+	public render(): JSX.Element {
+		return (
+			<div>
+				<button className="btn btn-success">
+					<Icon iconName="AddTo" className="ms-IconExample" /> Añadir clase
+				</button>
+				<input type="checkbox" name="dog" value="dog" id="dog" /> Dog
+				<input type="checkbox" name="shark" value="shark" id="shark" /> Shark
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.onDrop} >
+					<p>Selecciona las imágenes para la clase </p>
+				</Dropzone>
+				<canvas id="canvas" hidden></canvas>
+				<button onClick={this.handleTrain}>Train</button>
+				<Dropzone accept="image/jpeg, image/png" onDrop={this.predictHandle} >
+					<p style={{ textAlign: "center" }}> Drop images for make predictions!</p>
+				</Dropzone>
 			</div>
 		);
 	}
