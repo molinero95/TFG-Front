@@ -72,7 +72,7 @@ export class TrainNetworkMenuView extends React.Component<TrainNetworkMenuViewPr
                         this.props.handleAddImageClass(image, selectedClass);
                     }
                 });
-                alert('Deberia ser: ' + selectedClass.value);
+                alert('Deberia ser: ' + selectedClass.labelName);
             }
         }
     }

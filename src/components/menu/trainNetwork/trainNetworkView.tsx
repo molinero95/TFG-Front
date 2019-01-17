@@ -67,10 +67,17 @@ export class TrainNetworkView extends React.Component<TrainNetworkViewProps, Tra
 
 	//#region Prediction methods
 
-	private handleMakePrediction(imageForPrediction: NetworkImageData){
-		this.trainer.predict(imageForPrediction.imageData).then((data) => {
-            alert("Predicted: " + data);
-        });
+	private handleMakePrediction(imageForPrediction: NetworkImageData): void{
+		this.trainer.predict(imageForPrediction.imageData).then(data => {
+			alert("Prediction: " + this.getTrainerValueName(data));
+		})
+	}
+
+	private getTrainerValueName(value: number){
+		let item = this.state.trainNetworkData.classes.find(item => item.value == value);
+		if(item)
+			return item.labelName;
+		return item;
 	}
 
 	//#endregion
