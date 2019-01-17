@@ -1,3 +1,7 @@
+html, body{
+    height: 100%;
+}
+
 .white{
     color: white !important;
 }
@@ -10,4 +14,102 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+}
+
+.horizontalLayout{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.horizontalLayoutSpaceEvenly{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.smallMarginTop{
+    margin-top: 1rem;
+}
+
+.verticalLayout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.dropzoneWidthHeith{
+    height: 40%;
+    width: 100%;
+}
+
+.textRight{
+    text-align: right;
+}
+
+.dropzone{
+    margin: 5px;
+    border: dashed;
+}
+
+#trainNetworkMenu{
+    width: 30%;
+    height: auto;
+    border-width: 0px;
+    border-style: solid;
+    border-color: gray;
+    border-right-width: 2px;
+}
+
+#trainNetworkImageViewer{
+    overflow-y: scroll;
+    height: 50%;
+    border-width: 0px;
+    border-style: solid;
+    border-color: gray;
+    border-bottom-width: 2px;
+    width: 100%;
+}
+
+.centerContent{
+    display: flex;
+    justify-content: center;   
+}
+
+.spaceBetweenContent{
+    display: flex;
+    justify-content: space-between;   
+}
+
+.sideMirgen{
+    margin-left: 2px;
+    margin-right: 10px;
+}
+
+.maxWidth{
+    width: 80%;
+}
+
+
+
+
+.imageSelected {
+    border-style: solid;
+    border-width: 5px;
+    border-color: blue;
+}
+
+.imageSize{
+    height: 124px;
+    width: 124px;
+    margin: 1px;
+}
+
+
+.imageOverlay:hover img{
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
 }

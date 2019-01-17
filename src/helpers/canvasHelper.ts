@@ -1,59 +1,62 @@
 export class CanvasHelper {
 
     /**
+     * Obtiene el rawImage de la imagen de la url
      * @param url url de la imagen
      * @param callback funcion que tiene como parámetro el raw content de la imagen
      */
-    public static getRawImageData(url: string, callback: (rawImageData: string) => void): void {
-        this.getCanvasItemContext(url, (canvas, context, image) => {
-            context.drawImage(image, 0, 0);
-            callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+    public static getRawImageData(url: string, callback: (rawImageData: string) => void): Promise<string> {
+        return new Promise<string>((resolve) => {
+            this.getCanvasItemContext(url, (canvas, context, image) => {
+                context.drawImage(image, 0, 0);
+                resolve(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+            });
         });
     }
 
-
     /**
+     * Obtiene el base64 de la imagen de la url
      * @param url url de la imagen 
-     * @param callback funcion que tiene como parámetro el dataURL de la imagen
      */
-    public static getDataURI(url: string, callback: (dataUrl: string) => void): void {
-        this.getCanvasItemContext(url, (canvas, context, image) => {
-            context.drawImage(image, 0, 0);
-            callback(canvas.toDataURL('image/png'));
+    public static getDataURI(url: string): Promise<string> {
+        return new Promise<string>((resolve) => {
+            this.getCanvasItemContext(url, (canvas, context, image) => {
+                context.drawImage(image, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+            });
+        });
+        
+    }
+
+    /**
+     * Obtiene la imagen de la url especificada redimensionada
+     * @param url url de la imagen
+     * @param newHeight nueva altura
+     * @param newWidth nueva anchura
+     */
+    public static getResizedImage(url: string, newHeight: number, newWidth: number): Promise<ImageData> {
+        return new Promise<ImageData>((resolve) => {
+            this.getCanvasItemContext(url, (canvas, context, image) => {
+                context.drawImage(image, 0, 0, newWidth, newHeight, 0, 0, canvas.width, canvas.height);
+                resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+            }, newWidth, newHeight);
         });
     }
 
-
-    
     /**
-     * 
+     * Obtiene la imagen de la url especificada redimensionada y en blanco y negro
      * @param url url de la imagen
      * @param newHeight nueva altura
      * @param newWidth nueva anchura
-     * @param callback función que tiene como parámetro la nueva imagen redimensionada
      */
-    public static getResizedImage(url: string, newHeight: number, newWidth: number, callback: (imageRGB: ImageData) => any): void {
-        this.getCanvasItemContext(url, (canvas, context, image) => {
-            context.drawImage(image, 0, 0, newWidth, newHeight,0, 0, canvas.width, canvas.height);
-            let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            callback(imageData);
-            //callback(this.canvasImgToGrayScale(imageData));
-        }, newWidth, newHeight);
-    }
-
-
-    /**
-     * @param url url de la imagen
-     * @param newHeight nueva altura
-     * @param newWidth nueva anchura
-     * @param callback función que tiene como parámetro la nueva imagen redimensionada y en blanco y negro
-     */
-    public static getResizedImageGrayScale(url: string, newHeight: number, newWidth: number, callback: (imageGrayScaleArray: ImageData) => any): void {
-        this.getCanvasItemContext(url, (canvas, context, image) => {
-            context.drawImage(image, 0, 0, newWidth, newHeight,0, 0, canvas.width, canvas.height);
-            let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            callback(this.canvasImgToGrayScale(imageData));
-        }, newWidth, newHeight);
+    public static async getResizedImageGrayScale(url: string, newHeight: number, newWidth: number): Promise<ImageData> {
+        return new Promise<ImageData>((resolve) => {
+            this.getCanvasItemContext(url, (canvas, context, image) => {
+                context.drawImage(image, 0, 0, newWidth, newHeight, 0, 0, canvas.width, canvas.height);
+                let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                resolve(this.canvasImgToGrayScale(imageData));
+            }, newWidth, newHeight);
+        });
     }
 
 
@@ -62,8 +65,8 @@ export class CanvasHelper {
      * @returns la imagen en escala de grises
      */
     private static canvasImgToGrayScale(imgData: ImageData): ImageData {
-        for(let i = 0;  i < imgData.height; i++){
-            for(let j = 0; j < imgData.width; j++){
+        for (let i = 0; i < imgData.height; i++) {
+            for (let j = 0; j < imgData.width; j++) {
                 let index = (i * 4) * imgData.width + j * 4;
                 let avg = (imgData.data[index] + imgData.data[index + 1] + imgData.data[index + 2]) / 3;
                 imgData.data[index] = avg;
@@ -73,7 +76,6 @@ export class CanvasHelper {
         }
         return imgData;
     }
-
 
 
     /**
@@ -87,16 +89,12 @@ export class CanvasHelper {
         image.onload = (item: Event) => {
             let img = item.target as HTMLImageElement;
             this.removeOldCanvas();
-            /*
-            let canvas: HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
-            if (!canvas)
-                canvas = document.createElement("canvas") as HTMLCanvasElement;*/
             let canvas = document.createElement("canvas") as HTMLCanvasElement;
-            if(width)
+            if (width)
                 canvas.width = width;
             else
                 canvas.width = img.width;
-            if(heigh)
+            if (heigh)
                 canvas.height = heigh;
             else
                 canvas.height = img.height;
@@ -107,10 +105,14 @@ export class CanvasHelper {
         image.src = url;
     }
 
-    private static removeOldCanvas(){
+
+    /**
+     * Elimina todos los canvas generados
+     */
+    private static removeOldCanvas() {
         let canvasToRemove = document.querySelectorAll("canvas");
         canvasToRemove.forEach(canvas => {
             canvas.remove();
-        })
+        });
     }
 }
