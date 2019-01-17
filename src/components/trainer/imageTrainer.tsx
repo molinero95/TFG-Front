@@ -44,7 +44,7 @@ export class ImageTrainer {
 
     
 
-    public async train(trainNetworkData: TrainNetworkData): Promise<void> {
+    public async train(trainNetworkData: TrainNetworkData): Promise<any> {
         if (this.xs == null) {
             throw new Error('Add some examples before training!');
         }
@@ -102,7 +102,7 @@ export class ImageTrainer {
         }
 
         // Train the model! Model.fit() will shuffle xs & ys so we don't have to.
-        this.model.fit(this.xs, this.ys, {
+        return this.model.fit(this.xs, this.ys, {
             batchSize,
             epochs: trainNetworkData.epochs,
             callbacks: {
