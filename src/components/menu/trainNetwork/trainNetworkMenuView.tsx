@@ -2,44 +2,37 @@ import React = require("react");
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { TrainNetworkData } from "../../../entities/trainer/trainNetworkData";
 import { ClassData } from "../../../entities/trainer/classData";
-import { ImageTrainer } from "../../trainer/imageTrainer";
-import { ImageToTrainData } from "../../../entities/images/imagesForTrainData";
-import Dropzone from "react-dropzone";
-import { ImageTrainerConstants } from "../../trainer/constants";
-import { CanvasHelper } from "../../../helpers/canvasHelper";
+import { NetworkImageData } from "../../../entities/images/NetworkImageData";
+import { TrainNetworkPredictionMenuView } from "./trainNetworkPredictionMenuView";
 
 
-interface TrainNetworkMenuProps {
+interface TrainNetworkMenuViewProps {
     trainNetworkData: TrainNetworkData;
-    trainer: ImageTrainer;
-    imagesData: Array<ImageToTrainData>;
+    imagesData: Array<NetworkImageData>;
     handleTrain: () => void;
+    handleAddImageClass: (image: NetworkImageData, newClass: ClassData) => void;
+    handleMakePrediction: (imageForPrediction: NetworkImageData) => void;
     onEpochsChange: (newValue: number) => void;
     onDenseUnitsChange: (newValue: number) => void;
     onLearningRateChange: (newValue: number) => void;
     onBatchSizeChange: (newValue: number) => void;
+    addClassToTrainer: (newClass: ClassData) => void;
 }
 
-interface TrainNetworkMenuState {
+interface TrainNetworkMenuViewState {
     newClassName: string;
 }
 
 
-export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, TrainNetworkMenuState> {
-    private imageForPrediction: ImageToTrainData;
-    constructor(props: TrainNetworkMenuProps) {
+export class TrainNetworkMenuView extends React.Component<TrainNetworkMenuViewProps, TrainNetworkMenuViewState> {
+    private imageForPrediction: NetworkImageData;
+    constructor(props: TrainNetworkMenuViewProps) {
         super(props);
         this.state = {
             newClassName: "",
         }
     }
 
-    private updateNewClassName(data: React.ChangeEvent<HTMLInputElement>): void {
-        let text = data.target.value;
-        this.setState({
-            newClassName: text
-        });
-    }
 
 
     private labelExists() {
@@ -49,12 +42,11 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
     private addClassName(): void {
         if (this.state.newClassName !== "" && !this.labelExists()) {
             let classesLength = this.props.trainNetworkData.classes.length;
-            this.props.trainNetworkData.classes.push({
+            this.props.addClassToTrainer({
                 labelName: this.state.newClassName,
                 value: classesLength,
                 selected: false
             });
-            this.props.trainer.setNumClasses(this.props.trainNetworkData.classes.length);
             this.setState({
                 newClassName: ""
             })
@@ -77,12 +69,7 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
                 });
                 this.props.imagesData.forEach(image => {
                     if (image.selected) {
-                        image.labelData = selectedClass;
-                        this.props.trainer.setExample(image.imageData, image.labelData.value);
-
-                        //Esto no puede ir aqui, porque si no no actualiza el estado
-                        //image.classified = true;
-                        //image.selected = false;
+                        this.props.handleAddImageClass(image, selectedClass);
                     }
                 });
                 alert('Deberia ser: ' + selectedClass.value);
@@ -90,7 +77,7 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
         }
     }
 
-    private getSelectedImages(): Array<ImageToTrainData> {
+    private getSelectedImages(): Array<NetworkImageData> {
         return this.props.imagesData.filter(item => item.selected);
     }
 
@@ -98,29 +85,17 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
 
     private showClassSelector(): Array<JSX.Element> {
         let res: Array<JSX.Element> = new Array<JSX.Element>();
+        let disabled = true;
+        if (this.props.imagesData.find(item => item.selected))
+            disabled = false;
         this.props.trainNetworkData.classes.forEach(classValue => {
-            res.push(<button onClick={(event) => this.selectClass(event, classValue)} className="brn smallMarginTop" key={classValue.value}>{classValue.labelName}</button>);
+            res.push(<button onClick={(event) => this.selectClass(event, classValue)} className="btn btn-primary smallMarginTop" key={classValue.value} disabled={disabled}>{classValue.labelName}</button>);
         });
         return res;
     }
 
+    //#region Handle methods
 
-    private async predictHandle (acceptedFiles: any, rejectedFiles: any) {
-        let url = URL.createObjectURL(acceptedFiles[0]);
-        this.imageForPrediction = {
-            imageUrl: url,
-            labelData: null,
-            imageData: await CanvasHelper.getResizedImage(url, ImageTrainerConstants.IMAGEHEIGTH, ImageTrainerConstants.IMAGEWIDTH),
-            selected: false,
-            classified: false
-        };
-    }
-
-    private handlePrediction(): void {
-        this.props.trainer.predict(this.imageForPrediction.imageData).then((data) => {
-            alert("Predicted: " + data);
-        });
-    }
 
     private handleEpochs(newValue: React.ChangeEvent<HTMLInputElement>) {
         this.props.onEpochsChange(Number(newValue.target.value))
@@ -138,6 +113,15 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
         this.props.onBatchSizeChange(Number(newValue.target.value))
     }
 
+    private handleNewClassNameChange(data: React.ChangeEvent<HTMLInputElement>): void {
+        let text = data.target.value;
+        this.setState({
+            newClassName: text
+        });
+    }
+
+    //#endregion
+
     public render() {
         return (
             <div>
@@ -145,7 +129,7 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
                     {this.showClassSelector()}
                 </div>
                 <div className="horizontalLayoutSpaceEvenly smallMarginTop">
-                    <input placeholder="nombre" type="text" value={this.state.newClassName} onChange={this.updateNewClassName.bind(this)}></input>
+                    <input placeholder="nombre" type="text" value={this.state.newClassName} onChange={this.handleNewClassNameChange.bind(this)}></input>
                     <button className="btn btn-success" onClick={this.addClassName.bind(this)}>
                         <Icon iconName="AddTo" className="ms-IconExample" /> Add class
 				    </button>
@@ -174,12 +158,9 @@ export class TrainNetworkMenu extends React.Component<TrainNetworkMenuProps, Tra
                     <button onClick={this.props.handleTrain} className="btn btn-primary maxWidth">Train</button>
                 </div>
                 <hr></hr>
-                <Dropzone className="dropzone" accept="image/jpeg, image/png" onDrop={this.predictHandle.bind(this)} >
-                    <p className="dropzoneWidthHeith" style={{ textAlign: "center" }}> Drop images for make predictions!</p>
-                </Dropzone>
-                <div className="centerContent smallMarginTop">
-                    <button onClick={this.handlePrediction.bind(this)} className="btn btn-primary maxWidth">Predict</button>
-                </div>
+                <TrainNetworkPredictionMenuView 
+                    handleMakePrediction={this.props.handleMakePrediction}>
+                </TrainNetworkPredictionMenuView>
             </div>
         )
     }

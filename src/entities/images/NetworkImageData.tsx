@@ -1,6 +1,6 @@
 import { ClassData } from "../trainer/classData";
 
-export interface ImageToTrainData {
+export interface NetworkImageData {
     imageUrl: string;
     imageData: ImageData;
     labelData: ClassData;

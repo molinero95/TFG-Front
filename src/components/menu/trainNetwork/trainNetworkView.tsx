@@ -6,29 +6,29 @@ import { CanvasHelper } from "../../../helpers/canvasHelper";
 import { ImageTrainerConstants } from "../../trainer/constants";
 import { ImageTrainer } from "../../trainer/imageTrainer";
 import { TrainNetworkData } from "../../../entities/trainer/trainNetworkData";
-import { ImageToTrainData } from "../../../entities/images/imagesForTrainData";
+import { NetworkImageData } from "../../../entities/images/NetworkImageData";
 import { TrainNetworkImageViewer } from "./trainNetworkImageViewer";
-import { TrainNetworkMenu } from "./trainNetworkMenu";
+import { TrainNetworkMenuView } from "./trainNetworkMenuView";
 import { ClassData } from "../../../entities/trainer/classData";
-import { train } from "@tensorflow/tfjs";
+
 initializeIcons();
 
-interface ITrainNetworkProps {
+interface TrainNetworkViewProps {
 
 }
 
-interface ITrainNetworkState {
-	images: Array<ImageToTrainData>
+interface TrainNetworkViewState {
+	images: Array<NetworkImageData>
 	trainNetworkData: TrainNetworkData;
 }
 
-export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetworkState>{
+export class TrainNetworkView extends React.Component<TrainNetworkViewProps, TrainNetworkViewState>{
 	private trainer: ImageTrainer;
 
-	public constructor(props: ITrainNetworkProps) {
+	public constructor(props: TrainNetworkViewProps) {
 		super(props);
 		this.state = {
-			images: new Array<ImageToTrainData>(),
+			images: new Array<NetworkImageData>(),
 			trainNetworkData: {
 				epochs: 10,
 				denseUnits: 100,
@@ -40,8 +40,46 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		this.trainer = new ImageTrainer();
 	}
 
+
+	//#region Training methods
+
+	private handleTrain(): void {
+		this.trainer.train(this.state.trainNetworkData).then( () => {
+			alert("Entrenamiento completo");
+		});
+	}
+
+	private addNewClassToTrainer(newClass: ClassData): void {
+		this.state.trainNetworkData.classes.push(newClass);
+		this.trainer.setNumClasses(this.state.trainNetworkData.classes.length);
+	}
+
+	private handleAddImageClass(image: NetworkImageData, selectedClass: ClassData): void {
+		image.labelData = selectedClass;
+		this.trainer.setExample(image.imageData, image.labelData.value);
+        image.classified = true;
+		image.selected = false;
+		this.forceUpdate();
+	}
+
+	//#endregion
+
+
+	//#region Prediction methods
+
+	private handleMakePrediction(imageForPrediction: NetworkImageData){
+		this.trainer.predict(imageForPrediction.imageData).then((data) => {
+            alert("Predicted: " + data);
+        });
+	}
+
+	//#endregion
+
+
+	//#region Image methods
+
 	private async onDropTrainingImageHandle(acceptedFiles: any, rejectedFiles: any) {
-		let images = new Array<ImageToTrainData>();
+		let images = new Array<NetworkImageData>();
 		for (let i = 0; i < acceptedFiles.length; i++) {
 			let url = URL.createObjectURL(acceptedFiles[i]);
 			images.push({
@@ -58,57 +96,64 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 		console.log('Images loaded!')
 	}
 
-	private handleTrain(): void {
-		this.trainer.train(this.state.trainNetworkData);
+	private onImageSelected(image: NetworkImageData): void {
+		if (!image.classified) {
+			image.selected = !image.selected;
+			this.forceUpdate();
+		}
 	}
 
+	//#endregion
+	//#region Menu methods
 
-	private onEpochsChange(newValue:number){
+	private onEpochsChange(newValue: number) {
 		let trainNetworkData = this.state.trainNetworkData;
 		trainNetworkData.epochs = newValue;
-		this.setState({trainNetworkData: trainNetworkData})
+		this.setState({ trainNetworkData: trainNetworkData })
 	}
 
-	private onDenseUnitsChange(newValue:number){
+	private onDenseUnitsChange(newValue: number) {
 		let trainNetworkData = this.state.trainNetworkData;
 		trainNetworkData.denseUnits = newValue;
-		this.setState({trainNetworkData: trainNetworkData})
+		this.setState({ trainNetworkData: trainNetworkData })
 	}
 
-	private onBatchSizeChange(newValue:number){
+	private onBatchSizeChange(newValue: number) {
 		let trainNetworkData = this.state.trainNetworkData;
 		trainNetworkData.batchSizeFraction = newValue;
-		this.setState({trainNetworkData: trainNetworkData})
+		this.setState({ trainNetworkData: trainNetworkData })
 	}
 
-	private onLearningRateChange(newValue:number){
+	private onLearningRateChange(newValue: number) {
 		let trainNetworkData = this.state.trainNetworkData;
 		trainNetworkData.learningRate = newValue;
-		this.setState({trainNetworkData: trainNetworkData})
+		this.setState({ trainNetworkData: trainNetworkData })
 	}
 
+	//#endregion
 
 	public render(): JSX.Element {
 		return (
 			<div className="horizontalLayout">
 				<div id="trainNetworkMenu">
-					<TrainNetworkMenu
+					<TrainNetworkMenuView
 						trainNetworkData={this.state.trainNetworkData}
-						trainer={this.trainer}
 						imagesData={this.state.images}
 						handleTrain={this.handleTrain.bind(this)}
+						handleAddImageClass={this.handleAddImageClass.bind(this)}
+						handleMakePrediction={this.handleMakePrediction.bind(this)}
 						onEpochsChange={this.onEpochsChange.bind(this)}
 						onDenseUnitsChange={this.onDenseUnitsChange.bind(this)}
 						onBatchSizeChange={this.onBatchSizeChange.bind(this)}
 						onLearningRateChange={this.onLearningRateChange.bind(this)}
-						
-					></TrainNetworkMenu>
+						addClassToTrainer={this.addNewClassToTrainer.bind(this)}
+					></TrainNetworkMenuView>
 				</div>
 				<div className="verticalLayout">
 					<canvas id="canvas" hidden></canvas>
 					<TrainNetworkImageViewer
 						images={this.state.images}
-						selectedClass={this.state.trainNetworkData.classes.find(item => item.selected)}
+						onImageSelected={this.onImageSelected.bind(this)}
 					>
 					</TrainNetworkImageViewer>
 					<div>
@@ -117,7 +162,7 @@ export class TrainNetwork extends React.Component<ITrainNetworkProps, ITrainNetw
 							onDrop={this.onDropTrainingImageHandle.bind(this)}
 							className="dropzoneWidthHeith dropzone"
 						>
-							<p className="dropzoneWidthHeith">Selecciona las imágenes para la clase </p>
+							<p className="dropzoneWidthHeith">Add images here </p>
 						</Dropzone>
 					</div>
 

@@ -1,10 +1,9 @@
 import React = require("react");
-import { ImageToTrainData } from "../../../entities/images/imagesForTrainData";
-import { ClassData } from "../../../entities/trainer/classData";
+import { NetworkImageData } from "../../../entities/images/NetworkImageData";
 
 interface TrainNetworkImageViewerProps {
-    images: Array<ImageToTrainData>;
-    selectedClass: ClassData;
+    images: Array<NetworkImageData>;
+    onImageSelected: (image: NetworkImageData) => void;
 }
 
 
@@ -18,22 +17,17 @@ export class TrainNetworkImageViewer extends React.Component<TrainNetworkImageVi
 
     }
 
-    private selectImage(image: ImageToTrainData) {
-        if (!image.classified) {
-            image.selected = !image.selected;
-            if (image.selected)
-                image.labelData = this.props.selectedClass;
-            this.forceUpdate();
-        }
+    private selectImage(image: NetworkImageData) {
+        this.props.onImageSelected(image);
     }
 
-    private imageSelectedClassName(image: ImageToTrainData): string {
+    private imageSelectedClassName(image: NetworkImageData): string {
         if (image.selected)
             return "imageSelected";
         return "";
     }
 
-    private imageClassifiedClassName(image: ImageToTrainData): string {
+    private imageClassifiedClassName(image: NetworkImageData): string {
         if(image.classified)
             return "imageClassified";
         return "";
@@ -42,7 +36,7 @@ export class TrainNetworkImageViewer extends React.Component<TrainNetworkImageVi
     private printImages(): Array<JSX.Element> {
         let result: Array<JSX.Element> = new Array<JSX.Element>();
         this.props.images.forEach((image, index) => {
-            let className = "imageSize " + this.imageSelectedClassName(image);
+            let className = "imageSize " + this.imageSelectedClassName(image) + " " + this.imageClassifiedClassName(image);
             let title = "";
             if (image.labelData)
                 title = image.labelData.labelName;
