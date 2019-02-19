@@ -38,8 +38,8 @@ export class TrainNetworkImageViewer extends React.Component<TrainNetworkImageVi
         this.props.images.forEach((image, index) => {
             let className = "imageSize " + this.imageSelectedClassName(image) + " " + this.imageClassifiedClassName(image);
             let title = "";
-            if (image.labelData)
-                title = image.labelData.labelName;
+            if (image.classData)
+                title = image.classData.className;
             result.push(<span key={index} className="imageOverlay"><img key={index} title={title} src={image.imageUrl} onClick={() => this.selectImage(image)} className={className}></img></span>)
         });
         return result;

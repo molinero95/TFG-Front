@@ -2,7 +2,6 @@ import React = require("react");
 import { NetworkImageData } from "../../../entities/images/NetworkImageData";
 import Dropzone from "react-dropzone";
 import { CanvasHelper } from "../../../helpers/canvasHelper";
-import { ImageTrainerConstants } from "../../trainer/constants";
 
 interface TrainNetworkPredictionMenuViewProps {
     handleMakePrediction: (imageForPrediction: NetworkImageData) => void;
@@ -33,8 +32,7 @@ export class TrainNetworkPredictionMenuView extends React.Component<TrainNetwork
         this.setState({
             imageForPrediction: {
                 imageUrl: url,
-                labelData: null,
-                imageData: await CanvasHelper.getResizedImage(url, ImageTrainerConstants.IMAGEHEIGTH, ImageTrainerConstants.IMAGEWIDTH),
+                classData: null,
                 selected: false,
                 classified: false
             }

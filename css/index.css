@@ -1,9 +1,31 @@
 html, body{
     height: 100%;
+    font-size: 1rem;
 }
 
-.white{
-    color: white !important;
+.pointerCursor{
+    cursor: pointer;
+}
+
+#addBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../resources/mas.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+}
+
+.border{
+    border: 1px;
+    border-style: solid;
+}
+
+.bigCentereWhitedText {
+    font-size: 1.3rem;
+    text-align: center;
+    color: white;
 }
 
 .active{
@@ -82,6 +104,12 @@ html, body{
 .centerContent{
     display: flex;
     justify-content: center;   
+}
+
+.HorizontalCenterLayout{
+    display: flex;
+    justify-content: center; 
+    flex-direction: column;
 }
 
 .spaceBetweenContent{
