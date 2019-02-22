@@ -1,5 +1,8 @@
 import React = require("react");
 import { ModelRequest } from "../../requests/modelRequests";
+import { SelectableModel } from "./selectableModel";
+import { ModelSelect } from "../../entities/models/modelSelect";
+import { ModelSelectorListView } from "./modelSelectorListView";
 
 interface IModelSelectorProps {
     onModelConfirmed: (modelName: string) => void;
@@ -7,8 +10,7 @@ interface IModelSelectorProps {
 }
 
 interface IModelSelectorState {
-    modelsNames: Array<string>;
-    selectedModelName: string;
+    models: Array<ModelSelect>;
 }
 
 
@@ -16,54 +18,64 @@ export class ModelSelector extends React.Component<IModelSelectorProps, IModelSe
     constructor(props: IModelSelectorProps) {
         super(props);
         this.state = {
-            modelsNames: new Array<string>(),
-            selectedModelName: null
+            models: [
+                {isSelected: false, modelName: "Modelo1"},
+                {isSelected: false, modelName: "Modelo2"},
+                {isSelected: false, modelName: "Modelo3"},
+                {isSelected: false, modelName: "Modelo4"},
+            ]
         }
     }
 
     public componentDidMount() {
-        this.RequestModelsNames();
+        this.requestModelsNames();
     }
 
-    private RequestModelsNames(): void {
-        ModelRequest.GetModelsNames().then((names: Array<string>) => {
-            this.setState({ modelsNames: name });
+    private requestModelsNames(): void {
+        ModelRequest.getModelsNames().then((names: Array<string>) => {
+            this.setState({
+                models: names.map((item, index) => {
+                    return {
+                        modelName: item,
+                        isSelected: false,
+                        localId: index
+                    };
+                })
+            });
         });
     }
 
-    private ShowModelsNames(): Array<JSX.Element> {
-        let res: Array<JSX.Element> = new Array<JSX.Element>();
-        if(this.state.modelsNames.length > 0){
-            this.state.modelsNames.forEach((name, index) => {
-                res.push(
-                    <div>
-                        <button key={index} onClick={() => this.props.onModelConfirmed(name)}>{name}</button>
-                    </div>
-                )
-            });
-        }
-        else{
-            res.push(<div key="0">No existen modelos</div>)
-        }
-        return res;
+
+
+    private onModelSelected(modelSelected: ModelSelect): void {
+        this.state.models.map((model) => {
+            if(model == modelSelected)
+                model.isSelected = !model.isSelected;
+            else
+                model.isSelected = false;
+        });
+        this.forceUpdate();
     }
 
     public render(): JSX.Element {
-        let modelNames = this.ShowModelsNames();
         return (
-            <div className="row">
-                <div className="col-md-4 offset-md-4">
-                    <div>
-                        <h4>Seleccione modelo:</h4>
+            <div className="middleOfTheScreen row align-items-center ">
+                <div className="col-md-8 offset-md-2 border borderRounded">
+                    <div className="row bg-success topBordersRounded">
+                        <h4 className="prettyMargin">Seleccione modelo:</h4>
                     </div>
                     <div>
-                        {modelNames}
+                        <ModelSelectorListView
+                            modelList={this.state.models}
+                            onModelSelected={this.onModelSelected.bind(this)}
+                        ></ModelSelectorListView>
                     </div>
-                    <div className="row " >
-                        <div className="col-md-4 offset-md-4 pointerCursor border" onClick={() => { this.props.onCreateModel() }}>
-                            <button id="addBtn" ></button>
+                    <div className="spaceBetweenContent" >
+                        <button className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={() => { this.props.onCreateModel() }}>
+                            <img id="addBtn"></img>
                             <span>Crear modelo</span>
-                        </div>
+                        </span>
                     </div>
                 </div>
             </div>

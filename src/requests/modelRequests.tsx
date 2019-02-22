@@ -2,7 +2,7 @@ import { RequestException } from "../exceptions/requestException";
 
 export class ModelRequest{
 
-    public static GetModelsNames(): Promise<Array<string>>{
+    public static getModelsNames(): Promise<Array<string>>{
         return fetch("/models", {
             method: "GET"
         })
@@ -10,7 +10,7 @@ export class ModelRequest{
         .catch(err=> {throw new RequestException(err)});
     }
 
-    public static GetModelVersions(modelName: string){
+    public static getModelVersions(modelName: string){
         return fetch("/modelVersions", {
             method: "Get"
         })
