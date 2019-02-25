@@ -1,6 +1,6 @@
 import React = require("react");
-import { ModelRequest } from "../../requests/modelRequests";
-import { ModelSelect } from "../../entities/models/modelSelect";
+import { ModelRequest } from "../../../requests/modelRequests";
+import { ModelSelect } from "../../../entities/models/modelSelect";
 
 interface ISelectableModelProps {
     model: ModelSelect

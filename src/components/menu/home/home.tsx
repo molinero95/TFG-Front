@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ModelSelector } from "../../models/modelSelector";
-import { ModelCreator } from "../../models/modelCreator";
+import { ModelSelectorAndCreator } from "../../models/modelSelectorAndCreator";
+import { ModelCreator } from "../../models/creation/modelCreator";
 
 interface IHomeProps {
 
@@ -45,10 +45,10 @@ export class Home extends React.Component<IHomeProps, IHomeState>{
         }
         else{
             return (
-                <ModelSelector
+                <ModelSelectorAndCreator
                     onCreateModel={this.onCreateModel.bind(this)}
                     onModelConfirmed={this.onModelSelected.bind(this)}
-                ></ModelSelector>
+                ></ModelSelectorAndCreator>
             );
         }
     }

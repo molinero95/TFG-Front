@@ -1,28 +1,28 @@
 import React = require("react");
 import { ModelRequest } from "../../requests/modelRequests";
-import { SelectableModel } from "./selectableModel";
+import { SelectableModel } from "./selection/selectableModel";
 import { ModelSelect } from "../../entities/models/modelSelect";
-import { ModelSelectorListView } from "./modelSelectorListView";
+import { ModelSelector } from "./selection/modelSelector";
 
-interface IModelSelectorProps {
+interface IModelSelectorAndCreatorProps {
     onModelConfirmed: (modelName: string) => void;
     onCreateModel: () => void;
 }
 
-interface IModelSelectorState {
+interface IModelSelectorAndCreatorState {
     models: Array<ModelSelect>;
 }
 
 
-export class ModelSelector extends React.Component<IModelSelectorProps, IModelSelectorState>{
-    constructor(props: IModelSelectorProps) {
+export class ModelSelectorAndCreator extends React.Component<IModelSelectorAndCreatorProps, IModelSelectorAndCreatorState>{
+    constructor(props: IModelSelectorAndCreatorProps) {
         super(props);
         this.state = {
             models: [
-                {isSelected: false, modelName: "Modelo1"},
-                {isSelected: false, modelName: "Modelo2"},
-                {isSelected: false, modelName: "Modelo3"},
-                {isSelected: false, modelName: "Modelo4"},
+                { isSelected: false, modelName: "Modelo1" },
+                { isSelected: false, modelName: "Modelo2" },
+                { isSelected: false, modelName: "Modelo3" },
+                { isSelected: false, modelName: "Modelo4" },
             ]
         }
     }
@@ -46,10 +46,9 @@ export class ModelSelector extends React.Component<IModelSelectorProps, IModelSe
     }
 
 
-
     private onModelSelected(modelSelected: ModelSelect): void {
         this.state.models.map((model) => {
-            if(model == modelSelected)
+            if (model == modelSelected)
                 model.isSelected = !model.isSelected;
             else
                 model.isSelected = false;
@@ -65,17 +64,17 @@ export class ModelSelector extends React.Component<IModelSelectorProps, IModelSe
                         <h4 className="prettyMargin">Seleccione modelo:</h4>
                     </div>
                     <div>
-                        <ModelSelectorListView
+                        <ModelSelector
                             modelList={this.state.models}
                             onModelSelected={this.onModelSelected.bind(this)}
-                        ></ModelSelectorListView>
+                        ></ModelSelector>
                     </div>
                     <div className="spaceBetweenContent" >
-                        <button className="btn noLeftMargin btn-success">Confirmar selección</button>
                         <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={() => { this.props.onCreateModel() }}>
                             <img id="addBtn"></img>
                             <span>Crear modelo</span>
                         </span>
+                        <button hidden={this.state.models.every(model => !model.isSelected)} className="btn noLeftMargin btn-success">Confirmar selección</button>
                     </div>
                 </div>
             </div>

@@ -1,19 +1,19 @@
 import React = require("react");
-import { ModelSelect } from "../../entities/models/modelSelect";
+import { ModelSelect } from "../../../entities/models/modelSelect";
 import { SelectableModel } from "./selectableModel";
 
-interface IModelSelectorListViewProps {
+interface IModelSelectorProps {
     modelList: Array<ModelSelect>;
     onModelSelected: (model: ModelSelect) => void;
 }
 
-interface IModelSelectorListViewState {
+interface IModelSelectorState {
 }
 
 
-export class ModelSelectorListView extends React.Component<IModelSelectorListViewProps, IModelSelectorListViewState>{
+export class ModelSelector extends React.Component<IModelSelectorProps, IModelSelectorState>{
 
-    public constructor(props: IModelSelectorListViewProps){
+    public constructor(props: IModelSelectorProps){
         super(props);
     }
 
