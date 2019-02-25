@@ -1,5 +1,5 @@
 import React = require("react");
-import { ModelSelect } from "../../../entities/models/modelSelect";
+import { ModelSelect } from "../../../entities/UI/models/modelSelect";
 import { SelectableModel } from "./selectableModel";
 
 interface IModelSelectorProps {

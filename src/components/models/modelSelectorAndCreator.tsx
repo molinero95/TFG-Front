@@ -1,7 +1,7 @@
 import React = require("react");
 import { ModelRequest } from "../../requests/modelRequests";
 import { SelectableModel } from "./selection/selectableModel";
-import { ModelSelect } from "../../entities/models/modelSelect";
+import { ModelSelect } from "../../entities/UI/models/modelSelect";
 import { ModelSelector } from "./selection/modelSelector";
 
 interface IModelSelectorAndCreatorProps {

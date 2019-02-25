@@ -35,13 +35,15 @@ export class Home extends React.Component<IHomeProps, IHomeState>{
         });
     }
 
-    private showInterface(): JSX.Element{
+
+
+    public render(): JSX.Element {
         if(this.state.modelIsBeingCreated){
             return (
                 <ModelCreator
                    onModelCreated={this.onModelCreated.bind(this)} 
                 ></ModelCreator>
-            )
+            );
         }
         else{
             return (
@@ -51,14 +53,5 @@ export class Home extends React.Component<IHomeProps, IHomeState>{
                 ></ModelSelectorAndCreator>
             );
         }
-    }
-
-    public render(): JSX.Element {
-        let rend = this.showInterface();
-        return (
-            <div>
-                {rend}
-            </div>
-        );
     }
 }
