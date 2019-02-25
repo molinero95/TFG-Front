@@ -36,14 +36,14 @@ export class TrainNetworkMenuView extends React.Component<TrainNetworkMenuViewPr
 
 
     private labelExists() {
-        return this.props.trainNetworkData.classes.find(item => item.labelName == this.state.newClassName);
+        return this.props.trainNetworkData.classes.find(item => item.className == this.state.newClassName);
     }
 
     private addClassName(): void {
         if (this.state.newClassName !== "" && !this.labelExists()) {
             let classesLength = this.props.trainNetworkData.classes.length;
             this.props.addClassToTrainer({
-                labelName: this.state.newClassName,
+                className: this.state.newClassName,
                 value: classesLength,
                 selected: false
             });
@@ -72,7 +72,7 @@ export class TrainNetworkMenuView extends React.Component<TrainNetworkMenuViewPr
                         this.props.handleAddImageClass(image, selectedClass);
                     }
                 });
-                alert('Deberia ser: ' + selectedClass.labelName);
+                alert('Deberia ser: ' + selectedClass.className);
             }
         }
     }
@@ -89,7 +89,7 @@ export class TrainNetworkMenuView extends React.Component<TrainNetworkMenuViewPr
         if (this.props.imagesData.find(item => item.selected))
             disabled = false;
         this.props.trainNetworkData.classes.forEach(classValue => {
-            res.push(<button onClick={(event) => this.selectClass(event, classValue)} className="btn btn-primary smallMarginTop" key={classValue.value} disabled={disabled}>{classValue.labelName}</button>);
+            res.push(<button onClick={(event) => this.selectClass(event, classValue)} className="btn btn-primary smallMarginTop" key={classValue.value} disabled={disabled}>{classValue.className}</button>);
         });
         return res;
     }

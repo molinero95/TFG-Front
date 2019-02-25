@@ -1,5 +1,5 @@
 export interface ClassData {
-    labelName: string;
+    className: string;
     value: number;
     selected: boolean;
 }
