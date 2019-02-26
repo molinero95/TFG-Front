@@ -104,6 +104,14 @@ html, body{
     flex-wrap: wrap;
 }
 
+.smallMarginRight{
+    margin-right: 1rem;
+}
+
+.smallMarginBottom{
+    margin-bottom: 1rem;
+}
+
 .smallMarginTop{
     margin-top: 1rem;
 }

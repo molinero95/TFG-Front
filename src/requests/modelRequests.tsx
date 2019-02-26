@@ -1,6 +1,6 @@
 import { RequestException } from "../exceptions/requestException";
 
-export class ModelRequest{
+export class ModelRequests{
 
     public static getModelsNames(): Promise<Array<string>>{
         return fetch("/models", {
@@ -17,4 +17,7 @@ export class ModelRequest{
         .then(data => data.json())
         .catch(err => {throw new RequestException(err)});
     }
+
+
+    
 }
