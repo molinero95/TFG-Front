@@ -22,10 +22,10 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         this.state = {
             versionCreationActive: false,
             versionsSelectList: [
-                { isSelected: false, textToShow: "Version1", item: {id: -1, name: "Version1"} },
-                { isSelected: false, textToShow: "Version2", item: {id: -1, name: "Version2"}},
-                { isSelected: false, textToShow: "Version3", item: {id: -1, name: "Version3"}},
-                { isSelected: false, textToShow: "Version4", item: {id: -1, name: "Version4"}},
+                { isSelected: false, textToShow: "Version1", item: {id: -1, name: "Version1", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4} },
+                { isSelected: false, textToShow: "Version2", item: {id: -1, name: "Version2", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
+                { isSelected: false, textToShow: "Version3", item: {id: -1, name: "Version3", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
+                { isSelected: false, textToShow: "Version4", item: {id: -1, name: "Version4", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
             ]
         }
 
@@ -36,20 +36,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
     }
 
     private requestVersionsNames(): void {
-        /*ModelRequests.getModelVersions(ApplicationState.model.name).then((names: Array<string>) => {
-            this.setState({
-                versionsSelectList: names.map((item, index) => {
-                    return {
-                        item: {
-                            id: -1,
-                            name: item,
-                        },
-                        textToShow: item,
-                        isSelected: false,
-                    };
-                })
-            });
-        });*/
+        
     }
 
     private onVersionCreated(version: ModelVersion){

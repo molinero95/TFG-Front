@@ -36,7 +36,6 @@ export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IM
         let name: string = event.target.value;
         let model = this.state.newModel;
         model.versions = new Array<ModelVersion>();
-        model.versions.push({ id: -1, name: name });
         this.setState({
             newModel: model
         });

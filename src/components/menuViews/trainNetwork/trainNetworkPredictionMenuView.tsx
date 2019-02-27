@@ -1,7 +1,6 @@
 import React = require("react");
 import { NetworkImageData } from "../../../entities/images/NetworkImageData";
 import Dropzone from "react-dropzone";
-import { CanvasHelper } from "../../../helpers/canvasHelper";
 
 interface TrainNetworkPredictionMenuViewProps {
     handleMakePrediction: (imageForPrediction: NetworkImageData) => void;

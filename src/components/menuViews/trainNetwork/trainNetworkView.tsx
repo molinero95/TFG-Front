@@ -2,7 +2,6 @@ import * as React from "react";
 import Dropzone from 'react-dropzone';
 import 'bootstrap/dist/css/bootstrap.css';
 import { initializeIcons } from '@uifabric/icons';
-import { CanvasHelper } from "../../../helpers/canvasHelper";
 import { TrainNetworkData } from "../../../entities/trainer/trainNetworkData";
 import { NetworkImageData } from "../../../entities/images/NetworkImageData";
 import { TrainNetworkImageViewer } from "./trainNetworkImageViewer";
