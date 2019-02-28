@@ -1,7 +1,7 @@
 import React = require("react");
 import { Model } from "../../../entities/models/model";
 import { ModelRequests } from "../../../requests/modelRequests";
-import { ItemSelect } from "../../../entities/itemSelection";
+import { ItemSelect } from "../../../entities/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
 

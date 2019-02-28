@@ -161,6 +161,16 @@ html, body{
     width: 100%;
 }
 
+.ribbonModelTrainer{
+    border-bottom: solid;
+    border-style: outset;
+    border-top: none;
+    border-color: green;
+    height: 15%;
+    border-left: none;
+    border-right: none;
+}
+
 .centerContent{
     display: flex;
     justify-content: center;   

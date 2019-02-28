@@ -1,5 +1,5 @@
 import React = require("react");
-import { ItemSelect } from "../../../entities/itemSelection";
+import { ItemSelect } from "../../../entities/itemSelect";
 
 
 interface ISelectableItemCompProps<T> {

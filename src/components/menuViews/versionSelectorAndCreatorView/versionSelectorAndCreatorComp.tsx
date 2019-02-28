@@ -1,6 +1,6 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/models/modelVersion";
-import { ItemSelect } from "../../../entities/itemSelection";
+import { ItemSelect } from "../../../entities/itemSelect";
 import { VersionCreatorComp } from "./versionCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
 import { ApplicationState } from "../../../applicationState";
