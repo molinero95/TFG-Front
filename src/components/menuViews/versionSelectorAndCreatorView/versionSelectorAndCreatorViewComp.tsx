@@ -10,7 +10,7 @@ interface IVersionSelectorAndCreatorViewCompProps {
 
 interface IVersionSelectorAndCreatorViewCompState {
 }
-export class VersionSelectorAndCreatorCompView extends React.Component<IVersionSelectorAndCreatorViewCompProps, IVersionSelectorAndCreatorViewCompState>{
+export class VersionSelectorAndCreatorViewComp extends React.Component<IVersionSelectorAndCreatorViewCompProps, IVersionSelectorAndCreatorViewCompState>{
 
     public constructor(props: IVersionSelectorAndCreatorViewCompProps) {
         super(props);

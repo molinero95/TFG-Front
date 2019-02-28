@@ -91,20 +91,20 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                     </div>
                     <form className="smallMarginTop">
                         <div className="form-group row">
-                            <label className="col-md-3">Nombre de la versión:</label>
+                            <label className="col-md-3 text-right">Nombre de la versión:</label>
                             <input type="text" className="form-control col-md-4"  onChange={this.onVersionNameChange.bind(this)}></input>
                         </div>
                         <div className="form-group row">
-                            <label className="col-md-3">Número de épocas: {this.state.newVersion.epochs}</label>
-                            <input type="range"  className="form-control-range col-md-3" value={this.state.newVersion.epochs} min="10" max="40" onChange={this.onEpochsValueChange.bind(this)}></input>
-                            <label className="col-md-3">Unidades de densidad: {this.state.newVersion.denseUnits}</label>
-                            <input type="range" className="form-control-range col-md-3" value={this.state.newVersion.denseUnits} min="10" max="200" onChange={this.onDenseUnitsValueChange.bind(this)}></input>
+                            <label className="offset-md-1 col-md-3 text-right">Número de épocas: {this.state.newVersion.epochs}</label>
+                            <input type="range"  className="form-control-range col-md-2" value={this.state.newVersion.epochs} min="10" max="40" onChange={this.onEpochsValueChange.bind(this)}></input>
+                            <label className="col-md-3 text-right">Unidades de densidad: {this.state.newVersion.denseUnits}</label>
+                            <input type="range" className="form-control-range col-md-2" value={this.state.newVersion.denseUnits} min="10" max="200" onChange={this.onDenseUnitsValueChange.bind(this)}></input>
                         </div>
                         <div className="form-group row">
-                            <label className="col-md-3">Ratio de aprendizaje: 1/{this.state.learningRateDec}</label>
-                            <input type="range"  className="form-control-range col-md-3" value={this.state.learningRateDec} min="10" max="10000" onChange={this.onLearningRateValueChange.bind(this)}></input>
-                            <label className="col-md-3">Unidades de densidad: {this.state.batchSizeFractionDec}/10</label>
-                            <input type="range" className="form-control-range col-md-3" value={this.state.batchSizeFractionDec} min="1" max="10" onChange={this.onBatchSizeFractionValueChange.bind(this)}></input>
+                            <label className="offset-md-1 col-md-3 text-right">Ratio de aprendizaje: 1/{this.state.learningRateDec}</label>
+                            <input type="range"  className="form-control-range col-md-2" value={this.state.learningRateDec} min="10" max="10000" onChange={this.onLearningRateValueChange.bind(this)}></input>
+                            <label className="col-md-3 text-right">Unidades de densidad: {this.state.batchSizeFractionDec}/10</label>
+                            <input type="range" className="form-control-range col-md-2" value={this.state.batchSizeFractionDec} min="1" max="10" onChange={this.onBatchSizeFractionValueChange.bind(this)}></input>
                         </div>
                         <div className="row">
                             <button onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn prettyMargin btn-success offset-md-9 col-md-2">Crear versión</button>

@@ -1,5 +1,5 @@
 import React = require("react");
-import { NetworkImageData } from "../../../entities/images/NetworkImageData";
+import { NetworkImageData } from "../../../entities/images old/NetworkImageData";
 
 interface TrainNetworkImageViewerProps {
     images: Array<NetworkImageData>;

@@ -2,7 +2,7 @@ import React = require("react");
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { TrainNetworkData } from "../../../entities/trainer/trainNetworkData";
 import { ClassData } from "../../../entities/trainer/classData";
-import { NetworkImageData } from "../../../entities/images/NetworkImageData";
+import { NetworkImageData } from "../../../entities/images old/NetworkImageData";
 import { TrainNetworkPredictionMenuView } from "./trainNetworkPredictionMenuView";
 
 

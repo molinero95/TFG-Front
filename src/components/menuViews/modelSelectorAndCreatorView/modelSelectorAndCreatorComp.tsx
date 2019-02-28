@@ -21,10 +21,10 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.state = {
             modelCreationActive: false,
             modelSelectList: [
-                { isSelected: false, textToShow: "Modelo1", item: {id: -1, name: "Modelo1", versions:[], activeVersion: null} },
-                { isSelected: false, textToShow: "Modelo1", item: {id: -1, name: "Modelo2", versions:[], activeVersion: null} },
-                { isSelected: false, textToShow: "Modelo1", item: {id: -1, name: "Modelo3", versions:[], activeVersion: null} },
-                { isSelected: false, textToShow: "Modelo1", item: {id: -1, name: "Modelo4", versions:[], activeVersion: null} },
+                { isSelected: false, textToShow: "Modelo1", item: { id: -1, name: "Modelo1", versions: [], activeVersion: null, clases: [] } },
+                { isSelected: false, textToShow: "Modelo2", item: { id: -1, name: "Modelo2", versions: [], activeVersion: null, clases: [] } },
+                { isSelected: false, textToShow: "Modelo3", item: { id: -1, name: "Modelo3", versions: [], activeVersion: null, clases: [] } },
+                { isSelected: false, textToShow: "Modelo4", item: { id: -1, name: "Modelo4", versions: [], activeVersion: null, clases: [] } },
             ]
         }
     }
@@ -42,17 +42,19 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                             id: -1,
                             name: item,
                             versions: [],
-                            activeVersion: null
+                            activeVersion: null,
+                            clases: []
                         },
                         isSelected: false,
-                        textToShow: item
+                        textToShow: item,
+
                     };
                 })
             });
         });
     }
 
-    private onModelCreated(model:Model){
+    private onModelCreated(model: Model) {
         this.setState({
             modelCreationActive: false
         });
@@ -69,19 +71,19 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.forceUpdate();
     }
 
-    private renderModelCreation(): JSX.Element{
+    private renderModelCreation(): JSX.Element {
         return (
             <ModelCreatorComp
-               onModelCreated={this.onModelCreated.bind(this)} 
+                onModelCreated={this.onModelCreated.bind(this)}
             ></ModelCreatorComp>
         );
     }
 
-    private onCreateModelBtnClick(): void{
-        this.setState({modelCreationActive: true});
+    private onCreateModelBtnClick(): void {
+        this.setState({ modelCreationActive: true });
     }
 
-    private renderModelSelection(): JSX.Element{
+    private renderModelSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 offset-md-2 border borderRounded">
@@ -107,7 +109,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
     }
 
     public render(): JSX.Element {
-        if(this.state.modelCreationActive)
+        if (this.state.modelCreationActive)
             return this.renderModelCreation();
         else
             return this.renderModelSelection();
