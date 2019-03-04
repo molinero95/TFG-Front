@@ -1,8 +1,8 @@
 import React = require("react");
 import { ModelTrainerLeftMenuComp } from "./modelTrainerLeftMenuComp";
 import { ItemSelect } from "../../../entities/itemSelect";
-import { ModelVersion } from "../../../entities/models/modelVersion";
 import { ModelClass } from "../../../entities/models/modelClass";
+import { ImageSelectorComp } from "./imageSelectorComp";
 
 
 interface IModelTrainViewCompProps {
@@ -41,7 +41,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                     ></ModelTrainerLeftMenuComp>
                 </div>
                 <div>
-                    sfaf
+                    <ImageSelectorComp></ImageSelectorComp>
                 </div>
             </div>
         );
