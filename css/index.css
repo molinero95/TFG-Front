@@ -70,6 +70,10 @@ html, body{
     border-style: solid;
 }
 
+.borderRigth{
+    border-right: 1px solid;
+}
+
 .whiteText {
     color:white;
 }
@@ -123,6 +127,8 @@ html, body{
     height: 100%;
 }
 
+
+
 .dropzoneWidthHeith{
     height: 40%;
     width: 100%;
@@ -171,10 +177,7 @@ html, body{
     border-right: none;
 }
 
-.centerContent{
-    display: flex;
-    justify-content: center;   
-}
+
 
 .HorizontalCenterLayout{
     display: flex;
@@ -182,9 +185,23 @@ html, body{
     flex-direction: column;
 }
 
+
+.centerContent{
+    display: flex;
+    justify-content: center;   
+    flex-wrap: wrap;
+}
+
 .spaceBetweenContent{
     display: flex;
     justify-content: space-between;   
+    flex-wrap: wrap;   
+}
+
+.spaceAroundContent{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;   
 }
 
 .sideMirgen{
@@ -200,6 +217,15 @@ html, body{
     width:100%;
 }
 
+.maxHeigth{
+    height: 100%;
+    overflow: hidden;
+}
+
+#menuWidth{
+    width: 25%;
+    height: 100%;
+}
 
 
 

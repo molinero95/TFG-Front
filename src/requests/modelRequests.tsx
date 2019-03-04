@@ -3,7 +3,7 @@ import { RequestException } from "../exceptions/requestException";
 export class ModelRequests{
 
     public static getModelsNames(): Promise<Array<string>>{
-        return fetch("/models", {
+        return fetch("http://localhost:3000/models", {
             method: "GET"
         })
         .then(data => data.json())

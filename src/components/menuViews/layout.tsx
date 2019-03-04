@@ -8,7 +8,7 @@ export interface LayoutProps {
 export class Layout extends React.Component<LayoutProps, {}> {    
     public render() {
         return (
-            <div className='container-fluid'>
+            <div className=''>
                 <div className='row'>
                     <NavMenu />
                 </div>
