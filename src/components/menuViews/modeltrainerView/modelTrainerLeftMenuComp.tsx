@@ -4,15 +4,19 @@ import { ItemSelect } from "../../../entities/itemSelect";
 
 interface IModelTrainerLeftMenuCompProps {
     classesWithSelection: Array<ItemSelect<ModelClass>>;
+    onConfirmedClass: (modelClass: ModelClass) => void;
 }
 interface IModelTrainerLeftMenuCompState {
-
+    selectedClass: ModelClass;
 }
 
 
 export class ModelTrainerLeftMenuComp extends React.Component<IModelTrainerLeftMenuCompProps, IModelTrainerLeftMenuCompState> {
     public constructor(props: IModelTrainerLeftMenuCompProps) {
         super(props);
+        this.state = {
+            selectedClass: null
+        }
     }
 
     private printClassButtons(): Array<JSX.Element> {
@@ -29,10 +33,10 @@ export class ModelTrainerLeftMenuComp extends React.Component<IModelTrainerLeftM
         return (
             <div className="verticalLayout container">
                 <span>Seleccione clase:</span>
-                <div className="centerContent">
+                <div className="centerContent notMaxHeigth scrollAuto">
                     {this.printClassButtons()}
                 </div>
-                <button className="btn btn-success">Confirmar</button>
+                <button className="btn btn-success topMargin" onClick={() => this.props.onConfirmedClass(this.state.selectedClass)}>Confirmar</button>
             </div>
         );
     }

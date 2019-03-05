@@ -1,6 +1,12 @@
 html, body{
-    height: 100%;
+    height: 100vh;
     font-size: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    min-height: 100vh;
 }
 
 .pointerCursor{
@@ -9,6 +15,10 @@ html, body{
 
 .middleOfTheScreen{
     height: 90% !important;
+}
+
+.topMargin {
+    margin-top: 1rem;
 }
 
 .topPadding{
@@ -74,9 +84,6 @@ html, body{
     border-right: 1px solid;
 }
 
-.whiteText {
-    color:white;
-}
 
 .bigCentereWhitedText {
     font-size: 1.3rem;
@@ -88,24 +95,10 @@ html, body{
     color: black !important;
 }
 
-#pageButtons{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-}
 
 .horizontalLayout{
     display: flex;
     flex-direction: row;
-}
-
-
-
-.horizontalLayoutSpaceEvenly{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
 }
 
 .smallMarginRight{
@@ -123,66 +116,8 @@ html, body{
 .verticalLayout{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
-}
-
-
-
-.dropzoneWidthHeith{
-    height: 40%;
-    width: 100%;
-}
-
-.predictionDropzone{
-    height: 20%;
-    width: 80%;
-}
-
-.textRight{
-    text-align: right;
-}
-
-.dropzone{
-    margin: 5px;
-    border: dashed;
-}
-
-#trainNetworkMenu{
-    width: 30%;
-    height: auto;
-    border-width: 0px;
-    border-style: solid;
-    border-color: gray;
-    border-right-width: 2px;
-}
-
-#trainNetworkImageViewer{
-    overflow-y: scroll;
-    height: 50%;
-    border-width: 0px;
-    border-style: solid;
-    border-color: gray;
-    border-bottom-width: 2px;
-    width: 100%;
-}
-
-.ribbonModelTrainer{
-    border-bottom: solid;
-    border-style: outset;
-    border-top: none;
-    border-color: green;
-    height: 15%;
-    border-left: none;
-    border-right: none;
-}
-
-
-
-.HorizontalCenterLayout{
-    display: flex;
-    justify-content: center; 
-    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
 }
 
 
@@ -204,13 +139,22 @@ html, body{
     flex-wrap: wrap;   
 }
 
-.sideMirgen{
-    margin-left: 2px;
-    margin-right: 10px;
+.initialContent{
+    display: flex;
+    justify-content: initial;
+    flex-wrap: wrap;
 }
 
-.maxBodyWidth{
-    width: 80%;
+.maxScreenWidth{
+    width: 100vw;
+}
+
+.maxScreenHeigth{
+    height: 100vh;
+}
+
+.maxScreenHeigth{
+    height: 100vh;
 }
 
 .maxWidth{
@@ -219,12 +163,34 @@ html, body{
 
 .maxHeigth{
     height: 100%;
+}
+
+.notMaxHeigth {
+    max-height: 80%;
+}
+
+
+.noScroll{
     overflow: hidden;
 }
 
+.scrollAuto{
+    overflow: auto;
+}
+
+.scrollXAuto{
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.scrollYAuto{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 #menuWidth{
-    width: 25%;
-    height: 100%;
+    width: 25vw;
+    height: 100vh;
 }
 
 
@@ -246,6 +212,10 @@ html, body{
     margin: 1px;
 }
 
+
+.limitedHeigth{
+    max-height: 40%;
+}
 
 .imageOverlay:hover img{
     -webkit-filter: grayscale(100%);

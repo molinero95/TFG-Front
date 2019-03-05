@@ -60,7 +60,7 @@ export class DynamicModelClassInputsGeneratorComp extends React.Component<IDynam
 
     public render() {
         return (
-            <div>
+            <div className="scrollYAuto limitedHeigth">
                 {this.GenerateDynamicInputs()}
             </div>
         );
