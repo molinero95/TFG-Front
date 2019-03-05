@@ -45,7 +45,8 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                 isSelected: false,
                 item: {
                     file: imageFile,
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    class: null
                 },
                 textToShow: null,
             });
@@ -61,6 +62,26 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         this.forceUpdate();
     }
 
+    private onDeselectAllImagesClick():void{
+        let diselectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
+            image.isSelected = false;
+            return image;
+        });
+        this.setState({
+            images: diselectedImages
+        });
+    }
+
+    private onSelectAllImagesClick(): void{
+        let selectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
+            image.isSelected = true;
+            return image;
+        });
+        this.setState({
+            images: selectedImages
+        });
+    }
+
     public render() {
         return (
             <div className="horizontalLayout maxHeigth">
@@ -74,34 +95,10 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                     images={this.state.images}
                     onAddedImages={this.onAddedImages.bind(this)}
                     onImageSelected={this.onImageSelected.bind(this)}
+                    onDeselectAllImagesClick={this.onDeselectAllImagesClick.bind(this)}
+                    onSelectAllImagesClick={this.onSelectAllImagesClick.bind(this)}
                 ></ImageSelectorComp>
             </div>
         );
     }
-    /*
-        public render() {
-            if (ApplicationState.model != null) {
-                let classWithSelector: Array<ItemSelect<ModelClass>> = ApplicationState.model.clases.map(item => {
-                    let res: ItemSelect<ModelClass> = {
-                        isSelected: false,
-                        item: item,
-                        textToShow: item.name,
-                    };
-                    return res;
-                });
-    
-                return (
-                    <div>
-                        <ModelTrainerTopMenuComp
-                            classesWithSelection={classWithSelector}
-                        ></ModelTrainerTopMenuComp>
-                    </div>
-                );
-            }
-            else
-                return (
-                    <div>
-                    </div>  //alert aqui
-                );
-        }*/
 }
