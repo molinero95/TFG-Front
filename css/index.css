@@ -29,6 +29,10 @@ body{
     padding-right: 1rem;
 }
 
+.leftPadding{
+    padding-left: 1rem;
+}
+
 .topBordersRounded{
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;

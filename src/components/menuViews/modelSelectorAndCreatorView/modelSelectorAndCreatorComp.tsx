@@ -90,7 +90,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                     <div className="row bg-success topBordersRounded">
                         <h4 className="prettyMargin text-white">Seleccione modelo:</h4>
                     </div>
-                    <div>
+                    <div className="notMaxHeigth scrollAuto">
                         <ItemSelectorComp
                             itemSelectionList={this.state.modelSelectList}
                             onItemSelected={this.onModelSelected.bind(this)}

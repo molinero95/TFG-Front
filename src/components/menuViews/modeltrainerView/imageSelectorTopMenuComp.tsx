@@ -15,9 +15,12 @@ export class ImageSelectorTopMenuComp extends React.Component<IImageSelectorTopM
 
     public render() {
         return (
-            <div className="smallIconNavBar maxWidth text-right">
-                <button id="selectAllBtn" onClick={this.props.onSelectAllClick}></button>
-                <button id="deselectAllBtn" onClick={this.props.onDeselectAllClick}></button>
+            <div className="smallIconNavBar maxWidth spaceBetweenContent">
+                <span className="leftPadding">Arrastre imagenes aqui:</span>
+                <span className="text-right ">
+                    <button id="selectAllBtn" onClick={this.props.onSelectAllClick}></button>
+                    <button id="deselectAllBtn" onClick={this.props.onDeselectAllClick}></button>
+                </span>
             </div>
         );
     }

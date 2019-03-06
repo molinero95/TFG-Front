@@ -22,6 +22,8 @@ export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, 
         super(props);
     }
 
+    
+
     private onDropItem(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.props.onAddedImages(accepted);
     }
@@ -57,7 +59,6 @@ export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, 
                     onSelectAllClick={this.props.onSelectAllImagesClick}
                 ></ImageSelectorTopMenuComp>
                 <Dropzone className="maxHeigth maxWidth scrollYAuto" onDrop={this.onDropItem.bind(this)} disableClick={true} >
-                    <div>Arrastre imagenes aqui:</div>
                     <div className="">
                         {this.showImages()}
                     </div>

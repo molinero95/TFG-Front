@@ -1,5 +1,5 @@
 import { Model } from "./entities/models/model";
 
 export class ApplicationState{
-    public static model: Model;
+    public static model: Model = null;
 }

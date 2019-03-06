@@ -26,6 +26,8 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                 { isSelected: false, textToShow: "Version2", item: {id: -1, name: "Version2", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
                 { isSelected: false, textToShow: "Version3", item: {id: -1, name: "Version3", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
                 { isSelected: false, textToShow: "Version4", item: {id: -1, name: "Version4", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
+                { isSelected: false, textToShow: "Version5", item: {id: -1, name: "Version5", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
+                { isSelected: false, textToShow: "Version6", item: {id: -1, name: "Version6", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
             ]
         }
 
@@ -75,7 +77,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                     <div className="row bg-success topBordersRounded">
                         <h4 className="prettyMargin text-white">Seleccione version:</h4>
                     </div>
-                    <div>
+                    <div className="notMaxHeigth scrollAuto">
                         <ItemSelectorComp<ModelVersion>
                             itemSelectionList={this.state.versionsSelectList}
                             onItemSelected={this.onVersionSelected.bind(this)}

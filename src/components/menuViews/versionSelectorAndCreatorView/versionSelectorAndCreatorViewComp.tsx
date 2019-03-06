@@ -18,6 +18,9 @@ export class VersionSelectorAndCreatorViewComp extends React.Component<IVersionS
         };
     }
 
+    public componentWillMount(){
+//todo
+    }
 
     private onVersionSelected(modelVersion: ModelVersion) {
         ApplicationState.model.activeVersion = modelVersion;
