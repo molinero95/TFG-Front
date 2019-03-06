@@ -3,8 +3,6 @@ import { ModelVersion } from "../../../entities/models/modelVersion";
 import { ItemSelect } from "../../../entities/itemSelect";
 import { VersionCreatorComp } from "./versionCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
-import { ApplicationState } from "../../../applicationState";
-import { ModelRequests } from "../../../requests/modelRequests";
 
 interface IVersionSelectorAndCreatorCompProps {
     onVersionSelectionConfirmed: (version: ModelVersion) => void;
@@ -70,6 +68,10 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         this.setState({versionCreationActive: true});
     }
 
+    private getVersionSelected(): ModelVersion{
+        return this.state.versionsSelectList.find(version => version.isSelected).item;
+    }
+
     private renderVersionSelection(): JSX.Element{
         return (
             <div className="middleOfTheScreen row align-items-center ">
@@ -88,7 +90,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                             <img id="addBtn"></img>
                             <span>Crear version</span>
                         </span>
-                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={()=> this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
                     </div>
                 </div>
             </div>

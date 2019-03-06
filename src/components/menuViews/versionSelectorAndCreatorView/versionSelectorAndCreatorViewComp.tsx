@@ -3,6 +3,7 @@ import { Model } from "../../../entities/models/model";
 import { ApplicationState } from "../../../applicationState";
 import { VersionSelectorAndCreatorComp } from "./versionSelectorAndCreatorComp";
 import { ModelVersion } from "../../../entities/models/modelVersion";
+import { RouterUtils } from "../../../utils/routerUtils";
 
 interface IVersionSelectorAndCreatorViewCompProps {
 
@@ -19,11 +20,15 @@ export class VersionSelectorAndCreatorViewComp extends React.Component<IVersionS
     }
 
     public componentWillMount(){
-//todo
+        if(!RouterUtils.ModelSelected()){
+            alert("No hay modelo seleccionado");
+            history.back();
+        }
     }
 
     private onVersionSelected(modelVersion: ModelVersion) {
         ApplicationState.model.activeVersion = modelVersion;
+        alert(`Version: ${modelVersion.name} seleccionada correctamente`);
     }
 
     public render(): JSX.Element {

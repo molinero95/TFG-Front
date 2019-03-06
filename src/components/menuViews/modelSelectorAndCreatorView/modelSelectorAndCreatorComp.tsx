@@ -83,6 +83,10 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.setState({ modelCreationActive: true });
     }
 
+    private getModelSelected(): Model{
+        return this.state.modelSelectList.find(model => model.isSelected).item;
+    }
+
     private renderModelSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
@@ -101,7 +105,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                             <img id="addBtn"></img>
                             <span>Crear modelo</span>
                         </span>
-                        <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
                     </div>
                 </div>
             </div>

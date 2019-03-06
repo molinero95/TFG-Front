@@ -4,6 +4,7 @@ import { ItemSelect } from "../../../entities/itemSelect";
 import { ModelClass } from "../../../entities/models/modelClass";
 import { ImageSelectorComp } from "./imageSelectorComp";
 import { ImageItem } from "../../../entities/images/ImageItem";
+import { RouterUtils } from "../../../utils/routerUtils";
 
 
 interface IModelTrainViewCompProps {
@@ -29,6 +30,16 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                 { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
             ],
             images: []
+        }
+    }
+
+    public componentWillMount(){
+        if(!RouterUtils.ModelAndVersionSelected()){
+            if(!RouterUtils.ModelSelected)
+                alert("No hay modelo seleccionado");
+            else
+                alert("No hay versión seleccionada");
+            history.back();
         }
     }
 

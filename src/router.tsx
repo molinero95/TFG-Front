@@ -8,6 +8,7 @@ import { PredictionsViewComp } from './components/menuViews/predictionsView/pred
 
 export const routes =
     <Layout>
+        <Route exact path='/' component={ModelSelectorAndCreatorViewComp} />
         <Route exact path='/selectModel' component={ModelSelectorAndCreatorViewComp} />
         <Route exact path='/selectVersion' component={VersionSelectorAndCreatorViewComp} />
         <Route exact path='/train' component={ModelTrainerViewComp} />
