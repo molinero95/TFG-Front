@@ -20,12 +20,12 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         this.state = {
             versionCreationActive: false,
             versionsSelectList: [
-                { isSelected: false, textToShow: "Version1", item: {id: -1, name: "Version1", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4} },
-                { isSelected: false, textToShow: "Version2", item: {id: -1, name: "Version2", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
-                { isSelected: false, textToShow: "Version3", item: {id: -1, name: "Version3", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
-                { isSelected: false, textToShow: "Version4", item: {id: -1, name: "Version4", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
-                { isSelected: false, textToShow: "Version5", item: {id: -1, name: "Version5", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
-                { isSelected: false, textToShow: "Version6", item: {id: -1, name: "Version6", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4}},
+                { isSelected: false, textToShow: "Version1", item: { id: -1, name: "Version1", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version2", item: { id: -1, name: "Version2", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version3", item: { id: -1, name: "Version3", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version4", item: { id: -1, name: "Version4", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version5", item: { id: -1, name: "Version5", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version6", item: { id: -1, name: "Version6", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
             ]
         }
 
@@ -36,10 +36,10 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
     }
 
     private requestVersionsNames(): void {
-        
+
     }
 
-    private onVersionCreated(version: ModelVersion){
+    private onVersionCreated(version: ModelVersion) {
         this.setState({
             versionCreationActive: false
         });
@@ -56,23 +56,23 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         this.forceUpdate();
     }
 
-    private renderVersionCreation(): JSX.Element{
+    private renderVersionCreation(): JSX.Element {
         return (
             <VersionCreatorComp
-               onVersionCreated={this.onVersionCreated.bind(this)} 
+                onVersionCreated={this.onVersionCreated.bind(this)}
             ></VersionCreatorComp>
         );
     }
 
-    private onCreateVersionBtnClick(): void{
-        this.setState({versionCreationActive: true});
+    private onCreateVersionBtnClick(): void {
+        this.setState({ versionCreationActive: true });
     }
 
-    private getVersionSelected(): ModelVersion{
+    private getVersionSelected(): ModelVersion {
         return this.state.versionsSelectList.find(version => version.isSelected).item;
     }
 
-    private renderVersionSelection(): JSX.Element{
+    private renderVersionSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 offset-md-2 border borderRounded">
@@ -90,7 +90,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                             <img id="addBtn"></img>
                             <span>Crear version</span>
                         </span>
-                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={()=> this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={() => this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
     }
 
     public render(): JSX.Element {
-        if(this.state.versionCreationActive)
+        if (this.state.versionCreationActive)
             return this.renderVersionCreation();
         else
             return this.renderVersionSelection();

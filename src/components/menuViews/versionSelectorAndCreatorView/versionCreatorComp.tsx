@@ -1,5 +1,7 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/models/modelVersion";
+import { DynamicModelClassInputsGeneratorComp } from "../modelSelectorAndCreatorView/dynamicModelClassInputsGeneratorComp";
+import { ModelClass } from "../../../entities/models/modelClass";
 
 
 interface IVersionCreatorCompProps {
@@ -22,7 +24,8 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                 batchSizeFraction: 0.4,
                 denseUnits:100,
                 epochs: 10,
-                learningRate: 0.00001
+                learningRate: 0.00001,
+                classes: []
             },
             learningRateDec: 1000,
             batchSizeFractionDec: 4,
@@ -78,7 +81,21 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
         });
     }
 
+    private onClassNameChange(newName: string, classItem: ModelClass): void {
+        let version = this.state.newVersion;
+        version.classes.find(versionClass => versionClass.name == classItem.name).name = newName;
+        this.setState({
+            newVersion: version
+        });
+    }
 
+    private onAddNewClassBtnClick(){
+        let version = this.state.newVersion;
+        version.classes.push({ id: version.classes.length, name: "" })  //Lo del ID es temporal
+        this.setState({
+            newVersion: version
+        });
+    }
 
 
 
@@ -106,8 +123,16 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                             <label className="col-md-3 text-right">Unidades de densidad: {this.state.batchSizeFractionDec}/10</label>
                             <input type="range" className="form-control-range col-md-2" value={this.state.batchSizeFractionDec} min="1" max="10" onChange={this.onBatchSizeFractionValueChange.bind(this)}></input>
                         </div>
-                        <div className="row">
-                            <button onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn prettyMargin btn-success offset-md-9 col-md-2">Crear versión</button>
+                        <DynamicModelClassInputsGeneratorComp
+                            classes={this.state.newVersion.classes}
+                            onClassNameChange={this.onClassNameChange.bind(this)}
+                        ></DynamicModelClassInputsGeneratorComp>
+                        <div className="spaceBetweenContent" >
+                            <span className=" noLeftMargin  btn pointerCursor btn-light" onClick={this.onAddNewClassBtnClick.bind(this)}>
+                                <img id="addBtn"></img>
+                                <span>Añadir clase</span>
+                            </span>
+                            <button hidden={this.state.newVersion.classes.length < 2} onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn btn-success">Crear versión</button>
                         </div>
                     </form>
                 </div>

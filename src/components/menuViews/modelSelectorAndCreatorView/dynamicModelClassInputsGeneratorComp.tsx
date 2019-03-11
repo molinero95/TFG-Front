@@ -3,7 +3,7 @@ import React = require("react");
 
 interface IDynamicModelClassInputsGeneratorCompProps {
     classes: Array<ModelClass>;
-    onModelClassChange: (value: string, modelClass: ModelClass) => void;
+    onClassNameChange: (value: string, modelClass: ModelClass) => void;
 }
 
 interface IDynamicModelClassInputsGeneratorCompState {
@@ -16,9 +16,9 @@ export class DynamicModelClassInputsGeneratorComp extends React.Component<IDynam
         super(props);
     }
 
-    private onModelClassChange(event: React.ChangeEvent<HTMLInputElement>, modelClass: ModelClass) {
+    private onClassNameChange(event: React.ChangeEvent<HTMLInputElement>, modelClass: ModelClass) {
         let value = event.target.value;
-        this.props.onModelClassChange(value, modelClass);   //lo hacemos asi para que haya un cambio de estado
+        this.props.onClassNameChange(value, modelClass);   //lo hacemos asi para que haya un cambio de estado
     }
 
 
@@ -37,7 +37,7 @@ export class DynamicModelClassInputsGeneratorComp extends React.Component<IDynam
                 );
             }
             lineArray.push(
-                <input key={"i" + index.toString()} type="text" className="col-md-3 form-control" value={modelClass.name} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onModelClassChange(event, modelClass)}></input>
+                <input key={"i" + index.toString()} type="text" className="col-md-3 form-control" value={modelClass.name} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onClassNameChange(event, modelClass)}></input>
             );
             if (index == this.props.classes.length - 1) {   //ultimo
                 res.push(

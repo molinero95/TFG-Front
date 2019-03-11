@@ -1,3 +1,5 @@
+import { ModelClass } from "./modelClass";
+
 export interface ModelVersion{
     id: number;
     name: string;
@@ -5,4 +7,5 @@ export interface ModelVersion{
     denseUnits: number;
     learningRate: number;
     batchSizeFraction: number;
+    classes: Array<ModelClass>;
 }
