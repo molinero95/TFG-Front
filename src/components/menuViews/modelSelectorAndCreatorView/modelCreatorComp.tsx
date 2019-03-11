@@ -40,8 +40,8 @@ export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IM
     public render() {
         return (
             <div className="middleOfTheScreen row align-items-center ">
-                <div className="col-md-8 offset-md-2 border borderRounded">
-                    <div className="row bg-success topBordersRounded">
+                <div className="col-md-8 offset-md-2 border borderRounded whiteBg">
+                    <div className="row primaryColorBg topBordersRounded">
                         <h4 className="prettyMargin text-white">Creacion de modelo:</h4>
                     </div>
                     <form className="smallMarginTop">
