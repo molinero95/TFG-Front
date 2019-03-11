@@ -90,8 +90,8 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
     private renderModelSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
-                <div className="col-md-8 offset-md-2 border borderRounded">
-                    <div className="row bg-success topBordersRounded">
+                <div className="col-md-8 offset-md-2 border borderRounded whiteBg">
+                    <div className="row topBordersRounded primaryColorBg">
                         <h4 className="prettyMargin text-white">Seleccione modelo:</h4>
                     </div>
                     <div className="notMaxHeigth scrollAuto">
@@ -105,7 +105,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                             <img id="addBtn"></img>
                             <span>Crear modelo</span>
                         </span>
-                        <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>
                 </div>
             </div>

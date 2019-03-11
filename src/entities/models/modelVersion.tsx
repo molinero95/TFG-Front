@@ -1,4 +1,4 @@
-import { ModelClass } from "./modelClass";
+import { ClassItem } from "./modelClass";
 
 export interface ModelVersion{
     id: number;
@@ -7,5 +7,5 @@ export interface ModelVersion{
     denseUnits: number;
     learningRate: number;
     batchSizeFraction: number;
-    classes: Array<ModelClass>;
+    classes: Array<ClassItem>;
 }

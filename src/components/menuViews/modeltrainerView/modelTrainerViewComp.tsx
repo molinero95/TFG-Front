@@ -1,7 +1,7 @@
 import React = require("react");
 import { ModelTrainerLeftMenuComp } from "./modelTrainerLeftMenuComp";
 import { ItemSelect } from "../../../entities/itemSelect";
-import { ModelClass } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/modelClass";
 import { ImageSelectorComp } from "./imageSelectorComp";
 import { ImageItem } from "../../../entities/images/ImageItem";
 import { RouterUtils } from "../../../utils/routerUtils";
@@ -12,7 +12,7 @@ interface IModelTrainViewCompProps {
 }
 
 interface IModelTrainViewCompState {
-    testClasses: Array<ItemSelect<ModelClass>>;
+    testClasses: Array<ItemSelect<ClassItem>>;
     images: Array<ItemSelect<ImageItem>>;
 }
 
@@ -44,7 +44,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
     }
 
 
-    private onConfirmedClass(modelClass: ModelClass): void {
+    private onConfirmedClass(modelClass: ClassItem): void {
         //TODO coger imagenes seleccionadas y añadiles las clase
     }
 
@@ -93,6 +93,20 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
+    private onRemoveImagesClick(): void{
+        let images = this.state.images;
+        let i = 0;
+        while(i < images.length){
+            if(images[i].isSelected)
+                images.splice(i, 1);
+            else
+                i++;
+        }
+        this.setState({
+            images: images
+        });
+    }
+
     public render() {
         return (
             <div className="horizontalLayout maxHeigth">
@@ -108,6 +122,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                     onImageSelected={this.onImageSelected.bind(this)}
                     onDeselectAllImagesClick={this.onDeselectAllImagesClick.bind(this)}
                     onSelectAllImagesClick={this.onSelectAllImagesClick.bind(this)}
+                    onRemoveImagesClick={this.onRemoveImagesClick.bind(this)}
                 ></ImageSelectorComp>
             </div>
         );

@@ -75,8 +75,8 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
     private renderVersionSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
-                <div className="col-md-8 offset-md-2 border borderRounded">
-                    <div className="row bg-success topBordersRounded">
+                <div className="col-md-8 whiteBg offset-md-2 border borderRounded">
+                    <div className="row primaryColorBg topBordersRounded">
                         <h4 className="prettyMargin text-white">Seleccione version:</h4>
                     </div>
                     <div className="notMaxHeigth scrollAuto">
@@ -90,7 +90,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                             <img id="addBtn"></img>
                             <span>Crear version</span>
                         </span>
-                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={() => this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin btn-success">Confirmar selección</button>
+                        <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={() => this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>
                 </div>
             </div>

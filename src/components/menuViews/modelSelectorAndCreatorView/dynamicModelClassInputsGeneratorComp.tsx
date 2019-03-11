@@ -1,9 +1,9 @@
-import { ModelClass } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/modelClass";
 import React = require("react");
 
 interface IDynamicModelClassInputsGeneratorCompProps {
-    classes: Array<ModelClass>;
-    onClassNameChange: (value: string, modelClass: ModelClass) => void;
+    classes: Array<ClassItem>;
+    onClassNameChange: (value: string, modelClass: ClassItem) => void;
 }
 
 interface IDynamicModelClassInputsGeneratorCompState {
@@ -16,7 +16,7 @@ export class DynamicModelClassInputsGeneratorComp extends React.Component<IDynam
         super(props);
     }
 
-    private onClassNameChange(event: React.ChangeEvent<HTMLInputElement>, modelClass: ModelClass) {
+    private onClassNameChange(event: React.ChangeEvent<HTMLInputElement>, modelClass: ClassItem) {
         let value = event.target.value;
         this.props.onClassNameChange(value, modelClass);   //lo hacemos asi para que haya un cambio de estado
     }

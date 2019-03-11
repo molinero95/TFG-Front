@@ -1,7 +1,7 @@
-import { ModelClass } from "../models/modelClass";
+import { ClassItem } from "../models/modelClass";
 
 export interface ImageItem{
     file: File,
     imageUrl: string,
-    class: ModelClass,
+    class: ClassItem,
 }

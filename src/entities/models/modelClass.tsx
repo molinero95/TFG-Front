@@ -1,4 +1,4 @@
-export interface ModelClass{
+export interface ClassItem{
     id: number;
     name: string;
 }

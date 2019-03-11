@@ -11,6 +11,7 @@ interface IImageSelectorCompProps {
     onImageSelected: (image: ImageItem) => void;
     onDeselectAllImagesClick: () => void;
     onSelectAllImagesClick: () => void;
+    onRemoveImagesClick: () => void;
     images: Array<ItemSelect<ImageItem>>;
 }
 
@@ -57,6 +58,7 @@ export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, 
                 <ImageSelectorTopMenuComp
                     onDeselectAllClick={this.props.onDeselectAllImagesClick}
                     onSelectAllClick={this.props.onSelectAllImagesClick}
+                    onRemoveImagesClick={this.props.onRemoveImagesClick}
                 ></ImageSelectorTopMenuComp>
                 <Dropzone className="maxHeigth maxWidth scrollYAuto" onDrop={this.onDropItem.bind(this)} disableClick={true} >
                     <div className="topPadding">

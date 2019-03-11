@@ -7,6 +7,7 @@ html, body{
 
 body{
     min-height: 100vh;
+    background: #E1E2E1 !important;
 }
 
 .pointerCursor{
@@ -72,6 +73,17 @@ body{
     border: 0;
     background-color: transparent;
     background-image: url("../resources/mas.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+#removeImageBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../resources/boton-de-borrar.png");
     background-size: cover;
     width: 1rem;
     height: 1rem;
@@ -226,7 +238,7 @@ body{
 .imageSelected {
     border-style: solid;
     border-width: 5px;
-    border-color: blue;
+    border-color: #00857c;
 }
 
 .imageClassified{
@@ -251,4 +263,19 @@ body{
 
 .smallIconNavBar{
     height: 1.5rem;
+}
+
+
+.primaryColorBg{
+    background: #00857c !important;
+    color:white !important;
+}
+
+.whiteBg{
+    background: white;
+}
+
+.secondaryColorBg{
+    background: #D78193 !important;
+    color:white !important;
 }

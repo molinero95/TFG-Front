@@ -1,7 +1,7 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/models/modelVersion";
 import { DynamicModelClassInputsGeneratorComp } from "../modelSelectorAndCreatorView/dynamicModelClassInputsGeneratorComp";
-import { ModelClass } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/modelClass";
 
 
 interface IVersionCreatorCompProps {
@@ -81,7 +81,7 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
         });
     }
 
-    private onClassNameChange(newName: string, classItem: ModelClass): void {
+    private onClassNameChange(newName: string, classItem: ClassItem): void {
         let version = this.state.newVersion;
         version.classes.find(versionClass => versionClass.name == classItem.name).name = newName;
         this.setState({

@@ -1,7 +1,7 @@
 import React = require("react");
 import { Model } from "../../../entities/models/model";
 import { DynamicModelClassInputsGeneratorComp } from "./dynamicModelClassInputsGeneratorComp";
-import { ModelClass } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/modelClass";
 
 interface IModelCreatorCompProps {
     onModelCreated: (newModel: Model) => void;
