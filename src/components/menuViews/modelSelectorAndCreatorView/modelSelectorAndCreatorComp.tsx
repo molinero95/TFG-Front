@@ -4,6 +4,7 @@ import { ModelRequests } from "../../../requests/modelRequests";
 import { ItemSelect } from "../../../entities/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
+import { Item } from "react-bootstrap/lib/Pager";
 
 interface IModelSelectorAndCreatorCompProps {
     onModelSelectionConfirmed: (model: Model) => void;
@@ -20,7 +21,9 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         super(props);
         this.state = {
             modelCreationActive: false,
-            modelSelectList: []
+            modelSelectList: [
+                {isSelected: false, item: {activeVersion: null, id: 0, name: "Model 1", versions: []},  textToShow: "Model 1",}
+            ]
         }
     }
 
@@ -98,8 +101,8 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                         ></ItemSelectorComp>
                     </div>
                     <div className="spaceBetweenContent" >
-                        <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
-                            <img id="addBtn"></img>
+                        <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
+                            <img id="addBtn" className="borderRounded"></img>
                             <span>Crear modelo</span>
                         </span>
                         <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>

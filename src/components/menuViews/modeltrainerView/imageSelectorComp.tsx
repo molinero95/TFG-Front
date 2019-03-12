@@ -60,8 +60,8 @@ export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, 
                     onSelectAllClick={this.props.onSelectAllImagesClick}
                     onRemoveImagesClick={this.props.onRemoveImagesClick}
                 ></ImageSelectorTopMenuComp>
-                <Dropzone className="maxHeigth maxWidth scrollYAuto" onDrop={this.onDropItem.bind(this)} disableClick={true} >
-                    <div className="topPadding">
+                <Dropzone className="maxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
+                    <div className="topPadding prettyMargin">
                         {this.showImages()}
                     </div>
                 </Dropzone>

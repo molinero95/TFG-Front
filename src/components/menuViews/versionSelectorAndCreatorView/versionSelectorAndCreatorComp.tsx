@@ -20,12 +20,12 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         this.state = {
             versionCreationActive: false,
             versionsSelectList: [
-                { isSelected: false, textToShow: "Version1", item: { id: -1, name: "Version1", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
-                { isSelected: false, textToShow: "Version2", item: { id: -1, name: "Version2", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
-                { isSelected: false, textToShow: "Version3", item: { id: -1, name: "Version3", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
-                { isSelected: false, textToShow: "Version4", item: { id: -1, name: "Version4", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
-                { isSelected: false, textToShow: "Version5", item: { id: -1, name: "Version5", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
-                { isSelected: false, textToShow: "Version6", item: { id: -1, name: "Version6", learningRate: 0.00001, epochs: 10, denseUnits: 100, batchSizeFraction: 0.4, classes: [] } },
+                { isSelected: false, textToShow: "Version1", item: { id: -1, name: "Version1", classes: [] } },
+                { isSelected: false, textToShow: "Version2", item: { id: -1, name: "Version2", classes: [] } },
+                { isSelected: false, textToShow: "Version3", item: { id: -1, name: "Version3", classes: [] } },
+                { isSelected: false, textToShow: "Version4", item: { id: -1, name: "Version4", classes: [] } },
+                { isSelected: false, textToShow: "Version5", item: { id: -1, name: "Version5", classes: [] } },
+                { isSelected: false, textToShow: "Version6", item: { id: -1, name: "Version6", classes: [] } },
             ]
         }
 
@@ -87,8 +87,8 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                     </div>
                     <div className="spaceBetweenContent" >
                         <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
-                            <img id="addBtn"></img>
-                            <span>Crear version</span>
+                            <img id="addBtn" className="borderRounded"></img>
+                            <span>Crear versión</span>
                         </span>
                         <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={() => this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>

@@ -72,7 +72,7 @@ body{
 #addBtn{
     border: 0;
     background-color: transparent;
-    background-image: url("../resources/mas.png");
+    background-image: url("../resources/anadir-verde-gordito-relleno-02.png");
     background-size: cover;
     width: 1rem;
     height: 1rem;
@@ -83,18 +83,19 @@ body{
 #removeImageBtn{
     border: 0;
     background-color: transparent;
-    background-image: url("../resources/boton-de-borrar.png");
+    background-image: url("../resources/eliminar-negro-gordito-02-02.png");
     background-size: cover;
     width: 1rem;
     height: 1rem;
     vertical-align: middle;
     margin-right: 0.5rem;
+    margin-top: 0.2rem;
 }
 
 #selectAllBtn{
     border: 0;
     background-color: transparent;
-    background-image: url("../resources/select-all.png");
+    background-image: url("../resources/seleccionar-negro-gordito-02-02.png");
     background-size: cover;
     width: 1rem;
     height: 1rem;
@@ -106,7 +107,7 @@ body{
 #deselectAllBtn{
     border: 0;
     background-color: transparent;
-    background-image: url("../resources/check-box-empty.png");
+    background-image: url("../resources/deseleccionar-negro-gordito-02-02.png");
     background-size: cover;
     width: 1rem;
     height: 1rem;
@@ -165,24 +166,31 @@ body{
     display: flex;
     justify-content: center;   
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .spaceBetweenContent{
     display: flex;
     justify-content: space-between;   
     flex-wrap: wrap;   
+    align-items: center;
+
 }
 
 .spaceAroundContent{
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;  
+    align-items: center;
+ 
 }
 
 .initialContent{
     display: flex;
     justify-content: initial;
     flex-wrap: wrap;
+    align-items: center;
+
 }
 
 .maxScreenWidth{
@@ -209,6 +217,9 @@ body{
     max-height: 80%;
 }
 
+.halfHeigth{
+    max-height: 50%;
+}
 
 .noScroll{
     overflow: hidden;
@@ -229,7 +240,7 @@ body{
 }
 
 #menuWidth{
-    width: 25vw;
+    width: 40%;
     height: 100vh;
 }
 
@@ -249,7 +260,7 @@ body{
 .imageSize{
     height: 124px;
     width: 124px;
-    margin: 1px;
+    margin: 0.3rem;
 }
 
 
