@@ -33,10 +33,6 @@ export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IM
         });
     }
 
-
-    
-
-
     public render() {
         return (
             <div className="middleOfTheScreen row align-items-center ">
@@ -51,7 +47,7 @@ export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IM
                         </div>
                         <button
                                 onClick={() => { this.props.onModelCreated(this.state.newModel) }}
-                                className="btn btn-success prettyMargin offset-md-9 col-md-2" >Crear modelo
+                                className="btn secondaryColorBg prettyMargin offset-md-9 col-md-2" >Crear modelo
                         </button>
                     </form>
                 </div>

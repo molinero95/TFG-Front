@@ -4,6 +4,7 @@ import { ModelRequests } from "../../../requests/modelRequests";
 import { ItemSelect } from "../../../entities/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
+import { Item } from "react-bootstrap/lib/Pager";
 
 interface IModelSelectorAndCreatorCompProps {
     onModelSelectionConfirmed: (model: Model) => void;
@@ -21,10 +22,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.state = {
             modelCreationActive: false,
             modelSelectList: [
-                { isSelected: false, textToShow: "Modelo1", item: { id: -1, name: "Modelo1", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo2", item: { id: -1, name: "Modelo2", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo3", item: { id: -1, name: "Modelo3", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo4", item: { id: -1, name: "Modelo4", versions: [], activeVersion: null } },
+                {isSelected: false, item: {activeVersion: null, id: 0, name: "Model 1", versions: []},  textToShow: "Model 1",}
             ]
         }
     }
@@ -32,6 +30,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
     public componentDidMount() {
         this.requestModelsNames();
     }
+
 
     private requestModelsNames(): void {
         ModelRequests.getModelsNames().then((names: Array<string>) => {
@@ -58,6 +57,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.setState({
             modelCreationActive: false
         });
+        ModelRequests.postCreateModel(model.name);
         this.requestModelsNames();
     }
 
@@ -101,8 +101,8 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                         ></ItemSelectorComp>
                     </div>
                     <div className="spaceBetweenContent" >
-                        <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
-                            <img id="addBtn"></img>
+                        <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
+                            <img id="addBtn" className="borderRounded"></img>
                             <span>Crear modelo</span>
                         </span>
                         <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>

@@ -9,7 +9,9 @@ interface IModelSelectorAndCreatorViewCompProps {
 }
 
 interface IModelSelectorAndCreatorViewCompState {
+
 }
+
 export class ModelSelectorAndCreatorViewComp extends React.Component<IModelSelectorAndCreatorViewCompProps, IModelSelectorAndCreatorViewCompState>{
 
     public constructor(props: IModelSelectorAndCreatorViewCompProps) {

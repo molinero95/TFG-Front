@@ -5,6 +5,7 @@ import { ClassItem } from "../../../entities/models/modelClass";
 import { ImageSelectorComp } from "./imageSelectorComp";
 import { ImageItem } from "../../../entities/images/ImageItem";
 import { RouterUtils } from "../../../utils/routerUtils";
+import { TrainParameters } from "../../../entities/models/trainParameters";
 
 
 interface IModelTrainViewCompProps {
@@ -14,6 +15,7 @@ interface IModelTrainViewCompProps {
 interface IModelTrainViewCompState {
     testClasses: Array<ItemSelect<ClassItem>>;
     images: Array<ItemSelect<ImageItem>>;
+    trainParameters: TrainParameters;
 }
 
 export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompProps, IModelTrainViewCompState>{
@@ -21,15 +23,24 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         super(props);
         this.state = {
             testClasses: [
-                { isSelected: false, textToShow: "clase1", item: { id: 0, name: "clase1" } },
-                { isSelected: false, textToShow: "clase2", item: { id: 0, name: "clase2" } },
-                { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
-                { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
-                { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
-                { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
-                { isSelected: false, textToShow: "clase3", item: { id: 0, name: "clase3" } },
+                {isSelected: false, item: {id: 0, name: "Clase 1"}, textToShow: "Clase 1"},
+                {isSelected: false, item: {id: 0, name: "Clase 2"}, textToShow: "Clase 2"},
+                {isSelected: false, item: {id: 0, name: "Clase 3"}, textToShow: "Clase 3"},
+                {isSelected: false, item: {id: 0, name: "Clase 4"}, textToShow: "Clase 4"},
+                {isSelected: false, item: {id: 0, name: "Clase 5"}, textToShow: "Clase 5"},
+                {isSelected: false, item: {id: 0, name: "Clase 6"}, textToShow: "Clase 6"},
+                {isSelected: false, item: {id: 0, name: "Clase 7"}, textToShow: "Clase 7"},
+                {isSelected: false, item: {id: 0, name: "Clase 8"}, textToShow: "Clase 8"},
             ],
-            images: []
+            images: [],
+            trainParameters: {
+                batchSizeFraction: 0.4,
+                denseUnits: 100,
+                epochs: 10,
+                learningRate: 0.00001,
+                learningRateDec: 1000,
+                batchSizeFractionDec: 4,
+            }
         }
     }
 
@@ -42,6 +53,48 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
             history.back();
         }
     }
+
+
+    private onEpochsValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+        let epochs: number = Number(event.target.value);
+        let trainParams = this.state.trainParameters;
+        trainParams.epochs = epochs;
+        this.setState({
+            trainParameters: trainParams
+        });
+    }
+
+    private onDenseUnitsValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+        let denseUnits: number = Number(event.target.value);
+        let trainParams = this.state.trainParameters;
+        trainParams.denseUnits = denseUnits;
+        this.setState({
+            trainParameters: trainParams
+        });
+    }
+
+    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+        let learningRate: number = 1/Number(event.target.value);
+        let learningRateDec: number = Number(event.target.value);
+        let trainParams = this.state.trainParameters;
+        trainParams.learningRate = learningRate;
+        trainParams.learningRateDec = learningRateDec;
+        this.setState({
+            trainParameters: trainParams,
+        });
+    }
+
+    private onBatchSizeFractionValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+        let batchSize: number = Number(event.target.value)/10;
+        let batchSizeDec: number = Number(event.target.value);
+        let trainParams = this.state.trainParameters;
+        trainParams.batchSizeFraction = batchSize;
+        trainParams.batchSizeFractionDec = batchSizeDec;
+        this.setState({
+            trainParameters: trainParams,
+        });
+    }
+
 
 
     private onConfirmedClass(modelClass: ClassItem): void {
@@ -114,6 +167,11 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                     <ModelTrainerLeftMenuComp
                         classesWithSelection={this.state.testClasses}
                         onConfirmedClass={this.onConfirmedClass.bind(this)}
+                        onBatchSizeFractionValueChange={this.onBatchSizeFractionValueChange.bind(this)}
+                        onDenseUnitsValueChange={this.onDenseUnitsValueChange.bind(this)}
+                        onEpochsValueChange={this.onEpochsValueChange.bind(this)}
+                        onLearningRateValueChange={this.onLearningRateValueChange.bind(this)}
+                        trainParameters={this.state.trainParameters}
                     ></ModelTrainerLeftMenuComp>
                 </div>
                 <ImageSelectorComp
