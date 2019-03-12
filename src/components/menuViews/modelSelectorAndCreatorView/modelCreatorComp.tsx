@@ -33,10 +33,6 @@ export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IM
         });
     }
 
-
-    
-
-
     public render() {
         return (
             <div className="middleOfTheScreen row align-items-center ">

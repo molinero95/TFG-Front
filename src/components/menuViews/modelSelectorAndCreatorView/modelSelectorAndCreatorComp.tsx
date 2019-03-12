@@ -20,18 +20,14 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         super(props);
         this.state = {
             modelCreationActive: false,
-            modelSelectList: [
-                { isSelected: false, textToShow: "Modelo1", item: { id: -1, name: "Modelo1", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo2", item: { id: -1, name: "Modelo2", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo3", item: { id: -1, name: "Modelo3", versions: [], activeVersion: null } },
-                { isSelected: false, textToShow: "Modelo4", item: { id: -1, name: "Modelo4", versions: [], activeVersion: null } },
-            ]
+            modelSelectList: []
         }
     }
 
     public componentDidMount() {
         this.requestModelsNames();
     }
+
 
     private requestModelsNames(): void {
         ModelRequests.getModelsNames().then((names: Array<string>) => {
@@ -58,6 +54,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.setState({
             modelCreationActive: false
         });
+        ModelRequests.postCreateModel(model.name);
         this.requestModelsNames();
     }
 
