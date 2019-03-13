@@ -46,7 +46,6 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                         },
                         isSelected: false,
                         textToShow: item,
-
                     };
                 })
             });

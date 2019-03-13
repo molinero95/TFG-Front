@@ -6,6 +6,8 @@ import { ImageSelectorComp } from "./imageSelectorComp";
 import { ImageItem } from "../../../entities/images/ImageItem";
 import { RouterUtils } from "../../../utils/routerUtils";
 import { TrainParameters } from "../../../entities/models/trainParameters";
+import { ApplicationState } from "../../../applicationState";
+import { VersionRequests } from "../../../requests/versionRequests";
 
 
 interface IModelTrainViewCompProps {
@@ -44,13 +46,13 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         }
     }
 
-    public componentWillMount(){
-        if(!RouterUtils.ModelAndVersionSelected()){
-            if(!RouterUtils.ModelSelected)
-                alert("No hay modelo seleccionado");
-            else
-                alert("No hay versión seleccionada");
-            history.back();
+    public componentDidMount(){
+        if(ApplicationState.model == null)
+            alert("No hay modelo seleccionado");
+        else if(ApplicationState.model.activeVersion == null)
+            alert("No hay version seleccionada");
+        else{
+            
         }
     }
 

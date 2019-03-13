@@ -3,11 +3,12 @@ import { ModelVersion } from "../entities/models/modelVersion";
 
 export class VersionRequests {
 
-    public static getModelVersions(modelName: string){
+    public static getModelVersions(modelName: string): Promise<Array<ModelVersion>>{
         return fetch("http://localhost:3000/model/modelVersions", {
             method: "Get"
         })
         .then(data => data.json())
+        .then(data => data.data)
         .catch(err => {throw new RequestException(err)});
     }
 

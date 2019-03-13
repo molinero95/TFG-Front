@@ -4,6 +4,7 @@ import { ApplicationState } from "../../../applicationState";
 import { VersionSelectorAndCreatorComp } from "./versionSelectorAndCreatorComp";
 import { ModelVersion } from "../../../entities/models/modelVersion";
 import { RouterUtils } from "../../../utils/routerUtils";
+import { VersionRequests } from "../../../requests/versionRequests";
 
 interface IVersionSelectorAndCreatorViewCompProps {
 
@@ -19,12 +20,6 @@ export class VersionSelectorAndCreatorViewComp extends React.Component<IVersionS
         };
     }
 
-    public componentWillMount(){
-        if(!RouterUtils.ModelSelected()){
-            alert("No hay modelo seleccionado");
-            history.back();
-        }
-    }
 
     private onVersionSelected(modelVersion: ModelVersion) {
         ApplicationState.model.activeVersion = modelVersion;

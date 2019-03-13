@@ -3,6 +3,8 @@ import { ModelVersion } from "../../../entities/models/modelVersion";
 import { ItemSelect } from "../../../entities/itemSelect";
 import { VersionCreatorComp } from "./versionCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
+import { ApplicationState } from "../../../applicationState";
+import { VersionRequests } from "../../../requests/versionRequests";
 
 interface IVersionSelectorAndCreatorCompProps {
     onVersionSelectionConfirmed: (version: ModelVersion) => void;
@@ -31,14 +33,31 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
 
     }
 
+
+
     public componentDidMount() {
-        this.requestVersionsNames();
+        if (ApplicationState.model == null)
+            alert("No hay modelo seleccionado");
+        else 
+            this.requestVersionsNames();
     }
 
     private requestVersionsNames(): void {
-
+        VersionRequests.getModelVersions(ApplicationState.model.name).then((versions) => {
+            let arrayVers = new Array<ItemSelect<ModelVersion>>();
+            versions.forEach(version => {
+                let itemSelect: ItemSelect<ModelVersion> = {
+                    isSelected: false,
+                    item: version,
+                    textToShow: version.name
+                };
+                arrayVers.push(itemSelect);
+            });
+            this.setState({versionsSelectList: arrayVers});
+        });
     }
 
+    //TODO
     private onVersionCreated(version: ModelVersion) {
         this.setState({
             versionCreationActive: false
