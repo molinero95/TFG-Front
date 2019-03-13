@@ -82,8 +82,31 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.setState({ modelCreationActive: true });
     }
 
+    private onDeleteModelBtnClick(): void {
+        if(confirm("¿Desea eliminar el modelo seleccioado y todas sus versiones?")){
+            ModelRequests.deleteModel(this.getModelSelected().name).then(() => {
+                this.removeSelectedModelFromState();
+            });
+        }
+    }
+
     private getModelSelected(): Model{
         return this.state.modelSelectList.find(model => model.isSelected).item;
+    }
+
+
+    private removeSelectedModelFromState() :void{
+        let indexToRemove = -1;
+        let i = 0;
+        let found = false;
+        while(i < this.state.modelSelectList.length && !found){
+            if(this.state.modelSelectList[i].isSelected){
+                indexToRemove = i;
+                found = true;
+            }
+            i++;
+        }
+        this.state.modelSelectList.splice(indexToRemove, 1);
     }
 
     private renderModelSelection(): JSX.Element {
@@ -103,6 +126,10 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
                         <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>
                             <span>Crear modelo</span>
+                        </span>
+                        <span hidden={this.state.modelSelectList.every(model => !model.isSelected)} className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onDeleteModelBtnClick.bind(this)}>
+                            <img id="removeBtn" className="borderRounded"></img>
+                            <span>Borrar modelo</span>
                         </span>
                         <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>

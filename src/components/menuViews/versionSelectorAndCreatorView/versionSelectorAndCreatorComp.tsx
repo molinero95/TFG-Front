@@ -91,6 +91,30 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         return this.state.versionsSelectList.find(version => version.isSelected).item;
     }
 
+    
+    private onDeleteVersionBtnClick(): void {
+        if(confirm("¿Desea eliminar la versión seleccionada?")){
+            VersionRequests.deleteVersion(ApplicationState.model.name ,this.getVersionSelected().name).then(() => {
+                this.removeSelectedVersionFromState();
+            });
+        }
+    }
+
+
+    private removeSelectedVersionFromState() :void{
+        let indexToRemove = -1;
+        let i = 0;
+        let found = false;
+        while(i < this.state.versionsSelectList.length && !found){
+            if(this.state.versionsSelectList[i].isSelected){
+                indexToRemove = i;
+                found = true;
+            }
+            i++;
+        }
+        this.state.versionsSelectList.splice(indexToRemove, 1);
+    }
+
     private renderVersionSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
@@ -108,6 +132,10 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                         <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>
                             <span>Crear versión</span>
+                        </span>
+                        <span hidden={this.state.versionsSelectList.every(version => !version.isSelected)} className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onDeleteVersionBtnClick.bind(this)}>
+                            <img id="removeBtn" className="borderRounded"></img>
+                            <span>Borrar version</span>
                         </span>
                         <button hidden={this.state.versionsSelectList.every(version => !version.isSelected)} onClick={() => this.props.onVersionSelectionConfirmed(this.getVersionSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>
