@@ -1,5 +1,5 @@
 import React = require("react");
-import { ClassItem } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/classItem";
 import { ItemSelect } from "../../../entities/itemSelect";
 import { TrainParameters } from "../../../entities/models/trainParameters";
 

@@ -1,4 +1,4 @@
-import { ClassItem } from "./modelClass";
+import { ClassItem } from "./classItem";
 
 export interface ModelVersion{
     id: number;

@@ -1,4 +1,4 @@
-import { ClassItem } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/classItem";
 import React = require("react");
 
 interface IDynamicModelClassInputsGeneratorCompProps {

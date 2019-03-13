@@ -1,7 +1,7 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/models/modelVersion";
 import { DynamicModelClassInputsGeneratorComp } from "../modelSelectorAndCreatorView/dynamicModelClassInputsGeneratorComp";
-import { ClassItem } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/classItem";
 
 
 interface IVersionCreatorCompProps {

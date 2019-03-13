@@ -4,6 +4,6 @@ export interface TrainParameters{
     learningRate: number;
     batchSizeFraction: number;
 
-    learningRateDec: number;
+    learningRateDec: number; 
     batchSizeFractionDec: number;
 }

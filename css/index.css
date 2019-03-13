@@ -136,6 +136,11 @@ body{
     border-right: 1px solid;
 }
 
+.bigCentereBlackText{
+    font-size: 1.3rem;
+    text-align: center;
+    color: black;
+}
 
 .bigCentereWhitedText {
     font-size: 1.3rem;

@@ -1,7 +1,7 @@
 import React = require("react");
 import { ModelTrainerLeftMenuComp } from "./modelTrainerLeftMenuComp";
 import { ItemSelect } from "../../../entities/itemSelect";
-import { ClassItem } from "../../../entities/models/modelClass";
+import { ClassItem } from "../../../entities/models/classItem";
 import { ImageSelectorComp } from "./imageSelectorComp";
 import { ImageItem } from "../../../entities/images/ImageItem";
 import { RouterUtils } from "../../../utils/routerUtils";

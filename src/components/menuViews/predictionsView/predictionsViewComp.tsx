@@ -52,7 +52,7 @@ export class PredictionsViewComp extends React.Component<IPredictionsViewCompPro
 				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder halfMinHeigth maxWidth halfHeigth"></img>
 			)
 		}
-		return (<div className="maxWidth halfMinHeigth halfHeigth dashedBorder"></div>)
+		return (<div className="maxWidth halfMinHeigth halfHeigth dashedBorder bigCentereBlackText">Arrastre imagen aqui</div>)
 	}
 
 
