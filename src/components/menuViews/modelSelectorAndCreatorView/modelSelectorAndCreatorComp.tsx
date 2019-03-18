@@ -5,6 +5,8 @@ import { ItemSelect } from "../../../entities/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
 import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
 import { Item } from "react-bootstrap/lib/Pager";
+import { SelectableItemComp } from "../../common/itemSelectorAndCreator/selectableItemcomp";
+import { access } from "fs";
 
 interface IModelSelectorAndCreatorCompProps {
     onModelSelectionConfirmed: (model: Model) => void;
@@ -22,7 +24,6 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.state = {
             modelCreationActive: false,
             modelSelectList: [
-                {isSelected: false, item: {activeVersion: null, id: 0, name: "Model 1", versions: []},  textToShow: "Model 1",}
             ]
         }
     }
@@ -33,19 +34,13 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
 
 
     private requestModelsNames(): void {
-        ModelRequests.getModelsNames().then((names: Array<string>) => {
+        ModelRequests.getModels().then((models: Array<Model>) => {
             this.setState({
-                modelSelectList: names.map((item, index) => {
+                modelSelectList: models.map((modelItem, index) => {
                     return {
-                        item: {
-                            id: -1,
-                            name: item,
-                            versions: [],
-                            activeVersion: null,
-                            clases: []
-                        },
+                        item: modelItem,
                         isSelected: false,
-                        textToShow: item,
+                        textToShow: modelItem.name,
                     };
                 })
             });
@@ -56,8 +51,15 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.setState({
             modelCreationActive: false
         });
-        ModelRequests.postCreateModel(model.name);
-        this.requestModelsNames();
+        ModelRequests.postCreateModel(model.name).then((newModel) => {
+            let selectableModel: ItemSelect<Model> = {
+                isSelected: false,
+                item: newModel,
+                textToShow: newModel.name
+            }
+            this.state.modelSelectList.push(selectableModel);
+            this.forceUpdate();
+        });
     }
 
     private onModelSelected(model: Model): void {
@@ -84,9 +86,9 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
 
     private onDeleteModelBtnClick(): void {
         if(confirm("¿Desea eliminar el modelo seleccioado y todas sus versiones?")){
-            ModelRequests.deleteModel(this.getModelSelected().name).then(() => {
+            ModelRequests.deleteModel(this.getModelSelected().id).then(() => {
                 this.removeSelectedModelFromState();
-            });
+            }); 
         }
     }
 
@@ -107,6 +109,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
             i++;
         }
         this.state.modelSelectList.splice(indexToRemove, 1);
+        this.forceUpdate();
     }
 
     private renderModelSelection(): JSX.Element {

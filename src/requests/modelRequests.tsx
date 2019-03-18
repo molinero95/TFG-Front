@@ -1,8 +1,9 @@
 import { RequestException } from "../exceptions/requestException";
+import { Model } from "../entities/models/model";
 
 export class ModelRequests{
 
-    public static getModelsNames(): Promise<Array<string>>{
+    public static async getModels(): Promise<Array<Model>>{
         return fetch("http://localhost:3000/model/models", {
             method: "GET"
         })
@@ -11,7 +12,7 @@ export class ModelRequests{
         .catch(err=> {throw new RequestException(err)});
     }
 
-    public static postCreateModel(modelName: string): Promise<void>{
+    public static async postCreateModel(modelName: string): Promise<Model>{
         return fetch("http://localhost:3000/model/createModel", {
             method: "POST",
             body: JSON.stringify({name: modelName}),
@@ -23,15 +24,13 @@ export class ModelRequests{
         .catch(err => {throw new RequestException(err)});
     }
 
-    public static deleteModel(modelName: string): Promise<void>{
-        return fetch("http://localhost:3000/model/deleteModel", {
+    public static async deleteModel(modelId: number): Promise<Response>{
+        return fetch(`http://localhost:3000/model/deleteModel?id=${modelId}`, {
             method: "DELETE",
-            body: JSON.stringify({name: modelName}),
             headers:{
                 'Content-Type': 'application/json'
             }
         })
-        .then(data => data.json())
         .catch(err => {throw new RequestException(err)});
     }
     

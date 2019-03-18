@@ -3,7 +3,7 @@ import { RequestException } from "../exceptions/requestException";
 export class TrainRequests {
 
     //TODO: datos de train por param
-    public static trainModel(modelName: string, modelVersion: string){
+    public static async trainModel(modelName: string, modelVersion: string){
         return fetch("/modelVersions", {
             method: "Get"
         })

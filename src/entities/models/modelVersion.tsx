@@ -4,4 +4,6 @@ export interface ModelVersion{
     id: number;
     name: string;
     classes: Array<ClassItem>;
+    denseUnits: number;
+    learningRate: number;
 }

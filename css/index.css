@@ -241,6 +241,10 @@ body{
     min-height: 50%;
 }
 
+.smallMinHeigth{
+    min-height: 10%;
+}
+
 .noScroll{
     overflow: hidden;
 }

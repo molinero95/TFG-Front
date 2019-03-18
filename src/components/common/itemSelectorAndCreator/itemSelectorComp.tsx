@@ -36,7 +36,7 @@ export class ItemSelectorComp<T> extends React.Component<IItemSelectorCompProps<
             res.push(<div key="0">No existen objetos</div>)
         }
         return (
-            <div>
+            <div className="smallMinHeigth">
                 {res}
             </div>
         )

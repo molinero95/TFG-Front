@@ -21,48 +21,47 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         super(props);
         this.state = {
             versionCreationActive: false,
-            versionsSelectList: [
-                { isSelected: false, textToShow: "Version1", item: { id: -1, name: "Version1", classes: [] } },
-                { isSelected: false, textToShow: "Version2", item: { id: -1, name: "Version2", classes: [] } },
-                { isSelected: false, textToShow: "Version3", item: { id: -1, name: "Version3", classes: [] } },
-                { isSelected: false, textToShow: "Version4", item: { id: -1, name: "Version4", classes: [] } },
-                { isSelected: false, textToShow: "Version5", item: { id: -1, name: "Version5", classes: [] } },
-                { isSelected: false, textToShow: "Version6", item: { id: -1, name: "Version6", classes: [] } },
-            ]
+            versionsSelectList: []
         }
 
     }
 
-
-
     public componentDidMount() {
         if (ApplicationState.model == null)
             alert("No hay modelo seleccionado");
-        else 
+        else
             this.requestVersionsNames();
     }
 
     private requestVersionsNames(): void {
-        VersionRequests.getModelVersions(ApplicationState.model.name).then((versions) => {
-            let arrayVers = new Array<ItemSelect<ModelVersion>>();
-            versions.forEach(version => {
-                let itemSelect: ItemSelect<ModelVersion> = {
-                    isSelected: false,
-                    item: version,
-                    textToShow: version.name
-                };
-                arrayVers.push(itemSelect);
-            });
-            this.setState({versionsSelectList: arrayVers});
+        VersionRequests.getModelVersions(ApplicationState.model.id).then((versions) => {
+            if (versions) {
+                let arrayVers = new Array<ItemSelect<ModelVersion>>();
+                versions.forEach(version => {
+                    let itemSelect: ItemSelect<ModelVersion> = {
+                        isSelected: false,
+                        item: version,
+                        textToShow: version.name
+                    };
+                    arrayVers.push(itemSelect);
+                });
+                this.setState({ versionsSelectList: arrayVers });
+            }
         });
     }
 
     //TODO
     private onVersionCreated(version: ModelVersion) {
+        VersionRequests.postCreateVersion(version).then( () => {
+            let selItem: ItemSelect<ModelVersion> = {
+                isSelected: false,
+                item: version,
+                textToShow: version.name
+            }
+        });
         this.setState({
             versionCreationActive: false
         });
-        this.requestVersionsNames();
     }
 
     private onVersionSelected(versionSel: ModelVersion): void {
@@ -91,22 +90,22 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         return this.state.versionsSelectList.find(version => version.isSelected).item;
     }
 
-    
+
     private onDeleteVersionBtnClick(): void {
-        if(confirm("¿Desea eliminar la versión seleccionada?")){
-            VersionRequests.deleteVersion(ApplicationState.model.name ,this.getVersionSelected().name).then(() => {
+        if (confirm("¿Desea eliminar la versión seleccionada?")) {
+            VersionRequests.deleteVersion(ApplicationState.model.name, this.getVersionSelected().name).then(() => {
                 this.removeSelectedVersionFromState();
             });
         }
     }
 
 
-    private removeSelectedVersionFromState() :void{
+    private removeSelectedVersionFromState(): void {
         let indexToRemove = -1;
         let i = 0;
         let found = false;
-        while(i < this.state.versionsSelectList.length && !found){
-            if(this.state.versionsSelectList[i].isSelected){
+        while (i < this.state.versionsSelectList.length && !found) {
+            if (this.state.versionsSelectList[i].isSelected) {
                 indexToRemove = i;
                 found = true;
             }
@@ -129,7 +128,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
                         ></ItemSelectorComp>
                     </div>
                     <div className="spaceBetweenContent" >
-                        <span className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
+                        <span hidden={ApplicationState.model == null} className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>
                             <span>Crear versión</span>
                         </span>

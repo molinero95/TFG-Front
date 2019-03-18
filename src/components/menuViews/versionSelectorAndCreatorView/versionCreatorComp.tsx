@@ -10,6 +10,7 @@ interface IVersionCreatorCompProps {
 
 interface IVersionCreatorCompState {
     newVersion: ModelVersion;
+    learningRateDec: number;
 
 }
 
@@ -20,8 +21,11 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
             newVersion: {
                 id: -1,
                 name: null,
-                classes: []
+                classes: [],
+                denseUnits: 100,
+                learningRate: 0.00001,
             },
+            learningRateDec: 10000
         }
     }
 
@@ -51,6 +55,25 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
         });
     }
 
+    private onDenseUnitsChange(event: React.ChangeEvent<HTMLInputElement>): void {
+        let val = Number(event.target.value);
+        let version = this.state.newVersion;
+        version.denseUnits = val;
+        this.setState({
+            newVersion: version
+        });
+    }
+
+    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+        let val = Number(event.target.value);
+        let version = this.state.newVersion;
+        version.learningRate = 1/val;
+        this.setState({
+            newVersion: version,
+            learningRateDec: val
+        });
+
+    }
 
 
     public render() {
@@ -64,6 +87,12 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                         <div className="form-group row">
                             <label className="col-md-3 text-right">Nombre de la versión:</label>
                             <input type="text" className="form-control col-md-4" onChange={this.onVersionNameChange.bind(this)}></input>
+                        </div>
+                        <div className="form-group row">
+                            <label className="offset-md-1 col-md-2 text-right">Unidades de densidad: {this.state.newVersion.denseUnits}</label>
+                            <input type="range" className="form-control-range col-md-3" value={this.state.newVersion.denseUnits} min="10" max="200" onChange={this.onDenseUnitsChange.bind(this)}></input>
+                            <label className=" col-md-2 text-right">Ratio de aprendizaje: 1/{this.state.learningRateDec}</label>
+                            <input type="range" className="form-control-range col-md-3" value={this.state.learningRateDec} min="10" max="10000" onChange={this.onLearningRateValueChange.bind(this)}></input>
                         </div>
                         <DynamicModelClassInputsGeneratorComp
                             classes={this.state.newVersion.classes}

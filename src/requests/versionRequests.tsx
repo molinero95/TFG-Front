@@ -3,8 +3,8 @@ import { ModelVersion } from "../entities/models/modelVersion";
 
 export class VersionRequests {
 
-    public static getModelVersions(modelName: string): Promise<Array<ModelVersion>>{
-        return fetch("http://localhost:3000/model/modelVersions", {
+    public static async getModelVersions(modelId: number): Promise<Array<ModelVersion>>{
+        return fetch(`http://localhost:3000/model/modelVersions?id=${modelId}`, {
             method: "Get"
         })
         .then(data => data.json())
@@ -13,10 +13,10 @@ export class VersionRequests {
     }
 
 
-    public static postCreateVersion(modelVersion: ModelVersion): Promise<void>{
+    public static async postCreateVersion(modelVersion: ModelVersion): Promise<void>{
         return fetch("http://localhost:3000/model/createVersion", {
             method: "POST",
-            body: JSON.stringify({version: modelVersion}),
+            body: JSON.stringify({data: modelVersion}),
             headers:{
                 'Content-Type': 'application/json'
             }
@@ -25,10 +25,9 @@ export class VersionRequests {
         .catch(err => {throw new RequestException(err)});
     }
 
-    public static deleteVersion(modelName: string, versionName: string): Promise<void>{
+    public static async deleteVersion(modelName: string, versionName: string): Promise<void>{
         return fetch("http://localhost:3000/model/deleteVersion", {
             method: "DELETE",
-            body: JSON.stringify({modelName: modelName, versionName: versionName}),
             headers:{
                 'Content-Type': 'application/json'
             }
