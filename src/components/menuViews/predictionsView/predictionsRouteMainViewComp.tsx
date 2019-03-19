@@ -1,20 +1,18 @@
 import * as React from "react";
-import { RouterUtils } from "../../../utils/routerUtils";
 import Dropzone from "react-dropzone";
-import { ImageItem } from "../../../entities/images/ImageItem";
-import { url } from "inspector";
+import { ImageItem } from "../../../entities/ImageItem";
 import { ApplicationState } from "../../../applicationState";
 
-interface IPredictionsViewCompProps {
+interface IPredictionsRouteMainViewProps {
 
 }
 
-interface IPredictionsViewCompState {
+interface IPredictionsRouteMainViewCompState {
 	imageToPredict: ImageItem;
 }
-export class PredictionsViewComp extends React.Component<IPredictionsViewCompProps, IPredictionsViewCompState>{
+export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRouteMainViewProps, IPredictionsRouteMainViewCompState>{
 
-	public constructor(props: IPredictionsViewCompProps) {
+	public constructor(props: IPredictionsRouteMainViewProps) {
 		super(props);
 		this.state = {
 			imageToPredict: null

@@ -1,23 +1,23 @@
 import React = require("react");
-import { ModelVersion } from "../../../entities/models/modelVersion";
-import { ItemSelect } from "../../../entities/itemSelect";
+import { ModelVersion } from "../../../entities/modelVersion";
+import { ItemSelect } from "../../../common/itemSelect";
 import { VersionCreatorComp } from "./versionCreatorComp";
-import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
 import { ApplicationState } from "../../../applicationState";
 import { VersionRequests } from "../../../requests/versionRequests";
+import { VersionSelectorComp } from "./versionSelectorComp";
 
-interface IVersionSelectorAndCreatorCompProps {
+interface IVersionMainViewCompProps {
     onVersionSelectionConfirmed: (version: ModelVersion) => void;
 }
 
-interface IVersionSelectorAndCreatorCompState {
+interface IVersionMainViewCompState {
     versionsSelectList: Array<ItemSelect<ModelVersion>>;
     versionCreationActive: boolean
 }
 
 
-export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelectorAndCreatorCompProps, IVersionSelectorAndCreatorCompState>{
-    constructor(props: IVersionSelectorAndCreatorCompProps) {
+export class VersionMainViewComp extends React.Component<IVersionMainViewCompProps, IVersionMainViewCompState>{
+    constructor(props: IVersionMainViewCompProps) {
         super(props);
         this.state = {
             versionCreationActive: false,
@@ -50,7 +50,7 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         });
     }
 
-    //TODO
+
     private onVersionCreated(version: ModelVersion) {
         VersionRequests.postCreateVersion(version).then( (id) => {
             version.id = id;
@@ -123,15 +123,10 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 whiteBg offset-md-2 border borderRounded">
-                    <div className="row primaryColorBg topBordersRounded">
-                        <h4 className="prettyMargin text-white">Seleccione version:</h4>
-                    </div>
-                    <div className="notMaxHeigth scrollAuto">
-                        <ItemSelectorComp<ModelVersion>
-                            itemSelectionList={this.state.versionsSelectList}
-                            onItemSelected={this.onVersionSelected.bind(this)}
-                        ></ItemSelectorComp>
-                    </div>
+                    <VersionSelectorComp
+                        onVersionSelected = {this.onVersionSelected.bind(this)}
+                        versionsSelectList = {this.state.versionsSelectList}
+                    ></VersionSelectorComp>
                     <div className="spaceBetweenContent" >
                         <span hidden={ApplicationState.model == null} className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>

@@ -1,4 +1,4 @@
-import { Model } from "./entities/models/model";
+import { Model } from "./entities/model";
 
 export class ApplicationState{
     public static model: Model = null;

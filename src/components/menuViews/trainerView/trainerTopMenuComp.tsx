@@ -1,16 +1,16 @@
 import React = require("react");
 
-interface IImageSelectorTopMenuCompProps {
+interface ITrainerTopMenuCompProps {
     onDeselectAllClick: () => void;
     onSelectAllClick: () => void;
     onRemoveImagesClick: () => void;
 }
 
-interface IImageSelectorTopMenuCompState {
+interface ITrainerTopMenuCompState {
 }
 
-export class ImageSelectorTopMenuComp extends React.Component<IImageSelectorTopMenuCompProps, IImageSelectorTopMenuCompState>{
-    constructor(props: IImageSelectorTopMenuCompProps) {
+export class TrainerTopMenuComp extends React.Component<ITrainerTopMenuCompProps, ITrainerTopMenuCompState>{
+    constructor(props: ITrainerTopMenuCompProps) {
         super(props);
     }
 

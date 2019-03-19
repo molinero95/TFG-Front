@@ -1,18 +1,18 @@
-import { ClassItem } from "../../../entities/models/classItem";
+import { ClassItem } from "../../../entities/classItem";
 import React = require("react");
 
-interface IDynamicModelClassInputsGeneratorCompProps {
+interface IDynamicClassInputsCompProps {
     classes: Array<ClassItem>;
     onClassNameChange: (value: string, modelClass: ClassItem) => void;
 }
 
-interface IDynamicModelClassInputsGeneratorCompState {
+interface IDynamicClassInputsCompState {
 
 }
 
 
-export class DynamicModelClassInputsGeneratorComp extends React.Component<IDynamicModelClassInputsGeneratorCompProps, IDynamicModelClassInputsGeneratorCompState>{
-    constructor(props: IDynamicModelClassInputsGeneratorCompProps) {
+export class DynamicClassInputsComp extends React.Component<IDynamicClassInputsCompProps, IDynamicClassInputsCompState>{
+    constructor(props: IDynamicClassInputsCompProps) {
         super(props);
     }
 

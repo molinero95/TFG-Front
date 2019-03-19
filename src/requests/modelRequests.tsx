@@ -1,10 +1,11 @@
 import { RequestException } from "../exceptions/requestException";
-import { Model } from "../entities/models/model";
+import { Model } from "../entities/model";
+import { Constants } from "../common/constants";
 
 export class ModelRequests{
 
     public static async getModels(): Promise<Array<Model>>{
-        return fetch("http://localhost:3000/model/models", {
+        return fetch(Constants.SERVICE_URL + "/models", {
             method: "GET"
         })
         .then(data => data.json())
@@ -13,7 +14,7 @@ export class ModelRequests{
     }
 
     public static async postCreateModel(modelName: string): Promise<Model>{
-        return fetch("http://localhost:3000/model/createModel", {
+        return fetch(Constants.SERVICE_URL + "/createModel", {
             method: "POST",
             body: JSON.stringify({name: modelName}),
             headers:{
@@ -25,7 +26,7 @@ export class ModelRequests{
     }
 
     public static async deleteModel(modelId: number): Promise<Response>{
-        return fetch(`http://localhost:3000/model/deleteModel?id=${modelId}`, {
+        return fetch(Constants.SERVICE_URL + `/deleteModel?id=${modelId}`, {
             method: "DELETE",
             headers:{
                 'Content-Type': 'application/json'

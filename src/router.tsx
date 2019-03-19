@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { Layout } from "./components/menuViews/layout";
-import { VersionSelectorAndCreatorViewComp } from './components/menuViews/versionSelectorAndCreatorView/versionSelectorAndCreatorViewComp';
-import { ModelSelectorAndCreatorViewComp } from './components/menuViews/modelSelectorAndCreatorView/modelSelectorAndCreatorViewComp';
-import { ModelTrainerViewComp } from './components/menuViews/modeltrainerView/modelTrainerViewComp';
-import { PredictionsViewComp } from './components/menuViews/predictionsView/predictionsViewComp';
+import { VersionRouteComp } from './components/menuViews/versionView/versionRouteComp';
+import { ModelRouteComp } from './components/menuViews/modelView/modelRouteComp';
+import { TrainerRouteMainViewComp } from './components/menuViews/trainerView/trainerRouteMainViewComp';
+import { PredictionsRouteMainViewComp } from './components/menuViews/predictionsView/predictionsRouteMainViewComp';
 
 export const routes =
     <Layout>
-        <Route exact path='/' component={ModelSelectorAndCreatorViewComp} />
-        <Route exact path='/selectModel' component={ModelSelectorAndCreatorViewComp} />
-        <Route exact path='/selectVersion' component={VersionSelectorAndCreatorViewComp} />
-        <Route exact path='/train' component={ModelTrainerViewComp} />
-        <Route exact path='/prediction' component={PredictionsViewComp} />
+        <Route exact path='/' component={ModelRouteComp} />
+        <Route exact path='/selectModel' component={ModelRouteComp} />
+        <Route exact path='/selectVersion' component={VersionRouteComp} />
+        <Route exact path='/train' component={TrainerRouteMainViewComp} />
+        <Route exact path='/prediction' component={PredictionsRouteMainViewComp} />
     </Layout>

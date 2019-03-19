@@ -1,12 +1,12 @@
 import React = require("react");
 import * as DropZoneLib from "react-dropzone";
-import { ItemSelect } from "../../../entities/itemSelect";
-import { ImageItem } from "../../../entities/images/ImageItem";
-import { ImageSelectorTopMenuComp } from "./imageSelectorTopMenuComp";
+import { ItemSelect } from "../../../common/itemSelect";
+import { ImageItem } from "../../../entities/ImageItem";
+import { TrainerTopMenuComp } from "./trainerTopMenuComp";
 
 
 let Dropzone = DropZoneLib.default;
-interface IImageSelectorCompProps {
+interface ITrainerImageSelectorCompProps {
     onAddedImages: (images: Array<File>) => void;
     onImageSelected: (image: ImageItem) => void;
     onDeselectAllImagesClick: () => void;
@@ -15,11 +15,11 @@ interface IImageSelectorCompProps {
     images: Array<ItemSelect<ImageItem>>;
 }
 
-interface IImageSelectorCompState {
+interface ITrainerImageSelectorCompState {
 }
 
-export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, IImageSelectorCompState>{
-    constructor(props: IImageSelectorCompProps) {
+export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelectorCompProps, ITrainerImageSelectorCompState>{
+    constructor(props: ITrainerImageSelectorCompProps) {
         super(props);
     }
 
@@ -55,11 +55,11 @@ export class ImageSelectorComp extends React.Component<IImageSelectorCompProps, 
     public render() {
         return (
             <div className="maxHeigth maxWidth">
-                <ImageSelectorTopMenuComp
+                <TrainerTopMenuComp
                     onDeselectAllClick={this.props.onDeselectAllImagesClick}
                     onSelectAllClick={this.props.onSelectAllImagesClick}
                     onRemoveImagesClick={this.props.onRemoveImagesClick}
-                ></ImageSelectorTopMenuComp>
+                ></TrainerTopMenuComp>
                 <Dropzone className="maxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
                     <div className="topPadding prettyMargin">
                         {this.showImages()}

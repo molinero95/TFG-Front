@@ -1,6 +1,6 @@
 import React = require("react");
-import { ItemSelect } from "../../../entities/itemSelect";
-import { SelectableItemComp } from "./selectableItemcomp";
+import { ItemSelect } from "../../common/itemSelect";
+import { ItemSelectComp } from "./ItemSelectComp";
 
 interface IItemSelectorCompProps<T> {
     itemSelectionList: Array<ItemSelect<T>>;
@@ -23,12 +23,12 @@ export class ItemSelectorComp<T> extends React.Component<IItemSelectorCompProps<
         if (this.props.itemSelectionList.length > 0) {
             this.props.itemSelectionList.forEach((modelSelection, index) => {
                 res.push(
-                    <SelectableItemComp
+                    <ItemSelectComp
                         key={index}
                         itemTextToShow={modelSelection.textToShow}
                         itemSelect={modelSelection}
                         onItemSelected={() => { this.props.onItemSelected(modelSelection.item) }}
-                    ></SelectableItemComp>
+                    ></ItemSelectComp>
                 );
             });
         }

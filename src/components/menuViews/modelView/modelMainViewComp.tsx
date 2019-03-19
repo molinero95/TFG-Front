@@ -1,25 +1,22 @@
 import React = require("react");
-import { Model } from "../../../entities/models/model";
+import { Model } from "../../../entities/model";
 import { ModelRequests } from "../../../requests/modelRequests";
-import { ItemSelect } from "../../../entities/itemSelect";
+import { ItemSelect } from "../../../common/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
-import { ItemSelectorComp } from "../../common/itemSelectorAndCreator/itemSelectorComp";
-import { Item } from "react-bootstrap/lib/Pager";
-import { SelectableItemComp } from "../../common/itemSelectorAndCreator/selectableItemcomp";
-import { access } from "fs";
+import { ModelSelectorComp } from "./modelSelectorComp";
 
-interface IModelSelectorAndCreatorCompProps {
+interface IModelMainViewCompProps {
     onModelSelectionConfirmed: (model: Model) => void;
 }
 
-interface IModelSelectorAndCreatorCompState {
+interface IModelMainViewCompState {
     modelSelectList: Array<ItemSelect<Model>>;
     modelCreationActive: boolean
 }
 
 
-export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorAndCreatorCompProps, IModelSelectorAndCreatorCompState>{
-    constructor(props: IModelSelectorAndCreatorCompProps) {
+export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, IModelMainViewCompState>{
+    constructor(props: IModelMainViewCompProps) {
         super(props);
         this.state = {
             modelCreationActive: false,
@@ -72,13 +69,7 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.forceUpdate();
     }
 
-    private renderModelCreation(): JSX.Element {
-        return (
-            <ModelCreatorComp
-                onModelCreated={this.onModelCreated.bind(this)}
-            ></ModelCreatorComp>
-        );
-    }
+    
 
     private onCreateModelBtnClick(): void {
         this.setState({ modelCreationActive: true });
@@ -112,19 +103,22 @@ export class ModelSelectorAndCreatorComp extends React.Component<IModelSelectorA
         this.forceUpdate();
     }
 
+    private renderModelCreation(): JSX.Element {
+        return (
+            <ModelCreatorComp
+                onModelCreated={this.onModelCreated.bind(this)}
+            ></ModelCreatorComp>
+        );
+    }
+
     private renderModelSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 offset-md-2 border borderRounded whiteBg">
-                    <div className="row topBordersRounded primaryColorBg">
-                        <h4 className="prettyMargin text-white">Seleccione modelo:</h4>
-                    </div>
-                    <div className="notMaxHeigth scrollAuto">
-                        <ItemSelectorComp
-                            itemSelectionList={this.state.modelSelectList}
-                            onItemSelected={this.onModelSelected.bind(this)}
-                        ></ItemSelectorComp>
-                    </div>
+                    <ModelSelectorComp
+                        modelSelectList={this.state.modelSelectList}
+                        onModelSelected={this.onModelSelected.bind(this)}
+                    ></ModelSelectorComp>
                     <div className="spaceBetweenContent" >
                         <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>

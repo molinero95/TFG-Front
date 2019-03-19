@@ -1,7 +1,7 @@
 import React = require("react");
-import { ModelVersion } from "../../../entities/models/modelVersion";
-import { DynamicModelClassInputsGeneratorComp } from "../modelSelectorAndCreatorView/dynamicModelClassInputsGeneratorComp";
-import { ClassItem } from "../../../entities/models/classItem";
+import { ModelVersion } from "../../../entities/modelVersion";
+import { DynamicClassInputsComp } from "./dynamicClassInputsComp";
+import { ClassItem } from "../../../entities/classItem";
 
 
 interface IVersionCreatorCompProps {
@@ -94,10 +94,10 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                             <label className=" col-md-2 text-right">Ratio de aprendizaje: 1/{this.state.learningRateDec}</label>
                             <input type="range" className="form-control-range col-md-3" value={this.state.learningRateDec} min="10" max="10000" onChange={this.onLearningRateValueChange.bind(this)}></input>
                         </div>
-                        <DynamicModelClassInputsGeneratorComp
+                        <DynamicClassInputsComp
                             classes={this.state.newVersion.classes}
                             onClassNameChange={this.onClassNameChange.bind(this)}
-                        ></DynamicModelClassInputsGeneratorComp>
+                        ></DynamicClassInputsComp>
                         <div className="spaceBetweenContent" >
                             <span className=" noLeftMargin  btn pointerCursor btn-light" onClick={this.onAddNewClassBtnClick.bind(this)}>
                                 <img id="addBtn"></img>

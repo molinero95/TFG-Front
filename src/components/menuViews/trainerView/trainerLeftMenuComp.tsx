@@ -1,9 +1,9 @@
 import React = require("react");
-import { ClassItem } from "../../../entities/models/classItem";
-import { ItemSelect } from "../../../entities/itemSelect";
-import { TrainParameters } from "../../../entities/models/trainParameters";
+import { ClassItem } from "../../../entities/classItem";
+import { ItemSelect } from "../../../common/itemSelect";
+import { TrainParameters } from "../../../entities/trainParameters";
 
-interface IModelTrainerLeftMenuCompProps {
+interface ITrainerLeftMenuCompProps {
     classesWithSelection: Array<ItemSelect<ClassItem>>;
     onConfirmedClass: (modelClass: ClassItem) => void;
     trainParameters: TrainParameters;
@@ -12,14 +12,14 @@ interface IModelTrainerLeftMenuCompProps {
     onLearningRateValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onBatchSizeFractionValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-interface IModelTrainerLeftMenuCompState {
+interface ITrainerLeftMenuCompState {
     selectedClass: ClassItem;
 
 }
 
 
-export class ModelTrainerLeftMenuComp extends React.Component<IModelTrainerLeftMenuCompProps, IModelTrainerLeftMenuCompState> {
-    public constructor(props: IModelTrainerLeftMenuCompProps) {
+export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompProps, ITrainerLeftMenuCompState> {
+    public constructor(props: ITrainerLeftMenuCompProps) {
         super(props);
         this.state = {
             selectedClass: null

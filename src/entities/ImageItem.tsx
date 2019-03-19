@@ -1,4 +1,4 @@
-import { ClassItem } from "../models/classItem";
+import { ClassItem } from "./classItem";
 
 export interface ImageItem{
     file: File,

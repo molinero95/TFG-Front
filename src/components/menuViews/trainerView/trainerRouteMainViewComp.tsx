@@ -1,27 +1,25 @@
 import React = require("react");
-import { ModelTrainerLeftMenuComp } from "./modelTrainerLeftMenuComp";
-import { ItemSelect } from "../../../entities/itemSelect";
-import { ClassItem } from "../../../entities/models/classItem";
-import { ImageSelectorComp } from "./imageSelectorComp";
-import { ImageItem } from "../../../entities/images/ImageItem";
-import { RouterUtils } from "../../../utils/routerUtils";
-import { TrainParameters } from "../../../entities/models/trainParameters";
+import { TrainerLeftMenuComp } from "./trainerLeftMenuComp";
+import { ItemSelect } from "../../../common/itemSelect";
+import { ClassItem } from "../../../entities/classItem";
+import { TrainerImageSelectorComp } from "./trainerImageSelectorComp";
+import { ImageItem } from "../../../entities/ImageItem";
+import { TrainParameters } from "../../../entities/trainParameters";
 import { ApplicationState } from "../../../applicationState";
-import { VersionRequests } from "../../../requests/versionRequests";
 
 
-interface IModelTrainViewCompProps {
+interface ITrainerRouteMainViewCompProps {
 
 }
 
-interface IModelTrainViewCompState {
+interface ITrainerRouteMainViewCompState {
     testClasses: Array<ItemSelect<ClassItem>>;
     images: Array<ItemSelect<ImageItem>>;
     trainParameters: TrainParameters;
 }
 
-export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompProps, IModelTrainViewCompState>{
-    constructor(props: IModelTrainViewCompProps) {
+export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainViewCompProps, ITrainerRouteMainViewCompState>{
+    constructor(props: ITrainerRouteMainViewCompProps) {
         super(props);
         this.state = {
             testClasses: [
@@ -53,7 +51,15 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                 return val;
             })
             this.setState({
-                testClasses: classes
+                testClasses: classes,
+                trainParameters: {
+                    learningRateDec: 1/ApplicationState.model.activeVersion.learningRate,
+                    learningRate: ApplicationState.model.activeVersion.learningRate,
+                    batchSizeFraction: 0.4,
+                    batchSizeFractionDec: 4,
+                    denseUnits: ApplicationState.model.activeVersion.denseUnits,
+                    epochs: 10
+                }
             })
         }
     }
@@ -168,7 +174,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         return (
             <div className="horizontalLayout maxHeigth">
                 <div id="menuWidth" className="borderRigth">
-                    <ModelTrainerLeftMenuComp
+                    <TrainerLeftMenuComp
                         classesWithSelection={this.state.testClasses}
                         onConfirmedClass={this.onConfirmedClass.bind(this)}
                         onBatchSizeFractionValueChange={this.onBatchSizeFractionValueChange.bind(this)}
@@ -176,16 +182,16 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
                         onEpochsValueChange={this.onEpochsValueChange.bind(this)}
                         onLearningRateValueChange={this.onLearningRateValueChange.bind(this)}
                         trainParameters={this.state.trainParameters}
-                    ></ModelTrainerLeftMenuComp>
+                    ></TrainerLeftMenuComp>
                 </div>
-                <ImageSelectorComp
+                <TrainerImageSelectorComp
                     images={this.state.images}
                     onAddedImages={this.onAddedImages.bind(this)}
                     onImageSelected={this.onImageSelected.bind(this)}
                     onDeselectAllImagesClick={this.onDeselectAllImagesClick.bind(this)}
                     onSelectAllImagesClick={this.onSelectAllImagesClick.bind(this)}
                     onRemoveImagesClick={this.onRemoveImagesClick.bind(this)}
-                ></ImageSelectorComp>
+                ></TrainerImageSelectorComp>
             </div>
         );
     }

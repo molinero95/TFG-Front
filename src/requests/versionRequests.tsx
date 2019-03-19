@@ -1,11 +1,12 @@
 import { RequestException } from "../exceptions/requestException";
-import { ModelVersion } from "../entities/models/modelVersion";
+import { ModelVersion } from "../entities/modelVersion";
 import { ApplicationState } from "../applicationState";
+import { Constants } from "../common/constants";
 
 export class VersionRequests {
 
     public static async getModelVersions(modelId: number): Promise<Array<ModelVersion>> {
-        return fetch(`http://localhost:3000/model/modelVersions?id=${modelId}`, {
+        return fetch(Constants.SERVICE_URL + `/modelVersions?id=${modelId}`, {
             method: "Get"
         })
             .then(data => data.json())
@@ -31,7 +32,7 @@ export class VersionRequests {
 
 
     public static async postCreateVersion(modelVersion: ModelVersion): Promise<number> {
-        return fetch("http://localhost:3000/model/createVersion", {
+        return fetch(Constants.SERVICE_URL + "/createVersion", {
             method: "POST",
             body: JSON.stringify(
                 {
@@ -52,7 +53,7 @@ export class VersionRequests {
     }
 
     public static async deleteVersion(modelName: string, versionName: string): Promise<void> {
-        return fetch("http://localhost:3000/model/deleteVersion", {
+        return fetch(Constants.SERVICE_URL + "/deleteVersion", {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json'
