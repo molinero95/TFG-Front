@@ -52,16 +52,21 @@ export class VersionSelectorAndCreatorComp extends React.Component<IVersionSelec
 
     //TODO
     private onVersionCreated(version: ModelVersion) {
-        VersionRequests.postCreateVersion(version).then( () => {
+        VersionRequests.postCreateVersion(version).then( (id) => {
+            version.id = id;
             let selItem: ItemSelect<ModelVersion> = {
                 isSelected: false,
                 item: version,
                 textToShow: version.name
             }
+            let versions = this.state.versionsSelectList;
+            versions.push(selItem);
+            this.setState({
+                versionCreationActive: false,
+                versionsSelectList: versions
+            });
         });
-        this.setState({
-            versionCreationActive: false
-        });
+        
     }
 
     private onVersionSelected(versionSel: ModelVersion): void {

@@ -25,14 +25,6 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         super(props);
         this.state = {
             testClasses: [
-                {isSelected: false, item: {id: 0, name: "Clase 1"}, textToShow: "Clase 1"},
-                {isSelected: false, item: {id: 0, name: "Clase 2"}, textToShow: "Clase 2"},
-                {isSelected: false, item: {id: 0, name: "Clase 3"}, textToShow: "Clase 3"},
-                {isSelected: false, item: {id: 0, name: "Clase 4"}, textToShow: "Clase 4"},
-                {isSelected: false, item: {id: 0, name: "Clase 5"}, textToShow: "Clase 5"},
-                {isSelected: false, item: {id: 0, name: "Clase 6"}, textToShow: "Clase 6"},
-                {isSelected: false, item: {id: 0, name: "Clase 7"}, textToShow: "Clase 7"},
-                {isSelected: false, item: {id: 0, name: "Clase 8"}, textToShow: "Clase 8"},
             ],
             images: [],
             trainParameters: {
@@ -46,18 +38,28 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         }
     }
 
-    public componentDidMount(){
-        if(ApplicationState.model == null)
+    public componentDidMount() {
+        if (ApplicationState.model == null)
             alert("No hay modelo seleccionado");
-        else if(ApplicationState.model.activeVersion == null)
+        else if (ApplicationState.model.activeVersion == null)
             alert("No hay version seleccionada");
-        else{
-            
+        else {
+            let classes = ApplicationState.model.activeVersion.classes.map(item => {
+                let val: ItemSelect<ClassItem> = {
+                    item: item,
+                    isSelected: false,
+                    textToShow: item.name
+                }
+                return val;
+            })
+            this.setState({
+                testClasses: classes
+            })
         }
     }
 
 
-    private onEpochsValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+    private onEpochsValueChange(event: React.ChangeEvent<HTMLInputElement>): void {
         let epochs: number = Number(event.target.value);
         let trainParams = this.state.trainParameters;
         trainParams.epochs = epochs;
@@ -66,7 +68,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
-    private onDenseUnitsValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+    private onDenseUnitsValueChange(event: React.ChangeEvent<HTMLInputElement>): void {
         let denseUnits: number = Number(event.target.value);
         let trainParams = this.state.trainParameters;
         trainParams.denseUnits = denseUnits;
@@ -75,8 +77,8 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
-    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
-        let learningRate: number = 1/Number(event.target.value);
+    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void {
+        let learningRate: number = 1 / Number(event.target.value);
         let learningRateDec: number = Number(event.target.value);
         let trainParams = this.state.trainParameters;
         trainParams.learningRate = learningRate;
@@ -86,8 +88,8 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
-    private onBatchSizeFractionValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
-        let batchSize: number = Number(event.target.value)/10;
+    private onBatchSizeFractionValueChange(event: React.ChangeEvent<HTMLInputElement>): void {
+        let batchSize: number = Number(event.target.value) / 10;
         let batchSizeDec: number = Number(event.target.value);
         let trainParams = this.state.trainParameters;
         trainParams.batchSizeFraction = batchSize;
@@ -103,7 +105,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         //TODO coger imagenes seleccionadas y añadiles las clase
     }
 
-    private onAddedImages(images: Array<File>){
+    private onAddedImages(images: Array<File>) {
         let newImagesSelect: Array<ItemSelect<ImageItem>> = [];
         images.forEach(imageFile => {
             let imageUrl = URL.createObjectURL(imageFile);
@@ -122,13 +124,13 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         })
     }
 
-    private onImageSelected(imageItem: ImageItem){
+    private onImageSelected(imageItem: ImageItem) {
         let item = this.state.images.find(image => image.item == imageItem);
         item.isSelected = !item.isSelected;
         this.forceUpdate();
     }
 
-    private onDeselectAllImagesClick():void{
+    private onDeselectAllImagesClick(): void {
         let diselectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
             image.isSelected = false;
             return image;
@@ -138,7 +140,7 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
-    private onSelectAllImagesClick(): void{
+    private onSelectAllImagesClick(): void {
         let selectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
             image.isSelected = true;
             return image;
@@ -148,11 +150,11 @@ export class ModelTrainerViewComp extends React.Component<IModelTrainViewCompPro
         });
     }
 
-    private onRemoveImagesClick(): void{
+    private onRemoveImagesClick(): void {
         let images = this.state.images;
         let i = 0;
-        while(i < images.length){
-            if(images[i].isSelected)
+        while (i < images.length) {
+            if (images[i].isSelected)
                 images.splice(i, 1);
             else
                 i++;
