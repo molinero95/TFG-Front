@@ -29,9 +29,10 @@ export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompPro
     private printClassButtons(): Array<JSX.Element> {
         let res: Array<JSX.Element> = new Array<JSX.Element>();
         this.props.classesWithSelection.forEach((modelClass, index) => {
-            res.push(
-                <button key={"b" + index.toString()} className="btn btn-light prettyMargin" disabled={false} >{modelClass.textToShow}</button>
-            );
+            let btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin" onClick={() => this.setState({selectedClass: modelClass.item})} disabled={false} >{modelClass.textToShow}</button>;
+            if(this.state.selectedClass == modelClass.item)
+                btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin primaryColorBg" onClick={() => this.setState({selectedClass: modelClass.item})} disabled={false} >{modelClass.textToShow}</button>;
+            res.push(btn);
         });
         return res;
     }

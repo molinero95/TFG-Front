@@ -35,17 +35,15 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
         let res: Array<JSX.Element> = new Array<JSX.Element>();
         this.props.images.forEach(image => {
             let item: JSX.Element;
-            if (image.isSelected && image.item.class != null) {
-                item = <img className="imageSize pointerCursor imageClassified imageSelected" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
+            if (image.isSelected && image.item.class == null) { //Seleccionada y no marcada
+                item = <img className="imageSize relPosition pointerCursor imageSelected" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
             }
-            else if (image.isSelected && image.item.class == null) {
-                item = <img className="imageSize pointerCursor imageSelected" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
+            else if (!image.isSelected && image.item.class != null) { //No seleccionada y marcada
+                item = <div className="imageSize relPosition"><img className="imageSize relPosition pointerCursor imageClassified" src={image.item.imageUrl}></img><div className="primaryColorBg absPositionLittleBottom imageClassText borderRounded">{image.item.class.name}</div></div>
+
             }
-            else if (!image.isSelected && image.item.class != null) {
-                item = <img className="imageSize pointerCursor imageClassified" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
-            }
-            else {
-                item = <img className="imageSize pointerCursor" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
+            else if(!image.isSelected && image.item.class == null){ //No seleccionada y no marcada
+                item = <img className="imageSize relPosition pointerCursor" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
             }
             res.push(item);
         });
@@ -61,7 +59,7 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
                     onRemoveImagesClick={this.props.onRemoveImagesClick}
                 ></TrainerTopMenuComp>
                 <Dropzone className="maxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
-                    <div className="topPadding prettyMargin">
+                    <div className="topPadding inheritContent">
                         {this.showImages()}
                     </div>
                 </Dropzone>

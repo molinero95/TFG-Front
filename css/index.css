@@ -178,6 +178,13 @@ body{
 }
 
 
+.inheritContent{
+    display:flex;
+    justify-content: inherit;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 .centerContent{
     display: flex;
     justify-content: center;   
@@ -285,10 +292,26 @@ body{
     filter: grayscale(100%);
 }
 
+
 .imageSize{
     height: 124px;
     width: 124px;
-    margin: 0.3rem;
+    margin: 0.5rem;
+}
+
+
+.absPosition{
+    position: absolute;
+}
+
+.absPositionLittleBottom{
+    position: absolute;
+    bottom: 30%;
+    left: 15%;
+}
+
+.relPosition{
+    position: relative;
 }
 
 
@@ -296,12 +319,17 @@ body{
     max-height: 40%;
 }
 
-.imageSize:hover {
+img.imageSize:hover {
     transform: scale(1.25);
 }
 
 .smallIconNavBar{
     height: 1.5rem;
+}
+
+.imageClassText{
+    width: 80%;
+    text-align: center;
 }
 
 

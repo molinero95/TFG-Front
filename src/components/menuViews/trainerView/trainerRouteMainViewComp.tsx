@@ -108,7 +108,21 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
 
 
     private onConfirmedClass(modelClass: ClassItem): void {
-        //TODO coger imagenes seleccionadas y añadiles las clase
+        this.setState({
+            images: this.state.images.map(item => {
+                if(item.isSelected){
+                    item.item.class = modelClass;
+                    item.isSelected =  false;
+                }
+                return item;
+            })
+        })
+    }
+
+    private getSelectedImages(): Array<ItemSelect<ImageItem>> {
+        let res: Array<ItemSelect<ImageItem>> = new Array<ItemSelect<ImageItem>>();
+        this.state.images.filter(img => img.isSelected);
+        return res;
     }
 
     private onAddedImages(images: Array<File>) {
@@ -137,22 +151,22 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     }
 
     private onDeselectAllImagesClick(): void {
-        let diselectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
-            image.isSelected = false;
-            return image;
-        });
         this.setState({
-            images: diselectedImages
+            images: this.state.images.map(item => {
+                if(item.item.class == null)
+                    item.isSelected = false;
+                    return item;
+            })
         });
     }
 
     private onSelectAllImagesClick(): void {
-        let selectedImages: Array<ItemSelect<ImageItem>> = this.state.images.map(image => {
-            image.isSelected = true;
-            return image;
-        });
         this.setState({
-            images: selectedImages
+            images: this.state.images.map(item => {
+                if(item.item.class == null)
+                    item.isSelected = true;
+                    return item;
+            })
         });
     }
 
