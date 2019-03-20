@@ -304,6 +304,12 @@ body{
     position: absolute;
 }
 
+.absPositionRigthBottomCorner{
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+}
+
 .absPositionLittleBottom{
     position: absolute;
     bottom: 30%;

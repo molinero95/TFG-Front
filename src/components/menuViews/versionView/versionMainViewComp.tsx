@@ -98,7 +98,7 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
 
     private onDeleteVersionBtnClick(): void {
         if (confirm("¿Desea eliminar la versión seleccionada?")) {
-            VersionRequests.deleteVersion(ApplicationState.model.name, this.getVersionSelected().name).then(() => {
+            VersionRequests.deleteVersion(ApplicationState.model.id, this.getVersionSelected().name).then(() => {
                 this.removeSelectedVersionFromState();
             });
         }
@@ -116,7 +116,11 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
             }
             i++;
         }
-        this.state.versionsSelectList.splice(indexToRemove, 1);
+        let aux = this.state.versionsSelectList;
+        aux.splice(indexToRemove, 1);
+        this.setState({
+            versionsSelectList: aux
+        });
     }
 
     private renderVersionSelection(): JSX.Element {

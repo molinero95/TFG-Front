@@ -11,6 +11,8 @@ interface ITrainerLeftMenuCompProps {
     onDenseUnitsValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onLearningRateValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onBatchSizeFractionValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onTrainBtnClicked: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    hideTrainBtn: boolean;
 }
 interface ITrainerLeftMenuCompState {
     selectedClass: ClassItem;
@@ -59,6 +61,7 @@ export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompPro
                         <input type="range" className="form-control-range col-md-2" value={this.props.trainParameters.batchSizeFractionDec} min="1" max="10" onChange={this.props.onBatchSizeFractionValueChange.bind(this)}></input>
                     </div>
                 </div>
+                <button className="btn secondaryColorBg topMargin" hidden={this.props.hideTrainBtn} onClick={this.props.onTrainBtnClicked}>Entrenar</button>
             </div>
         );
     }

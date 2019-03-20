@@ -104,7 +104,7 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                                 <span>Añadir clase</span>
                             </span>
                             <div>
-                                <button hidden={this.state.newVersion.classes.length < 2} onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn secondaryColorBg">Crear versión</button>
+                                <button hidden={this.state.newVersion.classes.length < 2 && this.state.newVersion.classes.some(item => item.name == null || item.name.length == 0)} onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn secondaryColorBg">Crear versión</button>
                             </div>
                         </div>
                     </form>

@@ -52,14 +52,10 @@ export class VersionRequests {
             .catch(err => { throw new RequestException(err) });
     }
 
-    public static async deleteVersion(modelName: string, versionName: string): Promise<void> {
-        return fetch(Constants.SERVICE_URL + "/deleteVersion", {
+    public static async deleteVersion(modelId: number, versionName: string): Promise<Response> {
+        return fetch(Constants.SERVICE_URL + `/deleteVersion?modelId=${String(modelId)}&versionName=${versionName}`, {
             method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
         })
-            .then(data => data.json())
             .catch(err => { throw new RequestException(err) });
     }
 }

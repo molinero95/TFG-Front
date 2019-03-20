@@ -6,6 +6,7 @@ import { TrainerImageSelectorComp } from "./trainerImageSelectorComp";
 import { ImageItem } from "../../../entities/ImageItem";
 import { TrainParameters } from "../../../entities/trainParameters";
 import { ApplicationState } from "../../../applicationState";
+import { TrainRequests } from "../../../requests/trainRequests";
 
 
 interface ITrainerRouteMainViewCompProps {
@@ -53,7 +54,7 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
             this.setState({
                 testClasses: classes,
                 trainParameters: {
-                    learningRateDec: 1/ApplicationState.model.activeVersion.learningRate,
+                    learningRateDec: 1 / ApplicationState.model.activeVersion.learningRate,
                     learningRate: ApplicationState.model.activeVersion.learningRate,
                     batchSizeFraction: 0.4,
                     batchSizeFractionDec: 4,
@@ -110,19 +111,13 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     private onConfirmedClass(modelClass: ClassItem): void {
         this.setState({
             images: this.state.images.map(item => {
-                if(item.isSelected){
+                if (item.isSelected) {
                     item.item.class = modelClass;
-                    item.isSelected =  false;
+                    item.isSelected = false;
                 }
                 return item;
             })
         })
-    }
-
-    private getSelectedImages(): Array<ItemSelect<ImageItem>> {
-        let res: Array<ItemSelect<ImageItem>> = new Array<ItemSelect<ImageItem>>();
-        this.state.images.filter(img => img.isSelected);
-        return res;
     }
 
     private onAddedImages(images: Array<File>) {
@@ -153,9 +148,9 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     private onDeselectAllImagesClick(): void {
         this.setState({
             images: this.state.images.map(item => {
-                if(item.item.class == null)
+                if (item.item.class == null)
                     item.isSelected = false;
-                    return item;
+                return item;
             })
         });
     }
@@ -163,9 +158,9 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     private onSelectAllImagesClick(): void {
         this.setState({
             images: this.state.images.map(item => {
-                if(item.item.class == null)
+                if (item.item.class == null)
                     item.isSelected = true;
-                    return item;
+                return item;
             })
         });
     }
@@ -184,6 +179,20 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
         });
     }
 
+    private onTrainBtnClicked(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        if(this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)){
+            alert("Error, check images");
+        }else{
+            TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel=> imagesSel.item)).then(() => {
+
+            });
+        }
+    }
+
+    private hideTrainBtn(): boolean{
+        return this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)
+    }
+
     public render() {
         return (
             <div className="horizontalLayout maxHeigth">
@@ -196,6 +205,8 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
                         onEpochsValueChange={this.onEpochsValueChange.bind(this)}
                         onLearningRateValueChange={this.onLearningRateValueChange.bind(this)}
                         trainParameters={this.state.trainParameters}
+                        onTrainBtnClicked={this.onTrainBtnClicked.bind(this)}
+                        hideTrainBtn={this.hideTrainBtn()}
                     ></TrainerLeftMenuComp>
                 </div>
                 <TrainerImageSelectorComp
