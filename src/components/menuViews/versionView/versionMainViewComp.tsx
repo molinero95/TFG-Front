@@ -5,14 +5,18 @@ import { VersionCreatorComp } from "./versionCreatorComp";
 import { ApplicationState } from "../../../applicationState";
 import { VersionRequests } from "../../../requests/versionRequests";
 import { VersionSelectorComp } from "./versionSelectorComp";
+import { DotLoader } from 'react-spinners';
+
 
 interface IVersionMainViewCompProps {
     onVersionSelectionConfirmed: (version: ModelVersion) => void;
+    appStateVersion: ModelVersion
 }
 
 interface IVersionMainViewCompState {
     versionsSelectList: Array<ItemSelect<ModelVersion>>;
     versionCreationActive: boolean
+    loading: boolean;
 }
 
 
@@ -21,7 +25,8 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
         super(props);
         this.state = {
             versionCreationActive: false,
-            versionsSelectList: []
+            versionsSelectList: [],
+            loading: false
         }
 
     }
@@ -30,10 +35,10 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
         if (ApplicationState.model == null)
             alert("No hay modelo seleccionado");
         else
-            this.requestVersionsNames();
+            this.requestModelVersions();
     }
 
-    private requestVersionsNames(): void {
+    private requestModelVersions(): void {
         VersionRequests.getModelVersions(ApplicationState.model.id).then((versions) => {
             if (versions) {
                 let arrayVers = new Array<ItemSelect<ModelVersion>>();
@@ -52,31 +57,45 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
 
 
     private onVersionCreated(version: ModelVersion) {
-        VersionRequests.postCreateVersion(version).then( (id) => {
-            version.id = id;
-            let selItem: ItemSelect<ModelVersion> = {
-                isSelected: false,
-                item: version,
-                textToShow: version.name
-            }
-            let versions = this.state.versionsSelectList;
-            versions.push(selItem);
-            this.setState({
-                versionCreationActive: false,
-                versionsSelectList: versions
+        this.setState({ loading: true })
+        try {
+            VersionRequests.postCreateVersion(version).then((id) => {
+                version.id = id;
+                let selItem: ItemSelect<ModelVersion> = {
+                    isSelected: false,
+                    item: version,
+                    textToShow: version.name
+                }
+                let versions = this.state.versionsSelectList;
+                versions.push(selItem);
+                this.setState({
+                    versionCreationActive: false,
+                    versionsSelectList: versions,
+                    loading: false
+                });
             });
-        });
-        
+        }
+        catch (err) {
+            alert("Se ha producido un error en el servidor");
+            console.error(err);
+            this.setState({
+                loading: false
+            })
+        }
+
     }
 
     private onVersionSelected(versionSel: ModelVersion): void {
-        this.state.versionsSelectList.forEach((version) => {
+        let aux = this.state.versionsSelectList;
+        aux.forEach((version) => {
             if (version.item == versionSel)
                 version.isSelected = !version.isSelected;
             else
                 version.isSelected = false;
         });
-        this.forceUpdate();
+        this.setState({
+            versionsSelectList: aux
+        });
     }
 
     private renderVersionCreation(): JSX.Element {
@@ -123,13 +142,26 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
         });
     }
 
+    private onLoading(): JSX.Element {
+        return (
+            <div className="middleOfTheScreen centerContent row align-items-center ">
+                <DotLoader
+                    size={200}
+                    color={"#D78193"}
+                    loading={this.state.loading}
+                ></DotLoader>
+            </div>
+        );
+    }
+
     private renderVersionSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 whiteBg offset-md-2 border borderRounded">
                     <VersionSelectorComp
-                        onVersionSelected = {this.onVersionSelected.bind(this)}
-                        versionsSelectList = {this.state.versionsSelectList}
+                        appStateVersion={this.props.appStateVersion}
+                        onVersionSelected={this.onVersionSelected.bind(this)}
+                        versionsSelectList={this.state.versionsSelectList}
                     ></VersionSelectorComp>
                     <div className="spaceBetweenContent" >
                         <span hidden={ApplicationState.model == null} className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
@@ -148,9 +180,14 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
     }
 
     public render(): JSX.Element {
-        if (this.state.versionCreationActive)
-            return this.renderVersionCreation();
-        else
-            return this.renderVersionSelection();
+        if (this.state.loading) {
+            return this.onLoading();
+        }
+        else {
+            if (this.state.versionCreationActive)
+                return this.renderVersionCreation();
+            else
+                return this.renderVersionSelection();
+        }
     }
 }

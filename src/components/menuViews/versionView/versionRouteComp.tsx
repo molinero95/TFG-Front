@@ -8,17 +8,30 @@ interface IVersionRouteCompProps {
 }
 
 interface IVersionRouteCompState {
+    appStateVersion: ModelVersion;
 }
 export class VersionRouteComp extends React.Component<IVersionRouteCompProps, IVersionRouteCompState>{
 
     public constructor(props: IVersionRouteCompProps) {
         super(props);
-        this.state = {
-        };
+        if(ApplicationState.model){
+            this.state = {
+                appStateVersion: ApplicationState.model.activeVersion
+            };
+        }
+        else {
+            this.state = {
+                appStateVersion: null
+            };
+        }
+        
     }
 
 
     private onVersionSelected(modelVersion: ModelVersion) {
+        this.setState({
+            appStateVersion: modelVersion
+        });
         ApplicationState.model.activeVersion = modelVersion;
         alert(`Version: ${modelVersion.name} seleccionada correctamente`);
     }
@@ -27,6 +40,7 @@ export class VersionRouteComp extends React.Component<IVersionRouteCompProps, IV
         return (
             <VersionMainViewComp
                 onVersionSelectionConfirmed={this.onVersionSelected.bind(this)}
+                appStateVersion={this.state.appStateVersion}
             ></VersionMainViewComp>
         );
 

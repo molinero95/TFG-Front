@@ -2,6 +2,7 @@ import * as React from "react";
 import Dropzone from "react-dropzone";
 import { ImageItem } from "../../../entities/ImageItem";
 import { ApplicationState } from "../../../applicationState";
+import { DotLoader } from "react-spinners";
 
 interface IPredictionsRouteMainViewProps {
 
@@ -9,25 +10,24 @@ interface IPredictionsRouteMainViewProps {
 
 interface IPredictionsRouteMainViewCompState {
 	imageToPredict: ImageItem;
+	loading: boolean;
 }
 export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRouteMainViewProps, IPredictionsRouteMainViewCompState>{
 
 	public constructor(props: IPredictionsRouteMainViewProps) {
 		super(props);
 		this.state = {
-			imageToPredict: null
+			imageToPredict: null,
+			loading: false
 		}
 	}
 
 
 	public componentDidMount() {
-		if(ApplicationState.model == null)
-            alert("No hay modelo seleccionado");
-        else if(ApplicationState.model.activeVersion == null)
-            alert("No hay version seleccionada");
-        else{
-            
-        }
+		if (ApplicationState.model == null)
+			alert("No hay modelo seleccionado");
+		else if (ApplicationState.model.activeVersion == null)
+			alert("No hay version seleccionada");
 	}
 
 	private onDropItem(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
@@ -54,6 +54,11 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 	}
 
 
+	private onPredictBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+		//PredictRequiest
+		this.setState({ loading: true });
+	}
+
 	public render(): JSX.Element {
 		return (
 			<div >
@@ -65,7 +70,14 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 							</div>
 						</div>
 						<div className="row">
-							<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4">Predecir</button>
+							<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
+						</div>
+						<div className="centerContent topMargin">
+							<DotLoader
+								size={100}
+								color={"#D78193"}
+								loading={this.state.loading}
+							></DotLoader>
 						</div>
 					</div>
 				</Dropzone>

@@ -2,10 +2,12 @@ import React = require("react");
 import { ItemSelectorComp } from "../../common/itemSelectorComp";
 import { Model } from "../../../entities/model";
 import { ItemSelect } from "../../../common/itemSelect";
+import { ApplicationState } from "../../../applicationState";
 
 interface ModelSelectorCompProps {
     onModelSelected: (model: Model) => void;
     modelSelectList: Array<ItemSelect<Model>>;
+    appStateModel: Model;
 }
 
 interface ModelSelectorCompState {
@@ -16,6 +18,11 @@ export class ModelSelectorComp extends React.Component<ModelSelectorCompProps, M
 
     constructor(props: ModelSelectorCompProps) {
         super(props);
+    }
+    private getItemSelectConfirmed():Model{
+        if(this.props.appStateModel)
+            return this.props.appStateModel
+        return null;
     }
 
     public render() {
@@ -28,6 +35,7 @@ export class ModelSelectorComp extends React.Component<ModelSelectorCompProps, M
                     <ItemSelectorComp
                         itemSelectionList={this.props.modelSelectList}
                         onItemSelected={this.props.onModelSelected}
+                        itemSelectConfirmed={this.getItemSelectConfirmed()}
                     ></ItemSelectorComp>
                 </div>
             </div>

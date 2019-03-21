@@ -17,6 +17,7 @@ interface ITrainerRouteMainViewCompState {
     testClasses: Array<ItemSelect<ClassItem>>;
     images: Array<ItemSelect<ImageItem>>;
     trainParameters: TrainParameters;
+    loading: boolean;
 }
 
 export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainViewCompProps, ITrainerRouteMainViewCompState>{
@@ -33,7 +34,8 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
                 learningRate: 0.00001,
                 learningRateDec: 1000,
                 batchSizeFractionDec: 4,
-            }
+            },
+            loading: false
         }
     }
 
@@ -183,8 +185,10 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
         if(this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)){
             alert("Error, check images");
         }else{
+            this.setState({loading: true});
             TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel=> imagesSel.item)).then(() => {
-
+                this.setState({loading: false});
+                alert("Modelo entrenado");
             });
         }
     }
@@ -207,6 +211,7 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
                         trainParameters={this.state.trainParameters}
                         onTrainBtnClicked={this.onTrainBtnClicked.bind(this)}
                         hideTrainBtn={this.hideTrainBtn()}
+                        loading={this.state.loading}
                     ></TrainerLeftMenuComp>
                 </div>
                 <TrainerImageSelectorComp

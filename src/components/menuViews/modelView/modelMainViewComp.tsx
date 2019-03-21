@@ -4,14 +4,18 @@ import { ModelRequests } from "../../../requests/modelRequests";
 import { ItemSelect } from "../../../common/itemSelect";
 import { ModelCreatorComp } from "./modelCreatorComp";
 import { ModelSelectorComp } from "./modelSelectorComp";
+import { DotLoader } from "react-spinners";
+import { ApplicationState } from "../../../applicationState";
 
 interface IModelMainViewCompProps {
     onModelSelectionConfirmed: (model: Model) => void;
+    appStateModel: Model
 }
 
 interface IModelMainViewCompState {
     modelSelectList: Array<ItemSelect<Model>>;
-    modelCreationActive: boolean
+    modelCreationActive: boolean,
+    loading: boolean;
 }
 
 
@@ -21,7 +25,8 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
         this.state = {
             modelCreationActive: false,
             modelSelectList: [
-            ]
+            ],
+            loading: false,
         }
     }
 
@@ -46,54 +51,67 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
 
     private onModelCreated(model: Model) {
         this.setState({
-            modelCreationActive: false
+            modelCreationActive: false,
+            loading: true,
         });
-        ModelRequests.postCreateModel(model.name).then((newModel) => {
-            let selectableModel: ItemSelect<Model> = {
-                isSelected: false,
-                item: newModel,
-                textToShow: newModel.name
-            }
-            this.state.modelSelectList.push(selectableModel);
-            this.forceUpdate();
-        });
+        try {
+            ModelRequests.postCreateModel(model.name).then((newModel) => {
+                let selectableModel: ItemSelect<Model> = {
+                    isSelected: false,
+                    item: newModel,
+                    textToShow: newModel.name
+                }
+                let aux = this.state.modelSelectList;
+                aux.push(selectableModel);
+                this.setState({
+                    loading: false,
+                    modelSelectList: aux
+                });
+            });
+        }
+        catch (err) {
+            this.setState({loading: false});
+            alert("Se ha producido un error en el servidor");
+            console.error(err);
+        }
     }
 
     private onModelSelected(model: Model): void {
-        this.state.modelSelectList.forEach((modelSelect) => {
+        let aux = this.state.modelSelectList;
+        aux.forEach((modelSelect) => {
             if (modelSelect.item == model)
                 modelSelect.isSelected = !modelSelect.isSelected;
             else
                 modelSelect.isSelected = false;
         });
-        this.forceUpdate();
+        this.setState({modelSelectList: aux});
     }
 
-    
+
 
     private onCreateModelBtnClick(): void {
         this.setState({ modelCreationActive: true });
     }
 
     private onDeleteModelBtnClick(): void {
-        if(confirm("¿Desea eliminar el modelo seleccioado y todas sus versiones?")){
+        if (confirm("¿Desea eliminar el modelo seleccioado y todas sus versiones?")) {
             ModelRequests.deleteModel(this.getModelSelected().id).then(() => {
                 this.removeSelectedModelFromState();
-            }); 
+            });
         }
     }
 
-    private getModelSelected(): Model{
+    private getModelSelected(): Model {
         return this.state.modelSelectList.find(model => model.isSelected).item;
     }
 
 
-    private removeSelectedModelFromState() :void{
+    private removeSelectedModelFromState(): void {
         let indexToRemove = -1;
         let i = 0;
         let found = false;
-        while(i < this.state.modelSelectList.length && !found){
-            if(this.state.modelSelectList[i].isSelected){
+        while (i < this.state.modelSelectList.length && !found) {
+            if (this.state.modelSelectList[i].isSelected) {
                 indexToRemove = i;
                 found = true;
             }
@@ -111,6 +129,18 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
         );
     }
 
+    private onLoading(): JSX.Element {
+        return (
+            <div className="middleOfTheScreen centerContent row align-items-center ">
+                <DotLoader
+                    size={200}
+                    color={"#D78193"}
+                    loading={this.state.loading}
+                ></DotLoader>
+            </div>
+        );
+    }
+
     private renderModelSelection(): JSX.Element {
         return (
             <div className="middleOfTheScreen row align-items-center ">
@@ -118,6 +148,7 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
                     <ModelSelectorComp
                         modelSelectList={this.state.modelSelectList}
                         onModelSelected={this.onModelSelected.bind(this)}
+                        appStateModel={this.props.appStateModel}
                     ></ModelSelectorComp>
                     <div className="spaceBetweenContent" >
                         <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
@@ -136,9 +167,13 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
     }
 
     public render(): JSX.Element {
-        if (this.state.modelCreationActive)
-            return this.renderModelCreation();
-        else
-            return this.renderModelSelection();
+        if (this.state.loading)
+            return this.onLoading();
+        else {
+            if (this.state.modelCreationActive)
+                return this.renderModelCreation();
+            else
+                return this.renderModelSelection();
+        }
     }
 }

@@ -1,17 +1,19 @@
 import React = require("react");
 import { ItemSelect } from "../../common/itemSelect";
 import { ItemSelectComp } from "./ItemSelectComp";
+import { Identificable } from "../../entities/identificable";
 
 interface IItemSelectorCompProps<T> {
     itemSelectionList: Array<ItemSelect<T>>;
     onItemSelected: (item: T) => void;
+    itemSelectConfirmed: T;
 }
 
 interface IItemSelectorCompState {
 }
 
 
-export class ItemSelectorComp<T> extends React.Component<IItemSelectorCompProps<T>, IItemSelectorCompState>{
+export class ItemSelectorComp<T extends Identificable> extends React.Component<IItemSelectorCompProps<T>, IItemSelectorCompState>{
 
     public constructor(props: IItemSelectorCompProps<T>) {
         super(props);
@@ -24,6 +26,7 @@ export class ItemSelectorComp<T> extends React.Component<IItemSelectorCompProps<
             this.props.itemSelectionList.forEach((modelSelection, index) => {
                 res.push(
                     <ItemSelectComp
+                        itemSelectConfirmed={this.props.itemSelectConfirmed}
                         key={index}
                         itemTextToShow={modelSelection.textToShow}
                         itemSelect={modelSelection}

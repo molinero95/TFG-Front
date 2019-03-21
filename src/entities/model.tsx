@@ -1,6 +1,7 @@
 import { ModelVersion } from "./modelVersion";
+import { Identificable } from "./identificable";
 
-export interface Model {
+export interface Model extends Identificable {
     id: number;
     name: string;
     versions: Array<ModelVersion>;

@@ -2,10 +2,12 @@ import React = require("react");
 import { ItemSelectorComp } from "../../common/itemSelectorComp";
 import { ModelVersion } from "../../../entities/modelVersion";
 import { ItemSelect } from "../../../common/itemSelect";
+import { ApplicationState } from "../../../applicationState";
 
 interface VersionSelectorCompProps {
     versionsSelectList: Array<ItemSelect<ModelVersion>>;
     onVersionSelected: (version: ModelVersion) => void;
+    appStateVersion: ModelVersion;
 }
 
 interface VersionSelectorCompState {
@@ -15,6 +17,12 @@ interface VersionSelectorCompState {
 export class VersionSelectorComp extends React.Component<VersionSelectorCompProps, VersionSelectorCompState>{
     constructor(props: VersionSelectorCompProps) {
         super(props);
+    }
+
+    private getItemSelectConfirmed(): ModelVersion{
+        if(this.props.appStateVersion)
+            return this.props.appStateVersion;
+        return null;
     }
 
     public render() {
@@ -27,6 +35,7 @@ export class VersionSelectorComp extends React.Component<VersionSelectorCompProp
                     <ItemSelectorComp<ModelVersion>
                         itemSelectionList={this.props.versionsSelectList}
                         onItemSelected={this.props.onVersionSelected}
+                        itemSelectConfirmed={this.getItemSelectConfirmed()}
                     ></ItemSelectorComp>
                 </div>
             </div>

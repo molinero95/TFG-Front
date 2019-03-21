@@ -2,6 +2,8 @@ import React = require("react");
 import { ClassItem } from "../../../entities/classItem";
 import { ItemSelect } from "../../../common/itemSelect";
 import { TrainParameters } from "../../../entities/trainParameters";
+import { DotLoader } from 'react-spinners';
+
 
 interface ITrainerLeftMenuCompProps {
     classesWithSelection: Array<ItemSelect<ClassItem>>;
@@ -13,10 +15,10 @@ interface ITrainerLeftMenuCompProps {
     onBatchSizeFractionValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onTrainBtnClicked: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     hideTrainBtn: boolean;
+    loading: boolean;
 }
 interface ITrainerLeftMenuCompState {
     selectedClass: ClassItem;
-
 }
 
 
@@ -24,16 +26,16 @@ export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompPro
     public constructor(props: ITrainerLeftMenuCompProps) {
         super(props);
         this.state = {
-            selectedClass: null
+            selectedClass: null,
         }
     }
 
     private printClassButtons(): Array<JSX.Element> {
         let res: Array<JSX.Element> = new Array<JSX.Element>();
         this.props.classesWithSelection.forEach((modelClass, index) => {
-            let btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin" onClick={() => this.setState({selectedClass: modelClass.item})} disabled={false} >{modelClass.textToShow}</button>;
-            if(this.state.selectedClass == modelClass.item)
-                btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin primaryColorBg" onClick={() => this.setState({selectedClass: modelClass.item})} disabled={false} >{modelClass.textToShow}</button>;
+            let btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin" onClick={() => this.setState({ selectedClass: modelClass.item })} disabled={false} >{modelClass.textToShow}</button>;
+            if (this.state.selectedClass == modelClass.item)
+                btn = <button key={"b" + index.toString()} className="btn btn-light prettyMargin primaryColorBg" onClick={() => this.setState({ selectedClass: modelClass.item })} disabled={false} >{modelClass.textToShow}</button>;
             res.push(btn);
         });
         return res;
@@ -61,7 +63,14 @@ export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompPro
                         <input type="range" className="form-control-range col-md-2" value={this.props.trainParameters.batchSizeFractionDec} min="1" max="10" onChange={this.props.onBatchSizeFractionValueChange.bind(this)}></input>
                     </div>
                 </div>
-                <button className="btn secondaryColorBg topMargin" hidden={this.props.hideTrainBtn} onClick={this.props.onTrainBtnClicked}>Entrenar</button>
+                <button className="btn secondaryColorBg topMargin" disabled={this.props.loading} hidden={this.props.hideTrainBtn} onClick={this.props.onTrainBtnClicked}>Entrenar</button>
+                <div className="centerContent topMargin">
+                    <DotLoader 
+                        size={100}
+                        color={"#D78193"}
+                        loading={this.props.loading}
+                    ></DotLoader>
+                </div>
             </div>
         );
     }

@@ -8,6 +8,7 @@ interface IModelRouteCompProps {
 }
 
 interface IModelRouteCompState {
+    appStateModel: Model,
 
 }
 
@@ -16,11 +17,15 @@ export class ModelRouteComp extends React.Component<IModelRouteCompProps, IModel
     public constructor(props: IModelRouteCompProps) {
         super(props);
         this.state = {
+            appStateModel: ApplicationState.model
         };
     }
 
     
     private onModelSelectionConfirmed(model: Model) {
+        this.setState({
+            appStateModel: model
+        });
         ApplicationState.model = model;
         alert(`Modelo: ${model.name} seleccionado correctamente`);
     }
@@ -29,6 +34,7 @@ export class ModelRouteComp extends React.Component<IModelRouteCompProps, IModel
         return (
             <ModelMainViewComp
                 onModelSelectionConfirmed={this.onModelSelectionConfirmed.bind(this)}
+                appStateModel={this.state.appStateModel}
             ></ModelMainViewComp>
         );
 
