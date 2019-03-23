@@ -62,7 +62,7 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 		//PredictRequiest
 		this.setState({ loading: true });
 		console.log(this.state.imageToPredict);
-		let params = { file: this.state.imageToPredict.file, modelId: 26, versionId: 21, fileName: this.state.imageToPredict.file.name };
+		let params = { file: this.state.imageToPredict.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
 		PredictionRequests.makePrediction(params).then(prediction => {
 			this.setState({ loading: false, prediction });
 		}).catch(console.error);
