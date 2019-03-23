@@ -4,7 +4,7 @@ import { Constants } from "../common/constants";
 
 export class PredictionRequests {
 
-	public static async makePrediction(predictionParameters: PredictionParameters): Promise<Array<any>> {
+	public static async makePrediction(predictionParameters: PredictionParameters): Promise<string> {
 		let formData: FormData = new FormData();
 		formData.append("data", JSON.stringify(predictionParameters));
 		formData.append(predictionParameters.file.name, predictionParameters.file);

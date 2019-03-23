@@ -12,6 +12,7 @@ interface IPredictionsRouteMainViewProps {
 interface IPredictionsRouteMainViewCompState {
 	imageToPredict: ImageItem;
 	loading: boolean;
+	prediction: string;
 }
 export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRouteMainViewProps, IPredictionsRouteMainViewCompState>{
 
@@ -19,7 +20,8 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 		super(props);
 		this.state = {
 			imageToPredict: null,
-			loading: false
+			loading: false,
+			prediction: ''
 		}
 	}
 
@@ -61,8 +63,8 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 		this.setState({ loading: true });
 		console.log(this.state.imageToPredict);
 		let params = { file: this.state.imageToPredict.file, modelId: 26, versionId: 21, fileName: this.state.imageToPredict.file.name };
-		PredictionRequests.makePrediction(params).then(data => {
-			console.log(data);
+		PredictionRequests.makePrediction(params).then(prediction => {
+			this.setState({ loading: false, prediction });
 		}).catch(console.error);
 	}
 
@@ -78,6 +80,11 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 						</div>
 						<div className="row">
 							<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
+						</div>
+						<div className="row">
+							<div className="col-md-12 text-center">
+								{this.state.prediction}
+							</div>
 						</div>
 						<div className="centerContent topMargin">
 							<DotLoader
