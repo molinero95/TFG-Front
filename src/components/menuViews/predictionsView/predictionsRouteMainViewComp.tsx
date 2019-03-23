@@ -3,6 +3,7 @@ import Dropzone from "react-dropzone";
 import { ImageItem } from "../../../entities/ImageItem";
 import { ApplicationState } from "../../../applicationState";
 import { DotLoader } from "react-spinners";
+import { PredictionRequests } from "../../../requests/predictionRequests";
 
 interface IPredictionsRouteMainViewProps {
 
@@ -34,6 +35,7 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 		if (accepted == null || accepted.length == 0 || accepted.length > 1)
 			alert("Introduzca sólo una imagen");
 		else {
+
 			let url = URL.createObjectURL(accepted[0]);
 			let img: ImageItem = {
 				class: null,
@@ -57,6 +59,11 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 	private onPredictBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
 		//PredictRequiest
 		this.setState({ loading: true });
+		console.log(this.state.imageToPredict);
+		let params = { file: this.state.imageToPredict.file, modelId: 26, versionId: 21, fileName: this.state.imageToPredict.file.name };
+		PredictionRequests.makePrediction(params).then(data => {
+			console.log(data);
+		}).catch(console.error);
 	}
 
 	public render(): JSX.Element {
