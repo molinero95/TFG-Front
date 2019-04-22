@@ -177,6 +177,14 @@ body{
     height: 100vh;
 }
 
+.verticalCentered{
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    justify-content: center;
+    
+}
+
 
 .inheritContent{
     display:flex;

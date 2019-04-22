@@ -51,10 +51,10 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 	private showImage(): JSX.Element {
 		if (this.state.imageToPredict != null) {
 			return (
-				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder halfMinHeigth maxWidth halfHeigth"></img>
+				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder maxHeigth halfMinHeigth maxWidth"></img>
 			)
 		}
-		return (<div className="maxWidth halfMinHeigth halfHeigth dashedBorder bigCentereBlackText">Arrastre imagen aqui</div>)
+		return (<div className="maxWidth halfMinHeigth maxHeigth dashedBorder bigCentereBlackText">Arrastre imagen aqui</div>)
 	}
 
 
@@ -71,14 +71,14 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 	public render(): JSX.Element {
 		return (
 			<div >
-				<Dropzone className="maxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true}>
-					<div className="middleOfTheScreen align-items-center topPadding prettyMargin">
-						<div className="row halfMinHeigth halfHeigth">
-							<div className="col-md-4 maxHeigth offset-md-4">
+				<Dropzone className="maxHeigth noScroll maxWidth " onDrop={this.onDropItem.bind(this)}>
+					<div className="verticalCentered align-items-center topPadding prettyMargin">
+						<div className="row maxWidth maxHeigth notMaxHeigth">
+							<div className="col-md-6 maxHeigth offset-md-3">
 								{this.showImage()}
 							</div>
 						</div>
-						<div className="row">
+						<div className="row maxWidth">
 							<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
 						</div>
 						<div className="row">
