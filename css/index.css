@@ -325,6 +325,9 @@ body{
     position: relative;
 }
 
+.predictionImageHeigth{
+    height: 30rem;
+}
 
 .limitedHeigth{
     max-height: 40%;
