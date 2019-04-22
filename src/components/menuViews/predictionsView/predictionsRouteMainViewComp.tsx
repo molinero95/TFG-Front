@@ -90,7 +90,7 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 					</div>
 				</div>
 				<div className="row col-md-12">
-				<div className="offset-md-5 col-md-2 text-center">
+				<div className="centerContent col-md-12">
 						<DotLoader
 							size={100}
 							color={"#D78193"}
