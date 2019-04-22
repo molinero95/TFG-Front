@@ -70,31 +70,31 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 
 	public render(): JSX.Element {
 		return (
-			<div >
-				<Dropzone className="maxHeigth noScroll maxWidth " onDrop={this.onDropItem.bind(this)}>
+			<div className="row maxHeigth notMaxHeigth">
+				<Dropzone className="notMaxHeigth noScroll maxWidth " onDrop={this.onDropItem.bind(this)}>
 					<div className="verticalCentered align-items-center topPadding prettyMargin">
 						<div className="row maxWidth maxHeigth notMaxHeigth">
 							<div className="col-md-6 maxHeigth offset-md-3">
 								{this.showImage()}
 							</div>
 						</div>
-						<div className="row maxWidth">
-							<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
-						</div>
-						<div className="row">
-							<div className="col-md-12 text-center">
-								{this.state.prediction}
-							</div>
-						</div>
-						<div className="centerContent topMargin">
-							<DotLoader
-								size={100}
-								color={"#D78193"}
-								loading={this.state.loading}
-							></DotLoader>
-						</div>
 					</div>
 				</Dropzone>
+				<div className="maxWidth">
+					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
+				</div>
+				<div className="row">
+					<div className="col-md-12 text-center">
+						{this.state.prediction}
+					</div>
+				</div>
+				<div className="centerContent topMargin">
+					<DotLoader
+						size={100}
+						color={"#D78193"}
+						loading={this.state.loading}
+					></DotLoader>
+				</div>
 			</div>
 		);
 	}

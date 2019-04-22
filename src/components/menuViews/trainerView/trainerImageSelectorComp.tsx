@@ -58,7 +58,7 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
                     onSelectAllClick={this.props.onSelectAllImagesClick}
                     onRemoveImagesClick={this.props.onRemoveImagesClick}
                 ></TrainerTopMenuComp>
-                <Dropzone className="maxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
+                <Dropzone className="maxHeigth notMaxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
                     <div className="topPadding inheritContent">
                         {this.showImages()}
                     </div>
