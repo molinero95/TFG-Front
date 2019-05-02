@@ -30,22 +30,67 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
     }
 
 
-    //TODO: image style
     private showImages(): Array<JSX.Element> {
         let res: Array<JSX.Element> = new Array<JSX.Element>();
         this.props.images.forEach(image => {
             let item: JSX.Element;
             if (image.isSelected && image.item.class == null) { //Seleccionada y no marcada
-                item = <img className="imageSize relPosition pointerCursor imageSelected" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
+                item = 
+                    <img 
+                        key = {"image-" + image.item.imageUrl}
+                        className="imageSize relPosition pointerCursor imageSelected" 
+                        onClick={() => { this.props.onImageSelected(image.item) }} 
+                        src={image.item.imageUrl}>
+                    </img>
             }
             else if (!image.isSelected && image.item.class != null) { //No seleccionada y marcada
-                item = <div className="imageSize relPosition"><img className="imageSize relPosition pointerCursor imageClassified" src={image.item.imageUrl}></img><div className="primaryColorBg absPositionLittleBottom imageClassText borderRounded">{image.item.class.name}</div></div>
+                item = 
+                    <div 
+                        className="imageSize relPosition"
+                        key={"divF-image-" + image.item.imageUrl}>
+                        <img 
+                            key = {"image-" + image.item.imageUrl}
+                            className="imageSize relPosition pointerCursor imageClassified" 
+                            onClick={() => { this.props.onImageSelected(image.item) }} 
+                            src={image.item.imageUrl}>
+                        </img>
+                        <div 
+                            className="primaryColorBg absPositionLittleBottom imageClassText borderRounded"
+                            key = {"divS-image-" + image.item.imageUrl} >
+                            {image.item.class.name}
+                        </div>
+                    </div>
 
             }
             else if(!image.isSelected && image.item.class == null){ //No seleccionada y no marcada
-                item = <img className="imageSize relPosition pointerCursor" onClick={() => { this.props.onImageSelected(image.item) }} src={image.item.imageUrl}></img>
+                item = 
+                    <img 
+                        key = {"image-" + image.item.imageUrl}
+                        className="imageSize relPosition pointerCursor" 
+                        onClick={() => { this.props.onImageSelected(image.item) }} 
+                        src={image.item.imageUrl}>
+                    </img>
+            }
+            else { //Seleccionada y marcada
+                item = 
+                    <div
+                        key={"divF-image-" + image.item.imageUrl} 
+                        className="imageSize relPosition">
+                        <img 
+                            key = {"image-" + image.item.imageUrl}
+                            className="imageSize relPosition pointerCursor imageSelected" 
+                            onClick={() => { this.props.onImageSelected(image.item) }} 
+                            src={image.item.imageUrl}>
+                        </img>
+                        <div
+                            key = {"divS-image-" + image.item.imageUrl} 
+                            className="primaryColorBg absPositionLittleBottom imageClassText borderRounded">
+                            {image.item.class.name}
+                        </div>
+                    </div>
             }
             res.push(item);
+            console.log(this.props.images);
         });
         return res;
     }

@@ -111,15 +111,19 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
 
 
     private onConfirmedClass(modelClass: ClassItem): void {
-        this.setState({
-            images: this.state.images.map(item => {
-                if (item.isSelected) {
-                    item.item.class = modelClass;
-                    item.isSelected = false;
-                }
-                return item;
+        if (modelClass) {
+            this.setState({
+                images: this.state.images.map(item => {
+                    if (item.isSelected) {
+                        item.item.class = modelClass;
+                        item.isSelected = false;
+                    }
+                    return item;
+                })
             })
-        })
+        }
+        else
+            alert("Seleccione una clase");
     }
 
     private onAddedImages(images: Array<File>) {
@@ -150,8 +154,7 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     private onDeselectAllImagesClick(): void {
         this.setState({
             images: this.state.images.map(item => {
-                if (item.item.class == null)
-                    item.isSelected = false;
+                item.isSelected = false;
                 return item;
             })
         });
@@ -182,19 +185,22 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     }
 
     private onTrainBtnClicked(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        if(this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)){
+        if (this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)) {
             alert("Error, check images");
-        }else{
-            this.setState({loading: true});
-            TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel=> imagesSel.item)).then(() => {
-                this.setState({loading: false});
+        } else {
+            this.setState({ loading: true });
+            TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then(() => {
+                this.setState({ loading: false });
                 alert("Modelo entrenado");
-                this.setState({images: new Array<ItemSelect<ImageItem>>()})
+                this.setState({ images: new Array<ItemSelect<ImageItem>>() }) //Limpieza
+            }).catch((err) => {
+                this.setState({ loading: false });
+                alert("Se ha producido un error: " + err);
             });
         }
     }
 
-    private hideTrainBtn(): boolean{
+    private hideTrainBtn(): boolean {
         return this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)
     }
 
