@@ -1,27 +1,27 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/modelVersion";
-import { ItemSelect } from "../../../common/itemSelect";
-import { VersionCreatorComp } from "./versionCreatorComp";
+import { SelectableItem } from "../../../common/selectableItem";
+import { VersionCreator } from "./versionCreator";
 import { ApplicationState } from "../../../applicationState";
 import { VersionRequests } from "../../../requests/versionRequests";
-import { VersionSelectorComp } from "./versionSelectorComp";
+import { VersionSelector } from "./versionSelector";
 import { DotLoader } from 'react-spinners';
 
 
-interface IVersionMainViewCompProps {
+interface IVersionMainViewProps {
     onVersionSelectionConfirmed: (version: ModelVersion) => void;
     appStateVersion: ModelVersion
 }
 
-interface IVersionMainViewCompState {
-    versionsSelectList: Array<ItemSelect<ModelVersion>>;
+interface IVersionMainViewState {
+    versionsSelectList: Array<SelectableItem<ModelVersion>>;
     versionCreationActive: boolean
     loading: boolean;
 }
 
 
-export class VersionMainViewComp extends React.Component<IVersionMainViewCompProps, IVersionMainViewCompState>{
-    constructor(props: IVersionMainViewCompProps) {
+export class VersionMainView extends React.Component<IVersionMainViewProps, IVersionMainViewState>{
+    constructor(props: IVersionMainViewProps) {
         super(props);
         this.state = {
             versionCreationActive: false,
@@ -41,9 +41,9 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
     private requestModelVersions(): void {
         VersionRequests.getModelVersions(ApplicationState.model.id).then((versions) => {
             if (versions) {
-                let arrayVers = new Array<ItemSelect<ModelVersion>>();
+                let arrayVers = new Array<SelectableItem<ModelVersion>>();
                 versions.forEach(version => {
-                    let itemSelect: ItemSelect<ModelVersion> = {
+                    let itemSelect: SelectableItem<ModelVersion> = {
                         isSelected: false,
                         item: version,
                         textToShow: version.name
@@ -61,7 +61,7 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
         try {
             VersionRequests.postCreateVersion(version).then((id) => {
                 version.id = id;
-                let selItem: ItemSelect<ModelVersion> = {
+                let selItem: SelectableItem<ModelVersion> = {
                     isSelected: false,
                     item: version,
                     textToShow: version.name
@@ -100,9 +100,9 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
 
     private renderVersionCreation(): JSX.Element {
         return (
-            <VersionCreatorComp
+            <VersionCreator
                 onVersionCreated={this.onVersionCreated.bind(this)}
-            ></VersionCreatorComp>
+            ></VersionCreator>
         );
     }
 
@@ -158,11 +158,11 @@ export class VersionMainViewComp extends React.Component<IVersionMainViewCompPro
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 whiteBg offset-md-2 border borderRounded">
-                    <VersionSelectorComp
+                    <VersionSelector
                         appStateVersion={this.props.appStateVersion}
                         onVersionSelected={this.onVersionSelected.bind(this)}
                         versionsSelectList={this.state.versionsSelectList}
-                    ></VersionSelectorComp>
+                    ></VersionSelector>
                     <div className="spaceBetweenContent" >
                         <span hidden={ApplicationState.model == null} className=" noRigthMargin  btn pointerCursor btn-light" onClick={this.onCreateVersionBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>

@@ -1,21 +1,21 @@
 import React = require("react");
-import { ItemSelect } from "../../common/itemSelect";
-import { ItemSelectComp } from "./ItemSelectComp";
+import { SelectableItem } from "../../common/selectableItem";
+import { SelectItem } from "./SelectItem";
 import { Identificable } from "../../entities/identificable";
 
-interface IItemSelectorCompProps<T> {
-    itemSelectionList: Array<ItemSelect<T>>;
+interface IItemSelectorProps<T> {
+    itemSelectionList: Array<SelectableItem<T>>;
     onItemSelected: (item: T) => void;
     itemSelectConfirmed: T;
 }
 
-interface IItemSelectorCompState {
+interface IItemSelectorState {
 }
 
 
-export class ItemSelectorComp<T extends Identificable> extends React.Component<IItemSelectorCompProps<T>, IItemSelectorCompState>{
+export class ItemSelector<T extends Identificable> extends React.Component<IItemSelectorProps<T>, IItemSelectorState>{
 
-    public constructor(props: IItemSelectorCompProps<T>) {
+    public constructor(props: IItemSelectorProps<T>) {
         super(props);
     }
 
@@ -25,13 +25,13 @@ export class ItemSelectorComp<T extends Identificable> extends React.Component<I
         if (this.props.itemSelectionList.length > 0) {
             this.props.itemSelectionList.forEach((modelSelection, index) => {
                 res.push(
-                    <ItemSelectComp
+                    <SelectItem
                         itemSelectConfirmed={this.props.itemSelectConfirmed}
                         key={index}
                         itemTextToShow={modelSelection.textToShow}
                         itemSelect={modelSelection}
                         onItemSelected={() => { this.props.onItemSelected(modelSelection.item) }}
-                    ></ItemSelectComp>
+                    ></SelectItem>
                 );
             });
         }

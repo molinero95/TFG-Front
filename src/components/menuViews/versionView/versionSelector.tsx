@@ -1,21 +1,20 @@
 import React = require("react");
-import { ItemSelectorComp } from "../../common/itemSelectorComp";
+import { ItemSelector } from "../../common/itemSelector";
 import { ModelVersion } from "../../../entities/modelVersion";
-import { ItemSelect } from "../../../common/itemSelect";
-import { ApplicationState } from "../../../applicationState";
+import { SelectableItem } from "../../../common/selectableItem";
 
-interface VersionSelectorCompProps {
-    versionsSelectList: Array<ItemSelect<ModelVersion>>;
+interface VersionSelectorProps {
+    versionsSelectList: Array<SelectableItem<ModelVersion>>;
     onVersionSelected: (version: ModelVersion) => void;
     appStateVersion: ModelVersion;
 }
 
-interface VersionSelectorCompState {
+interface VersionSelectorState {
 
 }
 
-export class VersionSelectorComp extends React.Component<VersionSelectorCompProps, VersionSelectorCompState>{
-    constructor(props: VersionSelectorCompProps) {
+export class VersionSelector extends React.Component<VersionSelectorProps, VersionSelectorState>{
+    constructor(props: VersionSelectorProps) {
         super(props);
     }
 
@@ -32,11 +31,11 @@ export class VersionSelectorComp extends React.Component<VersionSelectorCompProp
                     <h4 className="prettyMargin text-white">Seleccione version:</h4>
                 </div>
                 <div className="notMaxHeigth scrollAuto">
-                    <ItemSelectorComp<ModelVersion>
+                    <ItemSelector<ModelVersion>
                         itemSelectionList={this.props.versionsSelectList}
                         onItemSelected={this.props.onVersionSelected}
                         itemSelectConfirmed={this.getItemSelectConfirmed()}
-                    ></ItemSelectorComp>
+                    ></ItemSelector>
                 </div>
             </div>
         )

@@ -1,12 +1,12 @@
 import React = require("react");
 import { ClassItem } from "../../../entities/classItem";
-import { ItemSelect } from "../../../common/itemSelect";
+import { SelectableItem } from "../../../common/selectableItem";
 import { TrainParameters } from "../../../entities/trainParameters";
 import { DotLoader } from 'react-spinners';
 
 
-interface ITrainerLeftMenuCompProps {
-    classesWithSelection: Array<ItemSelect<ClassItem>>;
+interface ITrainerLeftMenuProps {
+    classesWithSelection: Array<SelectableItem<ClassItem>>;
     onConfirmedClass: (modelClass: ClassItem) => void;
     trainParameters: TrainParameters;
     onEpochsValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,13 +17,13 @@ interface ITrainerLeftMenuCompProps {
     hideTrainBtn: boolean;
     loading: boolean;
 }
-interface ITrainerLeftMenuCompState {
+interface ITrainerLeftMenuState {
     selectedClass: ClassItem;
 }
 
 
-export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompProps, ITrainerLeftMenuCompState> {
-    public constructor(props: ITrainerLeftMenuCompProps) {
+export class TrainerLeftMenu extends React.Component<ITrainerLeftMenuProps, ITrainerLeftMenuState> {
+    public constructor(props: ITrainerLeftMenuProps) {
         super(props);
         this.state = {
             selectedClass: null,
@@ -65,7 +65,7 @@ export class TrainerLeftMenuComp extends React.Component<ITrainerLeftMenuCompPro
                 </div>
                 <button className="btn secondaryColorBg topMargin" disabled={this.props.loading} hidden={this.props.hideTrainBtn} onClick={this.props.onTrainBtnClicked}>Entrenar</button>
                 <div className="centerContent topMargin">
-                    <DotLoader 
+                    <DotLoader
                         size={100}
                         color={"#D78193"}
                         loading={this.props.loading}

@@ -1,22 +1,22 @@
 import React = require("react");
-import { ItemSelectorComp } from "../../common/itemSelectorComp";
+import { ItemSelector } from "../../common/itemSelector";
 import { Model } from "../../../entities/model";
-import { ItemSelect } from "../../../common/itemSelect";
+import { SelectableItem } from "../../../common/selectableItem";
 import { ApplicationState } from "../../../applicationState";
 
-interface ModelSelectorCompProps {
+interface ModelSelectorProps {
     onModelSelected: (model: Model) => void;
-    modelSelectList: Array<ItemSelect<Model>>;
+    modelSelectList: Array<SelectableItem<Model>>;
     appStateModel: Model;
 }
 
-interface ModelSelectorCompState {
+interface ModelSelectorState {
 
 }
 
-export class ModelSelectorComp extends React.Component<ModelSelectorCompProps, ModelSelectorCompState> {
+export class ModelSelector extends React.Component<ModelSelectorProps, ModelSelectorState> {
 
-    constructor(props: ModelSelectorCompProps) {
+    constructor(props: ModelSelectorProps) {
         super(props);
     }
     private getItemSelectConfirmed():Model{
@@ -32,11 +32,11 @@ export class ModelSelectorComp extends React.Component<ModelSelectorCompProps, M
                     <h4 className="prettyMargin text-white">Seleccione modelo:</h4>
                 </div>
                 <div className="notMaxHeigth scrollAuto">
-                    <ItemSelectorComp
+                    <ItemSelector
                         itemSelectionList={this.props.modelSelectList}
                         onItemSelected={this.props.onModelSelected}
                         itemSelectConfirmed={this.getItemSelectConfirmed()}
-                    ></ItemSelectorComp>
+                    ></ItemSelector>
                 </div>
             </div>
         )

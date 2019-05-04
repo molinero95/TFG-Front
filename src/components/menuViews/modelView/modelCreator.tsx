@@ -1,16 +1,16 @@
 import React = require("react");
 import { Model } from "../../../entities/model";
 
-interface IModelCreatorCompProps {
+interface IModelCreatorProps {
     onModelCreated: (newModel: Model) => void;
 }
 
-interface IModelCreatorCompState {
+interface IModelCreatorState {
     newModel: Model;
 }
 
-export class ModelCreatorComp extends React.Component<IModelCreatorCompProps, IModelCreatorCompState>{
-    constructor(props: IModelCreatorCompProps) {
+export class ModelCreator extends React.Component<IModelCreatorProps, IModelCreatorState>{
+    constructor(props: IModelCreatorProps) {
         super(props);
         this.state = {
             newModel: {

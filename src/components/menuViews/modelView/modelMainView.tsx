@@ -1,26 +1,26 @@
 import React = require("react");
 import { Model } from "../../../entities/model";
 import { ModelRequests } from "../../../requests/modelRequests";
-import { ItemSelect } from "../../../common/itemSelect";
-import { ModelCreatorComp } from "./modelCreatorComp";
-import { ModelSelectorComp } from "./modelSelectorComp";
+import { SelectableItem } from "../../../common/selectableItem";
+import { ModelCreator } from "./modelCreator";
+import { ModelSelector } from "./modelSelector";
 import { DotLoader } from "react-spinners";
 import { ApplicationState } from "../../../applicationState";
 
-interface IModelMainViewCompProps {
+interface IModelMainViewProps {
     onModelSelectionConfirmed: (model: Model) => void;
     appStateModel: Model
 }
 
-interface IModelMainViewCompState {
-    modelSelectList: Array<ItemSelect<Model>>;
+interface IModelMainViewState {
+    modelSelectList: Array<SelectableItem<Model>>;
     modelCreationActive: boolean,
     loading: boolean;
 }
 
 
-export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, IModelMainViewCompState>{
-    constructor(props: IModelMainViewCompProps) {
+export class ModelMainView extends React.Component<IModelMainViewProps, IModelMainViewState>{
+    constructor(props: IModelMainViewProps) {
         super(props);
         this.state = {
             modelCreationActive: false,
@@ -56,7 +56,7 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
         });
         try {
             ModelRequests.postCreateModel(model.name).then((newModel) => {
-                let selectableModel: ItemSelect<Model> = {
+                let selectableModel: SelectableItem<Model> = {
                     isSelected: false,
                     item: newModel,
                     textToShow: newModel.name
@@ -67,7 +67,10 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
                     loading: false,
                     modelSelectList: aux
                 });
-            });
+            }).catch(( err) => {
+                alert("Se ha producido un error");
+                console.error(err)
+            })
         }
         catch (err) {
             this.setState({loading: false});
@@ -123,9 +126,9 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
 
     private renderModelCreation(): JSX.Element {
         return (
-            <ModelCreatorComp
+            <ModelCreator
                 onModelCreated={this.onModelCreated.bind(this)}
-            ></ModelCreatorComp>
+            ></ModelCreator>
         );
     }
 
@@ -145,11 +148,11 @@ export class ModelMainViewComp extends React.Component<IModelMainViewCompProps, 
         return (
             <div className="middleOfTheScreen row align-items-center ">
                 <div className="col-md-8 offset-md-2 border borderRounded whiteBg">
-                    <ModelSelectorComp
+                    <ModelSelector
                         modelSelectList={this.state.modelSelectList}
                         onModelSelected={this.onModelSelected.bind(this)}
                         appStateModel={this.props.appStateModel}
-                    ></ModelSelectorComp>
+                    ></ModelSelector>
                     <div className="spaceBetweenContent" >
                         <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>

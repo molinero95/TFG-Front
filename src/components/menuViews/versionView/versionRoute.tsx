@@ -1,18 +1,18 @@
 import * as React from "react";
 import { ApplicationState } from "../../../applicationState";
-import { VersionMainViewComp } from "./versionMainViewComp";
+import { VersionMainView } from "./versionMainView";
 import { ModelVersion } from "../../../entities/modelVersion";
 
-interface IVersionRouteCompProps {
+interface IVersionRouteProps {
 
 }
 
-interface IVersionRouteCompState {
+interface IVersionRouteState {
     appStateVersion: ModelVersion;
 }
-export class VersionRouteComp extends React.Component<IVersionRouteCompProps, IVersionRouteCompState>{
+export class VersionRoute extends React.Component<IVersionRouteProps, IVersionRouteState>{
 
-    public constructor(props: IVersionRouteCompProps) {
+    public constructor(props: IVersionRouteProps) {
         super(props);
         if(ApplicationState.model){
             this.state = {
@@ -38,10 +38,10 @@ export class VersionRouteComp extends React.Component<IVersionRouteCompProps, IV
 
     public render(): JSX.Element {
         return (
-            <VersionMainViewComp
+            <VersionMainView
                 onVersionSelectionConfirmed={this.onVersionSelected.bind(this)}
                 appStateVersion={this.state.appStateVersion}
-            ></VersionMainViewComp>
+            ></VersionMainView>
         );
 
     }

@@ -1,20 +1,20 @@
 import * as React from "react";
 import { Model } from "../../../entities/model";
 import { ApplicationState } from "../../../applicationState";
-import { ModelMainViewComp } from "./modelMainViewComp";
+import { ModelMainView } from "./modelMainView";
 
-interface IModelRouteCompProps {
+interface IModelRouteProps {
 
 }
 
-interface IModelRouteCompState {
+interface IModelRouteState {
     appStateModel: Model,
 
 }
 
-export class ModelRouteComp extends React.Component<IModelRouteCompProps, IModelRouteCompState>{
+export class ModelRoute extends React.Component<IModelRouteProps, IModelRouteState>{
 
-    public constructor(props: IModelRouteCompProps) {
+    public constructor(props: IModelRouteProps) {
         super(props);
         this.state = {
             appStateModel: ApplicationState.model
@@ -32,10 +32,10 @@ export class ModelRouteComp extends React.Component<IModelRouteCompProps, IModel
 
     public render(): JSX.Element {
         return (
-            <ModelMainViewComp
+            <ModelMainView
                 onModelSelectionConfirmed={this.onModelSelectionConfirmed.bind(this)}
                 appStateModel={this.state.appStateModel}
-            ></ModelMainViewComp>
+            ></ModelMainView>
         );
 
     }

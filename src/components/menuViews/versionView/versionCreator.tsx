@@ -1,21 +1,21 @@
 import React = require("react");
 import { ModelVersion } from "../../../entities/modelVersion";
-import { DynamicClassInputsComp } from "./dynamicClassInputsComp";
+import { DynamicClassInputs } from "./dynamicClassInputs";
 import { ClassItem } from "../../../entities/classItem";
 
 
-interface IVersionCreatorCompProps {
+interface IVersionCreatorProps {
     onVersionCreated: (newVersion: ModelVersion) => void;
 }
 
-interface IVersionCreatorCompState {
+interface IVersionCreatorState {
     newVersion: ModelVersion;
     learningRateDec: number;
 
 }
 
-export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps, IVersionCreatorCompState>{
-    constructor(props: IVersionCreatorCompProps) {
+export class VersionCreator extends React.Component<IVersionCreatorProps, IVersionCreatorState>{
+    constructor(props: IVersionCreatorProps) {
         super(props);
         this.state = {
             newVersion: {
@@ -39,9 +39,9 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
     }
 
 
-    private onClassNameChange(newName: string, classItem: ClassItem): void {
+    private onClassNameChange(newName: string, classId: number): void {
         let version = this.state.newVersion;
-        version.classes.find(versionClass => versionClass.name == classItem.name).name = newName;
+        version.classes.find(versionClass => versionClass.id == classId).name = newName;
         this.setState({
             newVersion: version
         });
@@ -49,7 +49,7 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
 
     private onAddNewClassBtnClick() {
         let version = this.state.newVersion;
-        version.classes.push({ id: version.classes.length, name: "" })  //Lo del ID es temporal
+        version.classes.push({ id: version.classes.length, name: ""})  //Lo del ID es temporal
         this.setState({
             newVersion: version
         });
@@ -64,15 +64,23 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
         });
     }
 
-    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void{
+    private onLearningRateValueChange(event: React.ChangeEvent<HTMLInputElement>): void {
         let val = Number(event.target.value);
         let version = this.state.newVersion;
-        version.learningRate = 1/val;
+        version.learningRate = 1 / val;
         this.setState({
             newVersion: version,
             learningRateDec: val
         });
 
+    }
+
+    private onDeleteClassBtnClick(){
+        let version = this.state.newVersion;
+        version.classes.splice(version.classes.length - 1, 1);
+        this.setState({
+            newVersion: version
+        });
     }
 
 
@@ -94,17 +102,21 @@ export class VersionCreatorComp extends React.Component<IVersionCreatorCompProps
                             <label className=" col-md-2 text-right">Ratio de aprendizaje: 1/{this.state.learningRateDec}</label>
                             <input type="range" className="form-control-range col-md-3" value={this.state.learningRateDec} min="10" max="10000" onChange={this.onLearningRateValueChange.bind(this)}></input>
                         </div>
-                        <DynamicClassInputsComp
+                        <DynamicClassInputs
                             classes={this.state.newVersion.classes}
                             onClassNameChange={this.onClassNameChange.bind(this)}
-                        ></DynamicClassInputsComp>
+                        ></DynamicClassInputs>
                         <div className="spaceBetweenContent" >
-                            <span className=" noLeftMargin  btn pointerCursor btn-light" onClick={this.onAddNewClassBtnClick.bind(this)}>
+                            <span className="btn pointerCursor btn-light" onClick={this.onAddNewClassBtnClick.bind(this)}>
                                 <img id="addBtn"></img>
                                 <span>Añadir clase</span>
                             </span>
+                            <span hidden={this.state.newVersion.classes.length == 0} className="btn pointerCursor btn-light" onClick={this.onDeleteClassBtnClick.bind(this)}>
+                                <img id="removeBtn" className="borderRounded"></img>
+                                <span>Borrar clase</span>
+                            </span>
                             <div>
-                                <button hidden={this.state.newVersion.classes.length < 2 || this.state.newVersion.classes.some(item => item.name == null || item.name.length == 0)} onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn secondaryColorBg">Crear versión</button>
+                                <button disabled={this.state.newVersion.classes.length < 2 || this.state.newVersion.classes.some(item => item.name == null || item.name.length == 0)} onClick={() => { this.props.onVersionCreated(this.state.newVersion) }} className="btn secondaryColorBg">Crear versión</button>
                             </div>
                         </div>
                     </form>

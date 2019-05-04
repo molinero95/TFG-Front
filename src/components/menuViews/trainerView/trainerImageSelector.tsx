@@ -1,25 +1,27 @@
 import React = require("react");
 import * as DropZoneLib from "react-dropzone";
-import { ItemSelect } from "../../../common/itemSelect";
+import { SelectableItem } from "../../../common/selectableItem";
 import { ImageItem } from "../../../entities/ImageItem";
-import { TrainerTopMenuComp } from "./trainerTopMenuComp";
+import { TrainerTopMenu } from "./trainerTopMenu";
 
 
 let Dropzone = DropZoneLib.default;
-interface ITrainerImageSelectorCompProps {
+
+
+interface ITrainerImageSelectorProps {
     onAddedImages: (images: Array<File>) => void;
     onImageSelected: (image: ImageItem) => void;
     onDeselectAllImagesClick: () => void;
     onSelectAllImagesClick: () => void;
     onRemoveImagesClick: () => void;
-    images: Array<ItemSelect<ImageItem>>;
+    images: Array<SelectableItem<ImageItem>>;
 }
 
-interface ITrainerImageSelectorCompState {
+interface ITrainerImageSelectorState {
 }
 
-export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelectorCompProps, ITrainerImageSelectorCompState>{
-    constructor(props: ITrainerImageSelectorCompProps) {
+export class TrainerImageSelector extends React.Component<ITrainerImageSelectorProps, ITrainerImageSelectorState>{
+    constructor(props: ITrainerImageSelectorProps) {
         super(props);
     }
 
@@ -90,7 +92,6 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
                     </div>
             }
             res.push(item);
-            console.log(this.props.images);
         });
         return res;
     }
@@ -98,11 +99,11 @@ export class TrainerImageSelectorComp extends React.Component<ITrainerImageSelec
     public render() {
         return (
             <div className="maxHeigth maxWidth">
-                <TrainerTopMenuComp
+                <TrainerTopMenu
                     onDeselectAllClick={this.props.onDeselectAllImagesClick}
                     onSelectAllClick={this.props.onSelectAllImagesClick}
                     onRemoveImagesClick={this.props.onRemoveImagesClick}
-                ></TrainerTopMenuComp>
+                ></TrainerTopMenu>
                 <Dropzone className="maxHeigth notMaxHeigth maxWidth scrollYAuto " onDrop={this.onDropItem.bind(this)} disableClick={true} >
                     <div className="topPadding inheritContent">
                         {this.showImages()}

@@ -1,27 +1,27 @@
 import React = require("react");
-import { TrainerLeftMenuComp } from "./trainerLeftMenuComp";
-import { ItemSelect } from "../../../common/itemSelect";
+import { TrainerLeftMenu } from "./trainerLeftMenu";
+import { SelectableItem } from "../../../common/selectableItem";
 import { ClassItem } from "../../../entities/classItem";
-import { TrainerImageSelectorComp } from "./trainerImageSelectorComp";
+import { TrainerImageSelector } from "./trainerImageSelector";
 import { ImageItem } from "../../../entities/ImageItem";
 import { TrainParameters } from "../../../entities/trainParameters";
 import { ApplicationState } from "../../../applicationState";
 import { TrainRequests } from "../../../requests/trainRequests";
 
 
-interface ITrainerRouteMainViewCompProps {
+interface ITrainerMainViewProps {
 
 }
 
-interface ITrainerRouteMainViewCompState {
-    testClasses: Array<ItemSelect<ClassItem>>;
-    images: Array<ItemSelect<ImageItem>>;
+interface ITrainerMainViewState {
+    testClasses: Array<SelectableItem<ClassItem>>;
+    images: Array<SelectableItem<ImageItem>>;
     trainParameters: TrainParameters;
     loading: boolean;
 }
 
-export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainViewCompProps, ITrainerRouteMainViewCompState>{
-    constructor(props: ITrainerRouteMainViewCompProps) {
+export class TrainerMainView extends React.Component<ITrainerMainViewProps, ITrainerMainViewState>{
+    constructor(props: ITrainerMainViewProps) {
         super(props);
         this.state = {
             testClasses: [
@@ -46,7 +46,7 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
             alert("No hay version seleccionada");
         else {
             let classes = ApplicationState.model.activeVersion.classes.map(item => {
-                let val: ItemSelect<ClassItem> = {
+                let val: SelectableItem<ClassItem> = {
                     item: item,
                     isSelected: false,
                     textToShow: item.name
@@ -127,18 +127,22 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
     }
 
     private onAddedImages(images: Array<File>) {
-        let newImagesSelect: Array<ItemSelect<ImageItem>> = [];
+        let newImagesSelect: Array<SelectableItem<ImageItem>> = [];
         images.forEach(imageFile => {
-            let imageUrl = URL.createObjectURL(imageFile);
-            newImagesSelect.push({
-                isSelected: false,
-                item: {
-                    file: imageFile,
-                    imageUrl: imageUrl,
-                    class: null
-                },
-                textToShow: null,
-            });
+            if (imageFile.type == "image/png" || imageFile.type == "image/jpeg") {
+                let imageUrl = URL.createObjectURL(imageFile);
+                newImagesSelect.push({
+                    isSelected: false,
+                    item: {
+                        file: imageFile,
+                        imageUrl: imageUrl,
+                        class: null
+                    },
+                    textToShow: null,
+                });
+            }
+            else
+                console.error(`Archivo: ${imageFile.name} no valido`);
         })
         this.setState({
             images: this.state.images.concat(newImagesSelect)
@@ -186,16 +190,17 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
 
     private onTrainBtnClicked(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (this.state.images == null || this.state.images.length == 0 || this.state.images.some(item => item.item.class == null)) {
-            alert("Error, check images");
+            alert("Error, compruebe que todas las imagenes esten marcadas");
         } else {
             this.setState({ loading: true });
             TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then(() => {
                 this.setState({ loading: false });
                 alert("Modelo entrenado");
-                this.setState({ images: new Array<ItemSelect<ImageItem>>() }) //Limpieza
+                this.setState({ images: new Array<SelectableItem<ImageItem>>() }) //Limpieza
             }).catch((err) => {
                 this.setState({ loading: false });
-                alert("Se ha producido un error: " + err);
+                console.error(err);
+                alert("Se ha producido un error en el servidor");
             });
         }
     }
@@ -208,7 +213,7 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
         return (
             <div className="horizontalLayout maxHeigth">
                 <div id="menuWidth" className="borderRigth">
-                    <TrainerLeftMenuComp
+                    <TrainerLeftMenu
                         classesWithSelection={this.state.testClasses}
                         onConfirmedClass={this.onConfirmedClass.bind(this)}
                         onBatchSizeFractionValueChange={this.onBatchSizeFractionValueChange.bind(this)}
@@ -219,16 +224,16 @@ export class TrainerRouteMainViewComp extends React.Component<ITrainerRouteMainV
                         onTrainBtnClicked={this.onTrainBtnClicked.bind(this)}
                         hideTrainBtn={this.hideTrainBtn()}
                         loading={this.state.loading}
-                    ></TrainerLeftMenuComp>
+                    ></TrainerLeftMenu>
                 </div>
-                <TrainerImageSelectorComp
+                <TrainerImageSelector
                     images={this.state.images}
                     onAddedImages={this.onAddedImages.bind(this)}
                     onImageSelected={this.onImageSelected.bind(this)}
                     onDeselectAllImagesClick={this.onDeselectAllImagesClick.bind(this)}
                     onSelectAllImagesClick={this.onSelectAllImagesClick.bind(this)}
                     onRemoveImagesClick={this.onRemoveImagesClick.bind(this)}
-                ></TrainerImageSelectorComp>
+                ></TrainerImageSelector>
             </div>
         );
     }

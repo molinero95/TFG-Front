@@ -8,19 +8,19 @@ import { Model } from "../../../entities/model";
 import { ModelVersion } from "../../../entities/modelVersion";
 import { isNullOrUndefined, isNull } from "util";
 
-interface IPredictionsRouteMainViewProps {
+interface IPredictionsMainViewProps {
 
 }
 
-interface IPredictionsRouteMainViewCompState {
+interface IPredictionsMainViewState {
 	imageToPredict: ImageItem;
 	loading: boolean;
 	prediction: string;
 	activeModelAndVersion: boolean;
 }
-export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRouteMainViewProps, IPredictionsRouteMainViewCompState>{
+export class PredictionsMainView extends React.Component<IPredictionsMainViewProps, IPredictionsMainViewState>{
 
-	public constructor(props: IPredictionsRouteMainViewProps) {
+	public constructor(props: IPredictionsMainViewProps) {
 		super(props);
 		this.state = {
 			imageToPredict: null,
@@ -42,15 +42,19 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 		if (accepted == null || accepted.length == 0 || accepted.length > 1)
 			alert("Introduzca sólo una imagen");
 		else {
-
-			let url = URL.createObjectURL(accepted[0]);
-			let img: ImageItem = {
-				class: null,
-				file: accepted[0],
-				imageUrl: url
+			if (accepted[0].type == "image/png" || accepted[0].type == "image/jpeg") {
+				let url = URL.createObjectURL(accepted[0]);
+				let img: ImageItem = {
+					class: null,
+					file: accepted[0],
+					imageUrl: url
+				}
+				this.setState({ imageToPredict: img });
 			}
-			this.setState({ imageToPredict: img })
+			else
+				alert("Formato no valido");
 		}
+
 	}
 
 	private showImage(): JSX.Element {
@@ -66,7 +70,6 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 	private onPredictBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
 		//PredictRequiest
 		this.setState({ loading: true });
-		console.log(this.state.imageToPredict);
 		let params = { file: this.state.imageToPredict.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
 		PredictionRequests.makePrediction(params).then(prediction => {
 			this.setState({ loading: false, prediction });
@@ -90,7 +93,7 @@ export class PredictionsRouteMainViewComp extends React.Component<IPredictionsRo
 					</div>
 				</div>
 				<div className="row col-md-12">
-				<div className="centerContent col-md-12">
+					<div className="centerContent col-md-12">
 						<DotLoader
 							size={100}
 							color={"#D78193"}

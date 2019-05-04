@@ -1,23 +1,23 @@
 import React = require("react");
-import { ItemSelect } from "../../common/itemSelect";
 import { Identificable } from "../../entities/identificable";
+import { SelectableItem } from "../../common/SelectableItem";
 
 
-interface IItemSelectCompProps<T> {
+interface ISelectItemProps<T> {
     itemSelectConfirmed: T;
-    itemSelect: ItemSelect<T>;
+    itemSelect: SelectableItem<T>;
     itemTextToShow: string;
     onItemSelected: (item: T) => void;
 }
 
-interface IItemSelectCompState {
+interface ISelectItemState {
 
 }
 
 
-export class ItemSelectComp<T extends Identificable> extends React.Component<IItemSelectCompProps<T>, IItemSelectCompState>{
+export class SelectItem<T extends Identificable> extends React.Component<ISelectItemProps<T>, ISelectItemState>{
 
-    public constructor(props: IItemSelectCompProps<T>) {
+    public constructor(props: ISelectItemProps<T>) {
         super(props);
         this.state = {
 

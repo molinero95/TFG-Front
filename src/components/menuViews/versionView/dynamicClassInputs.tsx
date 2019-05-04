@@ -1,26 +1,20 @@
 import { ClassItem } from "../../../entities/classItem";
 import React = require("react");
 
-interface IDynamicClassInputsCompProps {
+interface IDynamicClassInputsProps {
     classes: Array<ClassItem>;
-    onClassNameChange: (value: string, modelClass: ClassItem) => void;
+    onClassNameChange: (value: string, modelClassId: number) => void;
 }
 
-interface IDynamicClassInputsCompState {
+interface IDynamicClassInputsState {
 
 }
 
 
-export class DynamicClassInputsComp extends React.Component<IDynamicClassInputsCompProps, IDynamicClassInputsCompState>{
-    constructor(props: IDynamicClassInputsCompProps) {
+export class DynamicClassInputs extends React.Component<IDynamicClassInputsProps, IDynamicClassInputsState>{
+    constructor(props: IDynamicClassInputsProps) {
         super(props);
     }
-
-    private onClassNameChange(event: React.ChangeEvent<HTMLInputElement>, modelClass: ClassItem) {
-        let value = event.target.value;
-        this.props.onClassNameChange(value, modelClass);   //lo hacemos asi para que haya un cambio de estado
-    }
-
 
     private GenerateDynamicInputs(): Array<JSX.Element> {
         let res: Array<JSX.Element> = new Array<JSX.Element>();
@@ -37,7 +31,7 @@ export class DynamicClassInputsComp extends React.Component<IDynamicClassInputsC
                 );
             }
             lineArray.push(
-                <input key={"i" + index.toString()} type="text" className="col-md-3 form-control" value={modelClass.name} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onClassNameChange(event, modelClass)}></input>
+                <input key={"i" + index.toString()} type="text" className="col-md-3 form-control" value={modelClass.name} onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.props.onClassNameChange(event.target.value, modelClass.id)}></input>
             );
             if (index == this.props.classes.length - 1) {   //ultimo
                 res.push(
