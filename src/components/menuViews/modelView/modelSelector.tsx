@@ -13,7 +13,7 @@ interface ModelSelectorProps {
 interface ModelSelectorState {
 
 }
-
+//TODO: Intentar combinar con modelSelector
 export class ModelSelector extends React.Component<ModelSelectorProps, ModelSelectorState> {
 
     constructor(props: ModelSelectorProps) {

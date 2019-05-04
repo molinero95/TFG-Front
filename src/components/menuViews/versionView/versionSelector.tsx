@@ -13,6 +13,7 @@ interface VersionSelectorState {
 
 }
 
+//TODO: Intentar combinar con versionSelector
 export class VersionSelector extends React.Component<VersionSelectorProps, VersionSelectorState>{
     constructor(props: VersionSelectorProps) {
         super(props);
