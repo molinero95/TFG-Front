@@ -7,13 +7,13 @@ import { ClassItem } from "../entities/classItem";
 export class TrainRequests {
 
     //TODO: datos de train por param
-    public static async trainModel(modelId: number, versionId: number, trainParameters: TrainParameters, images: Array<ImageItem>){
+    public static async trainModel(modelId: number, versionId: number, trainParameters: TrainParameters, images: Array<ImageItem>) {
         let formData: FormData = new FormData();
         formData.append("data", JSON.stringify({
             modelId: modelId,
             versionId: versionId,
             trainParameters: trainParameters,
-            images: images.map(item => {return {class: item.class, fileName: item.file.name}})
+            images: images.map(item => { return { class: item.class, fileName: item.file.name } })
         }));
         images.forEach(img => {
             formData.append(img.file.name, img.file)
@@ -23,8 +23,7 @@ export class TrainRequests {
             method: "POST",
             body: formData
         })
-        .then(data => data.json())
-        .catch(err => {throw new RequestException(err)});
+        .then(data => data.json());
     }
 
 }

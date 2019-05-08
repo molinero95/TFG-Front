@@ -71,9 +71,14 @@ export class ClassificationsMainView extends React.Component<IClassificationsMai
 		//ClassifyRequiest
 		this.setState({ loading: true });
 		let params = { file: this.state.imageToClassify.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToClassify.file.name };
-		ClassificationRequests.makeClassification(params).then(classification => {
-			this.setState({ loading: false, classification });
-		}).catch(console.error);
+		ClassificationRequests.makeClassification(params).then(data => {
+			if(data.error){
+				this.setState({loading: false, classification: data.error});
+			}
+			else{
+				this.setState({ loading: false, classification: data.classification });
+			}
+		});
 	}
 
 	public render(): JSX.Element {

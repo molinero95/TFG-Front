@@ -12386,9 +12386,14 @@ class ClassificationsMainView extends React.Component {
         //ClassifyRequiest
         this.setState({ loading: true });
         let params = { file: this.state.imageToClassify.file, modelId: applicationState_1.ApplicationState.model.id, versionId: applicationState_1.ApplicationState.model.activeVersion.id, fileName: this.state.imageToClassify.file.name };
-        classificationRequests_1.ClassificationRequests.makeClassification(params).then(classification => {
-            this.setState({ loading: false, classification });
-        }).catch(console.error);
+        classificationRequests_1.ClassificationRequests.makeClassification(params).then(data => {
+            if (data.error) {
+                this.setState({ loading: false, classification: data.error });
+            }
+            else {
+                this.setState({ loading: false, classification: data.classification });
+            }
+        });
     }
     render() {
         return (React.createElement("div", { className: "row notMaxHeigth" },
@@ -13017,14 +13022,16 @@ class TrainerMainView extends React.Component {
         }
         else {
             this.setState({ loading: true });
-            trainRequests_1.TrainRequests.trainModel(applicationState_1.ApplicationState.model.id, applicationState_1.ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then(() => {
+            trainRequests_1.TrainRequests.trainModel(applicationState_1.ApplicationState.model.id, applicationState_1.ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then((data) => {
                 this.setState({ loading: false });
-                alert("Modelo entrenado");
-                this.setState({ images: new Array() }); //Limpieza
-            }).catch((err) => {
-                this.setState({ loading: false });
-                console.error(err);
-                alert("Se ha producido un error en el servidor");
+                if (data.error) {
+                    console.error(data.error);
+                    alert(`Se ha producido un error en el servidor: ${data.error}`);
+                }
+                else {
+                    alert("Modelo entrenado");
+                    this.setState({ images: new Array() }); //Limpieza
+                }
             });
         }
     }
@@ -13486,26 +13493,6 @@ exports.VersionSelector = VersionSelector;
 
 /***/ }),
 
-/***/ "./src/exceptions/requestException.tsx":
-/*!*********************************************!*\
-  !*** ./src/exceptions/requestException.tsx ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class RequestException extends Error {
-    constructor(msg) {
-        super(msg);
-    }
-}
-exports.RequestException = RequestException;
-
-
-/***/ }),
-
 /***/ "./src/index.tsx":
 /*!***********************!*\
   !*** ./src/index.tsx ***!
@@ -13538,7 +13525,6 @@ ReactDOM.render(React.createElement(react_hot_loader_1.AppContainer, null,
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestException_1 = __webpack_require__(/*! ../exceptions/requestException */ "./src/exceptions/requestException.tsx");
 const constants_1 = __webpack_require__(/*! ../common/constants */ "./src/common/constants.tsx");
 class ClassificationRequests {
     static async makeClassification(classificationParameters) {
@@ -13549,9 +13535,7 @@ class ClassificationRequests {
             method: "POST",
             body: formData
         })
-            .then(data => data.json())
-            .then(data => data.classification)
-            .catch(err => { throw new requestException_1.RequestException(err); });
+            .then(data => data.json());
     }
 }
 exports.ClassificationRequests = ClassificationRequests;
@@ -13569,7 +13553,6 @@ exports.ClassificationRequests = ClassificationRequests;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestException_1 = __webpack_require__(/*! ../exceptions/requestException */ "./src/exceptions/requestException.tsx");
 const constants_1 = __webpack_require__(/*! ../common/constants */ "./src/common/constants.tsx");
 class ModelRequests {
     static async getModels() {
@@ -13577,8 +13560,7 @@ class ModelRequests {
             method: "GET"
         })
             .then(data => data.json())
-            .then(data => data.models)
-            .catch(err => { throw new requestException_1.RequestException(err); });
+            .then(data => data.models);
     }
     static async postCreateModel(modelName) {
         return fetch(constants_1.Constants.SERVICE_URL + "/createModel", {
@@ -13588,8 +13570,7 @@ class ModelRequests {
                 'Content-Type': 'application/json'
             }
         })
-            .then(data => data.json())
-            .catch(err => { throw new requestException_1.RequestException(err); });
+            .then(data => data.json());
     }
     static async deleteModel(modelId) {
         return fetch(constants_1.Constants.SERVICE_URL + `/deleteModel?id=${modelId}`, {
@@ -13597,8 +13578,7 @@ class ModelRequests {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-            .catch(err => { throw new requestException_1.RequestException(err); });
+        });
     }
 }
 exports.ModelRequests = ModelRequests;
@@ -13616,7 +13596,6 @@ exports.ModelRequests = ModelRequests;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestException_1 = __webpack_require__(/*! ../exceptions/requestException */ "./src/exceptions/requestException.tsx");
 const constants_1 = __webpack_require__(/*! ../common/constants */ "./src/common/constants.tsx");
 class TrainRequests {
     //TODO: datos de train por param
@@ -13635,8 +13614,7 @@ class TrainRequests {
             method: "POST",
             body: formData
         })
-            .then(data => data.json())
-            .catch(err => { throw new requestException_1.RequestException(err); });
+            .then(data => data.json());
     }
 }
 exports.TrainRequests = TrainRequests;
@@ -13654,7 +13632,6 @@ exports.TrainRequests = TrainRequests;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestException_1 = __webpack_require__(/*! ../exceptions/requestException */ "./src/exceptions/requestException.tsx");
 const applicationState_1 = __webpack_require__(/*! ../applicationState */ "./src/applicationState.tsx");
 const constants_1 = __webpack_require__(/*! ../common/constants */ "./src/common/constants.tsx");
 class VersionRequests {
@@ -13679,8 +13656,7 @@ class VersionRequests {
                 res.push(item);
             });
             return res;
-        })
-            .catch(err => { throw new requestException_1.RequestException(err); });
+        });
     }
     static async postCreateVersion(modelVersion) {
         return fetch(constants_1.Constants.SERVICE_URL + "/createVersion", {
@@ -13698,14 +13674,12 @@ class VersionRequests {
             }
         })
             .then(data => data.json())
-            .then(data => data.id)
-            .catch(err => { throw new requestException_1.RequestException(err); });
+            .then(data => data.id);
     }
     static async deleteVersion(modelId, versionName) {
         return fetch(constants_1.Constants.SERVICE_URL + `/deleteVersion?modelId=${String(modelId)}&versionName=${versionName}`, {
             method: "DELETE",
-        })
-            .catch(err => { throw new requestException_1.RequestException(err); });
+        });
     }
 }
 exports.VersionRequests = VersionRequests;

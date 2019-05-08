@@ -193,14 +193,16 @@ export class TrainerMainView extends React.Component<ITrainerMainViewProps, ITra
             alert("Error, compruebe que todas las imagenes esten marcadas");
         } else {
             this.setState({ loading: true });
-            TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then(() => {
+            TrainRequests.trainModel(ApplicationState.model.id, ApplicationState.model.activeVersion.id, this.state.trainParameters, this.state.images.map(imagesSel => imagesSel.item)).then((data) => {
                 this.setState({ loading: false });
-                alert("Modelo entrenado");
-                this.setState({ images: new Array<SelectableItem<ImageItem>>() }) //Limpieza
-            }).catch((err) => {
-                this.setState({ loading: false });
-                console.error(err);
-                alert("Se ha producido un error en el servidor");
+                if(data.error){
+                    console.error(data.error);
+                    alert(`Se ha producido un error en el servidor: ${data.error}` );
+                }
+                else{
+                    alert("Modelo entrenado");
+                    this.setState({ images: new Array<SelectableItem<ImageItem>>() }) //Limpieza
+                }
             });
         }
     }

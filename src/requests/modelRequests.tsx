@@ -10,7 +10,6 @@ export class ModelRequests{
         })
         .then(data => data.json())
         .then(data => data.models)
-        .catch(err=> {throw new RequestException(err)});
     }
 
     public static async postCreateModel(modelName: string): Promise<Model>{
@@ -22,7 +21,6 @@ export class ModelRequests{
             }
         })
         .then(data => data.json())
-        .catch(err => {throw new RequestException(err)});
     }
 
     public static async deleteModel(modelId: number): Promise<Response>{
@@ -32,7 +30,6 @@ export class ModelRequests{
                 'Content-Type': 'application/json'
             }
         })
-        .catch(err => {throw new RequestException(err)});
     }
     
 }

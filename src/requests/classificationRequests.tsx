@@ -4,7 +4,7 @@ import { Constants } from "../common/constants";
 
 export class ClassificationRequests {
 
-	public static async makeClassification(classificationParameters: ClassificationParameters): Promise<string> {
+	public static async makeClassification(classificationParameters: ClassificationParameters): Promise<any> {
 		let formData: FormData = new FormData();
 		formData.append("data", JSON.stringify(classificationParameters));
 		formData.append(classificationParameters.file.name, classificationParameters.file);
@@ -13,7 +13,5 @@ export class ClassificationRequests {
 			body: formData
 		})
 			.then(data => data.json())
-			.then(data => data.classification)
-			.catch(err => { throw new RequestException(err) });
 	}
 }
