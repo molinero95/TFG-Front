@@ -16,9 +16,9 @@ function createWindow() {
 
 	win.show();
 
-	win.loadFile("index.html");
+	win.loadFile("./dist/dev/index.html");
 
-	win.webContents.openDevTools();
+	//win.webContents.openDevTools();
 	win.setMenu(null);
 
 	win.on("close", () => {

@@ -3,29 +3,29 @@ import Dropzone from "react-dropzone";
 import { ImageItem } from "../../../entities/ImageItem";
 import { ApplicationState } from "../../../applicationState";
 import { DotLoader } from "react-spinners";
-import { PredictionRequests } from "../../../requests/predictionRequests";
+import { ClassificationRequests } from "../../../requests/classificationRequests";
 import { Model } from "../../../entities/model";
 import { ModelVersion } from "../../../entities/modelVersion";
 import { isNullOrUndefined, isNull } from "util";
 
-interface IPredictionsMainViewProps {
+interface IClassificationsMainViewProps {
 
 }
 
-interface IPredictionsMainViewState {
+interface IClassificationsMainViewState {
 	imageToPredict: ImageItem;
 	loading: boolean;
-	prediction: string;
+	classification: string;
 	activeModelAndVersion: boolean;
 }
-export class PredictionsMainView extends React.Component<IPredictionsMainViewProps, IPredictionsMainViewState>{
+export class ClassificationsMainView extends React.Component<IClassificationsMainViewProps, IClassificationsMainViewState>{
 
-	public constructor(props: IPredictionsMainViewProps) {
+	public constructor(props: IClassificationsMainViewProps) {
 		super(props);
 		this.state = {
 			imageToPredict: null,
 			loading: false,
-			prediction: '',
+			classification: '',
 			activeModelAndVersion: !isNullOrUndefined(ApplicationState.model) && !isNullOrUndefined(ApplicationState.model.activeVersion)
 		}
 	}
@@ -60,10 +60,10 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 	private showImage(): JSX.Element {
 		if (this.state.imageToPredict != null) {
 			return (
-				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder maxWidth predictionImageHeigth"></img>
+				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder maxWidth classificationImageHeigth"></img>
 			)
 		}
-		return (<div className="maxWidth dashedBorder bigCentereBlackText predictionImageHeigth">Arrastre imagen aqui</div>)
+		return (<div className="maxWidth dashedBorder bigCentereBlackText classificationImageHeigth">Arrastre imagen aqui</div>)
 	}
 
 
@@ -71,8 +71,8 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 		//PredictRequiest
 		this.setState({ loading: true });
 		let params = { file: this.state.imageToPredict.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
-		PredictionRequests.makePrediction(params).then(prediction => {
-			this.setState({ loading: false, prediction });
+		ClassificationRequests.makeClassification(params).then(classification => {
+			this.setState({ loading: false, classification });
 		}).catch(console.error);
 	}
 
@@ -85,11 +85,11 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 					</div>
 				</Dropzone>
 				<div className="row col-md-12">
-					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
+					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onPredictBtnClick.bind(this)}>Clasificar</button>
 				</div>
 				<div className="row col-md-12">
 					<div className="offset-md-4 col-md-4 text-center">
-						{this.state.prediction}
+						{this.state.classification}
 					</div>
 				</div>
 				<div className="row col-md-12">

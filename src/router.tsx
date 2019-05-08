@@ -4,9 +4,9 @@ import { Layout } from "./components/menuViews/layout";
 import { VersionRoute } from './components/menuViews/versionView/versionRoute';
 import { ModelRoute } from './components/menuViews/modelView/modelRoute';
 import { TrainerMainView } from './components/menuViews/trainerView/trainerMainView';
-import { PredictionsMainView } from './components/menuViews/predictionsView/predictionsMainView';
+import { ClassificationsMainView } from './components/menuViews/classificationsView/classificationsMainView';
 import { TrainerRoute } from './components/menuViews/trainerView/trainerRoute';
-import { PredictionsRoute } from './components/menuViews/predictionsView/predictionsRoute';
+import { ClassificationsRoute } from './components/menuViews/classificationsView/classificationsRoute';
 
 export const routes =
 	<Layout>
@@ -14,5 +14,5 @@ export const routes =
 		<Route exact path='/selectModel' component={ModelRoute} />
 		<Route exact path='/selectVersion' component={VersionRoute} />
 		<Route exact path='/train' component={TrainerRoute} />
-		<Route exact path='/prediction' component={PredictionsRoute} />
+		<Route exact path='/classification' component={ClassificationsRoute} />
 	</Layout>

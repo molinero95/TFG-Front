@@ -2,7 +2,7 @@
 	"name": "reactfront",
 	"version": "1.0.0",
 	"description": "",
-	"main": "main.js",
+	"main": "/src/index.tsx",
 	"dependencies": {
 		"@tensorflow-models/mobilenet": "^0.2.2",
 		"@tensorflow/tfjs": "^0.14.2",
@@ -46,7 +46,7 @@
 	"scripts": {
 		"compileErrors": "webkit --display-error-details",
 		"build": "webpack --watch",
-		"start": "electron ."
+		"electron": "electron ."
 	},
 	"author": "",
 	"license": "GPL"
