@@ -21,13 +21,12 @@ export class VersionRequests {
                         classes: []
                     }
                     vers.classes.forEach((className: string, index: number) => {
-                        item.classes.push({id: index, name: className})
+                        item.classes.push({ id: index, name: className })
                     });
                     res.push(item);
                 });
                 return res;
             })
-            .catch(err => { throw new RequestException(err) });
     }
 
 
@@ -48,14 +47,12 @@ export class VersionRequests {
             }
         })
             .then(data => data.json())
-            .then(data => data.id)
-            .catch(err => { throw new RequestException(err) });
+            .then(data => data.id);
     }
 
     public static async deleteVersion(modelId: number, versionName: string): Promise<Response> {
         return fetch(Constants.SERVICE_URL + `/deleteVersion?modelId=${String(modelId)}&versionName=${versionName}`, {
             method: "DELETE",
-        })
-            .catch(err => { throw new RequestException(err) });
+        });
     }
 }

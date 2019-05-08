@@ -3,29 +3,29 @@ import Dropzone from "react-dropzone";
 import { ImageItem } from "../../../entities/ImageItem";
 import { ApplicationState } from "../../../applicationState";
 import { DotLoader } from "react-spinners";
-import { PredictionRequests } from "../../../requests/predictionRequests";
+import { ClassificationRequests } from "../../../requests/classificationRequests";
 import { Model } from "../../../entities/model";
 import { ModelVersion } from "../../../entities/modelVersion";
 import { isNullOrUndefined, isNull } from "util";
 
-interface IPredictionsMainViewProps {
+interface IClassificationsMainViewProps {
 
 }
 
-interface IPredictionsMainViewState {
-	imageToPredict: ImageItem;
+interface IClassificationsMainViewState {
+	imageToClassify: ImageItem;
 	loading: boolean;
-	prediction: string;
+	classification: string;
 	activeModelAndVersion: boolean;
 }
-export class PredictionsMainView extends React.Component<IPredictionsMainViewProps, IPredictionsMainViewState>{
+export class ClassificationsMainView extends React.Component<IClassificationsMainViewProps, IClassificationsMainViewState>{
 
-	public constructor(props: IPredictionsMainViewProps) {
+	public constructor(props: IClassificationsMainViewProps) {
 		super(props);
 		this.state = {
-			imageToPredict: null,
+			imageToClassify: null,
 			loading: false,
-			prediction: '',
+			classification: '',
 			activeModelAndVersion: !isNullOrUndefined(ApplicationState.model) && !isNullOrUndefined(ApplicationState.model.activeVersion)
 		}
 	}
@@ -49,7 +49,7 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 					file: accepted[0],
 					imageUrl: url
 				}
-				this.setState({ imageToPredict: img });
+				this.setState({ imageToClassify: img });
 			}
 			else
 				alert("Formato no valido");
@@ -58,22 +58,27 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 	}
 
 	private showImage(): JSX.Element {
-		if (this.state.imageToPredict != null) {
+		if (this.state.imageToClassify != null) {
 			return (
-				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder maxWidth predictionImageHeigth"></img>
+				<img src={this.state.imageToClassify.imageUrl} className="dashedBorder maxWidth classificationImageHeigth"></img>
 			)
 		}
-		return (<div className="maxWidth dashedBorder bigCentereBlackText predictionImageHeigth">Arrastre imagen aqui</div>)
+		return (<div className="maxWidth dashedBorder bigCentereBlackText classificationImageHeigth">Arrastre imagen aqui</div>)
 	}
 
 
-	private onPredictBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-		//PredictRequiest
+	private onClassifyBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+		//ClassifyRequiest
 		this.setState({ loading: true });
-		let params = { file: this.state.imageToPredict.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
-		PredictionRequests.makePrediction(params).then(prediction => {
-			this.setState({ loading: false, prediction });
-		}).catch(console.error);
+		let params = { file: this.state.imageToClassify.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToClassify.file.name };
+		ClassificationRequests.makeClassification(params).then(data => {
+			if(data.error){
+				this.setState({loading: false, classification: data.error});
+			}
+			else{
+				this.setState({ loading: false, classification: data.classification });
+			}
+		});
 	}
 
 	public render(): JSX.Element {
@@ -85,11 +90,11 @@ export class PredictionsMainView extends React.Component<IPredictionsMainViewPro
 					</div>
 				</Dropzone>
 				<div className="row col-md-12">
-					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onPredictBtnClick.bind(this)}>Predecir</button>
+					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onClassifyBtnClick.bind(this)}>Clasificar</button>
 				</div>
 				<div className="row col-md-12">
 					<div className="offset-md-4 col-md-4 text-center">
-						{this.state.prediction}
+						{this.state.classification}
 					</div>
 				</div>
 				<div className="row col-md-12">

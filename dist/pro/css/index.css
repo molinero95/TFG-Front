@@ -1,0 +1,362 @@
+html, body{
+    height: 100vh;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    min-height: 100vh;
+    background: #E1E2E1 !important;
+}
+
+.pointerCursor{
+    cursor: pointer;
+}
+
+.middleOfTheScreen{
+    height: 90% !important;
+}
+
+.topMargin {
+    margin-top: 1rem;
+}
+
+.topPadding{
+    padding-top: 1rem;
+}
+
+.rigthPadding{
+    padding-right: 1rem;
+}
+
+.leftPadding{
+    padding-left: 1rem;
+}
+
+.topBordersRounded{
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.borderRounded {
+    border-radius: 1rem;
+}
+
+
+.prettyPadding{
+    padding: 1rem;
+}
+
+.prettyMargin{
+    margin: 1rem;
+}
+
+.noLeftMargin{
+    margin-top:1rem;
+    margin-bottom:1rem;
+    margin-right:1rem;
+}
+
+.noRigthMargin{
+    margin-top:1rem;
+    margin-bottom:1rem;
+    margin-left:1rem;
+}
+
+.modelSelected{
+    font-size: 1.2rem !important;
+    font-style: oblique;
+}
+
+#addBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../resources/anadir-verde-gordito-relleno-02.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+#removeBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../resources/eliminar-verde-gordito-no-relleno-02-02.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+#removeImageBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../resources/eliminar-negro-gordito-02-02.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+#selectAllBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../resources/seleccionar-negro-gordito-02-02.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+#deselectAllBtn{
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../resources/deseleccionar-negro-gordito-02-02.png");
+    background-size: cover;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.border{
+    border: 1px;
+    border-style: solid;
+}
+
+.borderRigth{
+    border-right: 1px solid;
+}
+
+.bigCentereBlackText{
+    font-size: 1.3rem;
+    text-align: center;
+    color: black;
+}
+
+.bigCentereWhitedText {
+    font-size: 1.3rem;
+    text-align: center;
+    color: white;
+}
+
+.active{
+    color: black !important;
+}
+
+
+.horizontalLayout{
+    display: flex;
+    flex-direction: row;
+}
+
+.smallMarginRight{
+    margin-right: 1rem;
+}
+
+.smallMarginBottom{
+    margin-bottom: 1rem;
+}
+
+.smallMarginTop{
+    margin-top: 1rem;
+}
+
+.verticalLayout{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+.verticalCentered{
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    justify-content: center;
+    
+}
+
+
+.inheritContent{
+    display:flex;
+    justify-content: inherit;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.centerContent{
+    display: flex;
+    justify-content: center;   
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.spaceBetweenContent{
+    display: flex;
+    justify-content: space-between;   
+    flex-wrap: wrap;   
+    align-items: center;
+
+}
+
+.spaceAroundContent{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;  
+    align-items: center;
+ 
+}
+
+.initialContent{
+    display: flex;
+    justify-content: initial;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+.maxScreenWidth{
+    width: 100vw;
+}
+
+.maxScreenHeigth{
+    height: 100vh;
+}
+
+.maxScreenHeigth{
+    height: 100vh;
+}
+
+.maxWidth{
+    width:100%;
+}
+
+.maxHeigth{
+    height: 100%;
+}
+
+.notMaxHeigth {
+    max-height: 90%;
+}
+
+.halfHeigth{
+    max-height: 30%;
+}
+
+.halfMinHeigth{
+    min-height: 50%;
+}
+
+.smallMinHeigth{
+    min-height: 10%;
+}
+
+.noScroll{
+    overflow: hidden;
+}
+
+.scrollAuto{
+    overflow: auto;
+}
+
+.scrollXAuto{
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.scrollYAuto{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#menuWidth{
+    width: 40%;
+}
+
+.imageSelected {
+    border-style: solid;
+    border-width: 5px;
+    border-color: #00857c;
+}
+
+.dashedBorder{
+    border: dashed black 1rem;
+}
+
+.imageClassified{
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+
+.imageSize{
+    height: 124px;
+    width: 124px;
+    margin: 0.5rem;
+}
+
+
+.absPosition{
+    position: absolute;
+}
+
+.absPositionRigthBottomCorner{
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+}
+
+.absPositionLittleBottom{
+    position: absolute;
+    bottom: 30%;
+    left: 15%;
+}
+
+.relPosition{
+    position: relative;
+}
+
+.classificationImageHeigth{
+    height: 30rem;
+}
+
+.limitedHeigth{
+    max-height: 40%;
+}
+
+img.imageSize:hover {
+    transform: scale(1.25);
+}
+
+.smallIconNavBar{
+    height: 1.5rem;
+}
+
+.imageClassText{
+    width: 80%;
+    text-align: center;
+}
+
+
+.primaryColorBg{
+    background: #00857c !important;
+    color:white !important;
+}
+
+.whiteBg{
+    background: white;
+}
+
+.secondaryColorBg{
+    background: #D78193 !important;
+    color:white !important;
+}
