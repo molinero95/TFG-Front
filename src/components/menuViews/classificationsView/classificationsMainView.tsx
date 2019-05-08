@@ -13,7 +13,7 @@ interface IClassificationsMainViewProps {
 }
 
 interface IClassificationsMainViewState {
-	imageToPredict: ImageItem;
+	imageToClassify: ImageItem;
 	loading: boolean;
 	classification: string;
 	activeModelAndVersion: boolean;
@@ -23,7 +23,7 @@ export class ClassificationsMainView extends React.Component<IClassificationsMai
 	public constructor(props: IClassificationsMainViewProps) {
 		super(props);
 		this.state = {
-			imageToPredict: null,
+			imageToClassify: null,
 			loading: false,
 			classification: '',
 			activeModelAndVersion: !isNullOrUndefined(ApplicationState.model) && !isNullOrUndefined(ApplicationState.model.activeVersion)
@@ -49,7 +49,7 @@ export class ClassificationsMainView extends React.Component<IClassificationsMai
 					file: accepted[0],
 					imageUrl: url
 				}
-				this.setState({ imageToPredict: img });
+				this.setState({ imageToClassify: img });
 			}
 			else
 				alert("Formato no valido");
@@ -58,19 +58,19 @@ export class ClassificationsMainView extends React.Component<IClassificationsMai
 	}
 
 	private showImage(): JSX.Element {
-		if (this.state.imageToPredict != null) {
+		if (this.state.imageToClassify != null) {
 			return (
-				<img src={this.state.imageToPredict.imageUrl} className="dashedBorder maxWidth classificationImageHeigth"></img>
+				<img src={this.state.imageToClassify.imageUrl} className="dashedBorder maxWidth classificationImageHeigth"></img>
 			)
 		}
 		return (<div className="maxWidth dashedBorder bigCentereBlackText classificationImageHeigth">Arrastre imagen aqui</div>)
 	}
 
 
-	private onPredictBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-		//PredictRequiest
+	private onClassifyBtnClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+		//ClassifyRequiest
 		this.setState({ loading: true });
-		let params = { file: this.state.imageToPredict.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
+		let params = { file: this.state.imageToClassify.file, modelId: ApplicationState.model.id, versionId: ApplicationState.model.activeVersion.id, fileName: this.state.imageToClassify.file.name };
 		ClassificationRequests.makeClassification(params).then(classification => {
 			this.setState({ loading: false, classification });
 		}).catch(console.error);
@@ -85,7 +85,7 @@ export class ClassificationsMainView extends React.Component<IClassificationsMai
 					</div>
 				</Dropzone>
 				<div className="row col-md-12">
-					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onPredictBtnClick.bind(this)}>Clasificar</button>
+					<button className="topMargin btn secondaryColorBg col-md-4 offset-md-4" disabled={!this.state.activeModelAndVersion || this.state.loading} onClick={this.onClassifyBtnClick.bind(this)}>Clasificar</button>
 				</div>
 				<div className="row col-md-12">
 					<div className="offset-md-4 col-md-4 text-center">
