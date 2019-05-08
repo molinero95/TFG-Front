@@ -4,50 +4,44 @@
 	"description": "",
 	"main": "/src/index.tsx",
 	"dependencies": {
-		"@tensorflow-models/mobilenet": "^0.2.2",
-		"@tensorflow/tfjs": "^0.14.2",
-		"@types/bootstrap": "^4.3.0",
-		"@types/jpeg-js": "^0.3.0",
-		"@types/jquery": "^3.3.29",
-		"@types/react-bootstrap": "^0.32.17",
 		"awesome-typescript-loader": "^5.2.1",
 		"bootstrap": "^4.3.1",
 		"css-loader": "^2.1.1",
 		"extract-text-webpack-plugin": "^3.0.2",
-		"file-loader": "^3.0.1",
-		"fs": "0.0.1-security",
-		"glyphicons-halflings": "^1.9.1",
-		"install": "^0.12.2",
-		"jpeg-js": "^0.3.4",
 		"jquery": "^3.4.1",
-		"nodemon": "^1.18.10",
-		"office-ui-fabric-react": "^6.155.0",
-		"popper": "^1.0.1",
-		"popper.js": "^1.14.7",
-		"react": "^16.8.4",
-		"react-dom": "^16.8.4",
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
 		"react-dropzone": "^7.0.1",
 		"react-hot-loader": "^4.8.0",
 		"react-router-dom": "^4.3.1",
-		"react-spinners": "^0.5.3",
+		"react-spinners": "^0.5.4",
 		"source-map-loader": "^0.2.4",
 		"style-loader": "^0.23.1",
-		"typescript": "^3.3.3333",
+		"typescript": "^3.4.5",
 		"url-loader": "^1.1.2",
-		"webpack": "^4.29.6"
+		"webpack": "^4.30.0"
 	},
 	"devDependencies": {
-		"@types/react": "^16.8.7",
-		"@types/react-dom": "^16.8.2",
-		"@types/react-router-dom": "^4.3.1",
-		"electron": "^3.1.6",
-		"webpack-cli": "^3.2.3"
+		"@types/bootstrap": "^4.3.0",
+		"@types/react": "^16.8.17",
+		"@types/react-dom": "^16.8.4",
+		"@types/react-router-dom": "^4.3.3",
+		"electron": "^3.1.9",
+		"nodemon": "^1.19.0",
+		"webpack-cli": "^3.3.2"
+	},
+	"peerDependencies": {
+		"webpack": "^3.1.0"
 	},
 	"scripts": {
 		"compileErrors": "webkit --display-error-details",
 		"build": "webpack --watch",
 		"electron": "electron ."
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/molinero95/TFG-Front"
+	},
 	"author": "",
-	"license": "GPL"
+	"license": "GPL-3.0"
 }
