@@ -6,10 +6,10 @@ const bundleOutputDir = './wwwroot/dist';
 
 module.exports = {
     entry: "./src/index.tsx",
-    mode: "production",    //production
+    mode: "development",    //production
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist/pro/js"    ///dist/pro/js
+        path: __dirname + "/dist/dev/js"    ///dist/pro/js
     },
     
     // Enable sourcemaps for debugging webpack's output.

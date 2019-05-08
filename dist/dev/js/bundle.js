@@ -12347,7 +12347,7 @@ class ClassificationsMainView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            imageToPredict: null,
+            imageToClassify: null,
             loading: false,
             classification: '',
             activeModelAndVersion: !util_1.isNullOrUndefined(applicationState_1.ApplicationState.model) && !util_1.isNullOrUndefined(applicationState_1.ApplicationState.model.activeVersion)
@@ -12370,22 +12370,22 @@ class ClassificationsMainView extends React.Component {
                     file: accepted[0],
                     imageUrl: url
                 };
-                this.setState({ imageToPredict: img });
+                this.setState({ imageToClassify: img });
             }
             else
                 alert("Formato no valido");
         }
     }
     showImage() {
-        if (this.state.imageToPredict != null) {
-            return (React.createElement("img", { src: this.state.imageToPredict.imageUrl, className: "dashedBorder maxWidth classificationImageHeigth" }));
+        if (this.state.imageToClassify != null) {
+            return (React.createElement("img", { src: this.state.imageToClassify.imageUrl, className: "dashedBorder maxWidth classificationImageHeigth" }));
         }
         return (React.createElement("div", { className: "maxWidth dashedBorder bigCentereBlackText classificationImageHeigth" }, "Arrastre imagen aqui"));
     }
-    onPredictBtnClick(event) {
-        //PredictRequiest
+    onClassifyBtnClick(event) {
+        //ClassifyRequiest
         this.setState({ loading: true });
-        let params = { file: this.state.imageToPredict.file, modelId: applicationState_1.ApplicationState.model.id, versionId: applicationState_1.ApplicationState.model.activeVersion.id, fileName: this.state.imageToPredict.file.name };
+        let params = { file: this.state.imageToClassify.file, modelId: applicationState_1.ApplicationState.model.id, versionId: applicationState_1.ApplicationState.model.activeVersion.id, fileName: this.state.imageToClassify.file.name };
         classificationRequests_1.ClassificationRequests.makeClassification(params).then(classification => {
             this.setState({ loading: false, classification });
         }).catch(console.error);
@@ -12395,7 +12395,7 @@ class ClassificationsMainView extends React.Component {
             React.createElement(react_dropzone_1.default, { className: "row noScroll col-md-12 ", onDrop: this.onDropItem.bind(this) },
                 React.createElement("div", { className: "offset-md-3 col-md-6  align-items-center topPadding prettyMargin" }, this.showImage())),
             React.createElement("div", { className: "row col-md-12" },
-                React.createElement("button", { className: "topMargin btn secondaryColorBg col-md-4 offset-md-4", disabled: !this.state.activeModelAndVersion || this.state.loading, onClick: this.onPredictBtnClick.bind(this) }, "Clasificar")),
+                React.createElement("button", { className: "topMargin btn secondaryColorBg col-md-4 offset-md-4", disabled: !this.state.activeModelAndVersion || this.state.loading, onClick: this.onClassifyBtnClick.bind(this) }, "Clasificar")),
             React.createElement("div", { className: "row col-md-12" },
                 React.createElement("div", { className: "offset-md-4 col-md-4 text-center" }, this.state.classification)),
             React.createElement("div", { className: "row col-md-12" },
