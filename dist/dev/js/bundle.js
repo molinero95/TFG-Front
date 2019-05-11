@@ -12316,7 +12316,7 @@ const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_m
 class NavMenu extends React.Component {
     render() {
         return (React.createElement("nav", { className: "navbar primaryColorBg col-md-12" },
-            React.createElement(react_router_dom_1.NavLink, { to: '/selectModel', exact: true, activeClassName: 'active', className: "nav-item nav-link bigCentereWhitedText" }, "Seleccionar modelo"),
+            React.createElement(react_router_dom_1.NavLink, { to: '/selectModel', exact: true, activeClassName: 'active', className: "nav-item nav-link bigCentereWhitedText" }, "Seleccionar categor\u00EDa"),
             React.createElement(react_router_dom_1.NavLink, { to: '/selectVersion', exact: true, activeClassName: 'active', className: "nav-item nav-link bigCentereWhitedText" }, "Seleccionar version"),
             React.createElement(react_router_dom_1.NavLink, { to: '/train', exact: true, activeClassName: 'active', className: "nav-item nav-link bigCentereWhitedText" }, "Entrenar Modelo"),
             React.createElement(react_router_dom_1.NavLink, { to: '/classification', exact: true, activeClassName: 'active', className: "nav-item nav-link bigCentereWhitedText" }, "Clasificaci\u00F3n")));
@@ -12498,12 +12498,12 @@ class ModelCreator extends React.Component {
         return (React.createElement("div", { className: "middleOfTheScreen row align-items-center " },
             React.createElement("div", { className: "col-md-8 offset-md-2 border borderRounded whiteBg" },
                 React.createElement("div", { className: "row primaryColorBg topBordersRounded" },
-                    React.createElement("h4", { className: "prettyMargin text-white" }, "Creacion de modelo:")),
+                    React.createElement("h4", { className: "prettyMargin text-white" }, "Creacion de categor\u00EDa:")),
                 React.createElement("form", { className: "smallMarginTop" },
                     React.createElement("div", { className: "form-group row" },
-                        React.createElement("label", { className: "col-md-3 text-right" }, "Nombre modelo:"),
+                        React.createElement("label", { className: "col-md-3 text-right" }, "Nombre categoria:"),
                         React.createElement("input", { type: "text", className: "form-control col-md-4", onChange: this.onModelNameChange.bind(this) })),
-                    React.createElement("button", { onClick: () => { this.props.onModelCreated(this.state.newModel); }, className: "btn secondaryColorBg prettyMargin offset-md-9 col-md-2" }, "Crear modelo")))));
+                    React.createElement("button", { onClick: () => { this.props.onModelCreated(this.state.newModel); }, className: "btn secondaryColorBg prettyMargin offset-md-9 col-md-2" }, "Crear categor\u00EDa")))));
     }
 }
 exports.ModelCreator = ModelCreator;
@@ -12631,10 +12631,10 @@ class ModelMainView extends React.Component {
                 React.createElement("div", { className: "spaceBetweenContent" },
                     React.createElement("span", { className: " noRigthMargin btn pointerCursor btn-light", onClick: this.onCreateModelBtnClick.bind(this) },
                         React.createElement("img", { id: "addBtn", className: "borderRounded" }),
-                        React.createElement("span", null, "Crear modelo")),
+                        React.createElement("span", null, "Crear categor\u00EDa")),
                     React.createElement("span", { hidden: this.state.modelSelectList.every(model => !model.isSelected), className: " noRigthMargin btn pointerCursor btn-light", onClick: this.onDeleteModelBtnClick.bind(this) },
                         React.createElement("img", { id: "removeBtn", className: "borderRounded" }),
-                        React.createElement("span", null, "Borrar modelo")),
+                        React.createElement("span", null, "Borrar categor\u00EDa")),
                     React.createElement("button", { hidden: this.state.modelSelectList.every(model => !model.isSelected), onClick: () => this.props.onModelSelectionConfirmed(this.getModelSelected()), className: "btn noLeftMargin secondaryColorBg" }, "Confirmar selecci\u00F3n")))));
     }
     render() {
@@ -12714,7 +12714,7 @@ class ModelSelector extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement("div", { className: "row topBordersRounded primaryColorBg" },
-                React.createElement("h4", { className: "prettyMargin text-white" }, "Seleccione modelo:")),
+                React.createElement("h4", { className: "prettyMargin text-white" }, "Seleccione categor\u00EDa:")),
             React.createElement("div", { className: "notMaxHeigth scrollAuto" },
                 React.createElement(itemSelector_1.ItemSelector, { itemSelectionList: this.props.modelSelectList, onItemSelected: this.props.onModelSelected, itemSelectConfirmed: this.getItemSelectConfirmed() }))));
     }
