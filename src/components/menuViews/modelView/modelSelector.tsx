@@ -29,7 +29,7 @@ export class ModelSelector extends React.Component<ModelSelectorProps, ModelSele
         return (
             <div>
                 <div className="row topBordersRounded primaryColorBg">
-                    <h4 className="prettyMargin text-white">Seleccione modelo:</h4>
+                    <h4 className="prettyMargin text-white">Seleccione categoría:</h4>
                 </div>
                 <div className="notMaxHeigth scrollAuto">
                     <ItemSelector

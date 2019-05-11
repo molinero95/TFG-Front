@@ -156,11 +156,11 @@ export class ModelMainView extends React.Component<IModelMainViewProps, IModelMa
                     <div className="spaceBetweenContent" >
                         <span className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onCreateModelBtnClick.bind(this)}>
                             <img id="addBtn" className="borderRounded"></img>
-                            <span>Crear modelo</span>
+                            <span>Crear categoría</span>
                         </span>
                         <span hidden={this.state.modelSelectList.every(model => !model.isSelected)} className=" noRigthMargin btn pointerCursor btn-light" onClick={this.onDeleteModelBtnClick.bind(this)}>
                             <img id="removeBtn" className="borderRounded"></img>
-                            <span>Borrar modelo</span>
+                            <span>Borrar categoría</span>
                         </span>
                         <button hidden={this.state.modelSelectList.every(model => !model.isSelected)} onClick={() => this.props.onModelSelectionConfirmed(this.getModelSelected())} className="btn noLeftMargin secondaryColorBg">Confirmar selección</button>
                     </div>
